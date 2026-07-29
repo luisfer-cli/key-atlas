@@ -219,7 +219,8 @@ class GuiManager {
         this.GuiObj.SetFont("s9 c0x" . Format("{:06X}", txtColor), "Segoe UI")
 
         this.GuiObj.Add("Text", "xm y+5 w120", "Combinacion:")
-        this.SettingsTrigger := this.GuiObj.Add("Hotkey", "x+10 yp-3 " . inputStyle)
+        this.SettingsTrigger := this.GuiObj.Add("Hotkey", "x+10 yp-3 w300 c0x" .
+            Format("{:06X}", txtColor))
         this.SettingsTrigger.Value := HotkeyManager.GetCurrentTrigger()
 
         applyTriggerBtn := this.GuiObj.Add("Button", "x+10 yp-3 w100 h23",
