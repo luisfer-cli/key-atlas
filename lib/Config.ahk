@@ -110,7 +110,7 @@ class Config {
         this.Data["lang"] := "en"
         this.Data["triggerHotkey"] := "^+Space"
         this.Data["defaultMode"] := "cheatsheet"
-        this.Data["theme"] := "dark"
+        this.Data["theme"] := "system"
         this.Data["cheatsheet"] := Map(
             "maxItems", 12,
             "overlayOpacity", 220,

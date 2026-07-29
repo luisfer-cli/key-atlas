@@ -117,5 +117,22 @@ class Theme {
             "textDim", "6C6F85",
             "textBright", "1E1E2E"
         )
+
+        ; ----- Windows System -----
+        this.Presets["system"] := Map(
+            "background", "F0F0F0",
+            "foreground", "000000",
+            "accent", "005FB8",
+            "highlight", "0078D4",
+            "border", "B0B0B0",
+            "surface", "FFFFFF",
+            "overlay", "F0F0F0",
+            "success", "0F7B0F",
+            "warning", "D83B01",
+            "error", "C50500",
+            "text", "000000",
+            "textDim", "6B6B6B",
+            "textBright", "000000"
+        )
     }
 }

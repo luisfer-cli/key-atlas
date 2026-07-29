@@ -526,17 +526,6 @@ class GuiManager {
         applyTriggerBtn.OnEvent("Click", (*) => ApplyTrigger(triggerCtrl))
 
         setGui.SetFont("s10 bold c0x" accHex)
-        setGui.Add("Text", "xm y+15 w400", I18n.t("settings.default_mode"))
-        setGui.SetFont("s9 c0x" txtHex)
-        currentMode := HotkeyManager.GetCurrentMode()
-        modeInitial := currentMode = "cheatsheet" ? 1 : 2
-        modeDDL := setGui.Add("DropDownList", "xm y+5 w280 Choose" modeInitial,
-            [I18n.t("settings.mode_cheatsheet"), I18n.t("settings.mode_remap")])
-
-        applyModeBtn := setGui.Add("Button", "x+10 yp w100 h23", I18n.t("settings.apply"))
-        applyModeBtn.OnEvent("Click", (*) => ApplyMode(modeDDL))
-
-        setGui.SetFont("s10 bold c0x" accHex)
         setGui.Add("Text", "xm y+15 w400", I18n.t("settings.theme"))
         setGui.SetFont("s9 c0x" txtHex)
         themeNames := Theme.GetPresetNames()
@@ -582,12 +571,6 @@ class GuiManager {
             Config.Save()
             HotkeyManager.UpdateTrigger()
             MsgBox(I18n.t("msg.apply_hotkey"), "Key Atlas")
-        }
-
-        ApplyMode(ddl) {
-            newMode := ddl.Value = 1 ? "cheatsheet" : "remap"
-            HotkeyManager.SwitchMode(newMode)
-            MsgBox(I18n.t("msg.apply_mode") newMode, "Key Atlas")
         }
 
         ApplyTheme(parentGui, ddl) {

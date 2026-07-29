@@ -15,7 +15,6 @@
 #Include "lib\Database.ahk"
 #Include "lib\HotkeyManager.ahk"
 #Include "lib\CheatsheetGui.ahk"
-#Include "lib\InputProcessor.ahk"
 #Include "lib\GuiManager.ahk"
 
 ; ---- Initialization ----
@@ -43,8 +42,7 @@ Init() {
     if FileExist(iconPath)
         TraySetIcon(iconPath)
     A_IconTip := I18n.t("tray.title") .
-        "`n" I18n.t("tray.trigger") HotkeyManager.FormatForDisplay(HotkeyManager.GetCurrentTrigger()) .
-        "`n" I18n.t("tray.mode") HotkeyManager.GetCurrentMode()
+        "`n" I18n.t("tray.trigger") HotkeyManager.FormatForDisplay(HotkeyManager.GetCurrentTrigger())
 
     OutputDebug("Key Atlas initialized.")
     OutputDebug("Trigger: " . Config.GetTriggerHotkey())
@@ -65,10 +63,6 @@ SetupTray() {
     TrayMenu.Default := I18n.t("menu.open")
 
     TrayMenu.Add()
-    TrayMenu.Add(I18n.t("menu.cheatsheet"), (*) => SwitchMode("cheatsheet"))
-    TrayMenu.Add(I18n.t("menu.remap"), (*) => SwitchMode("remap"))
-
-    TrayMenu.Add()
     TrayMenu.Add(I18n.t("menu.reload_db"), (*) => ReloadDatabase())
     TrayMenu.Add(I18n.t("menu.reload_cfg"), (*) => ReloadConfig())
 
@@ -82,13 +76,7 @@ SetupTray() {
 ; ============================================================
 
 OnTriggerActivated(*) {
-    mode := HotkeyManager.GetCurrentMode()
-
-    if (mode = "cheatsheet") {
-        CheatsheetGui.Toggle()
-    } else {
-        InputProcessor.Show()
-    }
+    CheatsheetGui.Toggle()
 }
 
 ; ============================================================
@@ -97,20 +85,6 @@ OnTriggerActivated(*) {
 
 OpenConfig() {
     GuiManager.Show()
-}
-
-SwitchMode(newMode) {
-    HotkeyManager.SwitchMode(newMode)
-    A_IconTip := I18n.t("tray.title") .
-        "`n" I18n.t("tray.trigger") HotkeyManager.FormatForDisplay(HotkeyManager.GetCurrentTrigger()) .
-        "`n" I18n.t("tray.mode") HotkeyManager.GetCurrentMode()
-
-    if (CheatsheetGui.IsVisible)
-        CheatsheetGui.Hide()
-    if (InputProcessor.IsVisible)
-        InputProcessor.Hide()
-
-    MsgBox(I18n.t("msg.mode_changed") newMode, "Key Atlas")
 }
 
 ReloadDatabase() {
