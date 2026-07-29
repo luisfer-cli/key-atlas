@@ -75,10 +75,6 @@ class Theme {
         return 0x000000
     }
 
-    ; ==========================================================
-    ; System color detection
-    ; ==========================================================
-
     static _GetSystemColors() {
         dark := false
         try {
@@ -91,7 +87,7 @@ class Theme {
             return Map(
                 "background", "1F1F1F",
                 "foreground", "CCCCCC",
-                "accent", "4F9BD8",
+                "accent", "0078D4",
                 "highlight", "264F78",
                 "border", "3C3C3C",
                 "surface", "2A2A2A",
@@ -122,15 +118,11 @@ class Theme {
         )
     }
 
-    ; ==========================================================
-    ; Presets
-    ; ==========================================================
-
     static _RegisterPresets() {
         this.Presets["dark"] := Map(
             "background", "1F1F1F",
             "foreground", "CCCCCC",
-            "accent", "4F9BD8",
+            "accent", "0078D4",
             "highlight", "264F78",
             "border", "3C3C3C",
             "surface", "2A2A2A",
@@ -143,25 +135,9 @@ class Theme {
             "textBright", "FFFFFF"
         )
 
-        this.Presets["nord"] := Map(
-            "background", "2E3440",
-            "foreground", "D8DEE9",
-            "accent", "88C0D0",
-            "highlight", "4C566A",
-            "border", "434C5E",
-            "surface", "3B4252",
-            "overlay", "2E3440",
-            "success", "A3BE8C",
-            "warning", "EBCB8B",
-            "error", "BF616A",
-            "text", "D8DEE9",
-            "textDim", "81A1C1",
-            "textBright", "ECEFF4"
-        )
-
         this.Presets["light"] := Map(
             "background", "F0F0F0",
-            "foreground", "1F1F1F",
+            "foreground", "000000",
             "accent", "005FB8",
             "highlight", "0078D4",
             "border", "B0B0B0",
@@ -170,7 +146,7 @@ class Theme {
             "success", "0F7B0F",
             "warning", "D83B01",
             "error", "C50500",
-            "text", "1F1F1F",
+            "text", "000000",
             "textDim", "6B6B6B",
             "textBright", "000000"
         )
