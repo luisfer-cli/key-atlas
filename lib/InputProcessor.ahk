@@ -188,8 +188,12 @@ class InputProcessor {
             if (endKey = "Escape") {
                 this.Hide()
             } else if (endKey = "Enter") {
-                this._TryMatch()
-                this.Hide()
+                if (!this._TryMatch() && this.AccumulatedKeys != "") {
+                    this.Hide()
+                    GuiManager.QuickAdd(WinGetTitle("A"), WinGetProcessName("A"), this.AccumulatedKeys)
+                } else {
+                    this.Hide()
+                }
             }
         } else if (reason = "Timeout") {
             if (this.AccumulatedKeys != "")
@@ -207,7 +211,7 @@ class InputProcessor {
 
     static _TryMatch() {
         if (this.AccumulatedKeys = "")
-            return
+            return false
 
         activeShortcuts := Database.GetForActiveWindow()
         if (activeShortcuts.Length = 0) {
@@ -220,7 +224,7 @@ class InputProcessor {
             if (this.AccumulatedKeys = trigger) {
                 this._ExecuteShortcut(shortcut)
                 this.Hide()
-                return
+                return true
             }
         }
 
@@ -240,6 +244,7 @@ class InputProcessor {
         } else {
             this._UpdateStatus(I18n.t("remap.no_match"))
         }
+        return false
     }
 
     static _ExecuteShortcut(shortcut) {

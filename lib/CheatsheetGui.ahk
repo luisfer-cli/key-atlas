@@ -224,6 +224,14 @@ class CheatsheetGui {
     }
 
     static _OnKeyDown(ih, vk, sc) {
+        keyName := GetKeyName(Format("vk{:x}sc{:x}", vk, sc))
+
+        ; Ctrl+N: quick-add shortcut for current program
+        if (keyName = "n" && (GetKeyState("Ctrl", "P"))) {
+            GuiManager.QuickAdd(this.ActiveProgram, this.ActiveProcess, this.SearchQuery)
+            return
+        }
+
         if (vk = 0x26) { ; Up
             if (this.SelectedIndex > 1)
                 this.SelectedIndex--

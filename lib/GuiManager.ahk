@@ -434,6 +434,70 @@ class GuiManager {
         this._OnProgramChange()
     }
 
+    ; Quick shortcut creation from overlays
+    static QuickAdd(program, process, triggerKeys) {
+        qGui := Gui("+Owner +ToolWindow", I18n.t("quick.new_title"))
+        qGui.BackColor := Theme.ToBGR(Theme.BG())
+        qGui.SetFont("s9", "Segoe UI")
+
+        txt := Theme.ToBGR(Theme.TXT())
+        surf := Theme.ToBGR(Theme.SURF())
+        acc := Theme.ToBGR(Theme.ACC())
+        surfHex := Format("{:06X}", surf)
+        txtHex := Format("{:06X}", txt)
+        accHex := Format("{:06X}", acc)
+        inputStyle := "w320 Background0x" surfHex " c0x" txtHex
+
+        qGui.SetFont("s10 bold c0x" accHex)
+        qGui.Add("Text", "xm y+10 w380", program)
+
+        qGui.SetFont("s9 c0x" txtHex)
+        qGui.Add("Text", "xm y+5 w380", I18n.t("quick.keys_captured") triggerKeys)
+
+        qGui.Add("Text", "xm y+8 w100", I18n.t("editor.desc"))
+        edDesc := qGui.Add("Edit", "x+10 yp-3 " inputStyle)
+
+        qGui.Add("Text", "xm y+5 w100", I18n.t("quick.target_prompt"))
+        edTarget := qGui.Add("Edit", "x+10 yp-3 " inputStyle)
+
+        qGui.Add("Text", "xm y+5 w100", I18n.t("editor.category"))
+        edCat := qGui.Add("Edit", "x+10 yp-3 w200 Background0x" surfHex " c0x" txtHex)
+
+        qGui.Add("Text", "xm y+12 w100", "")
+        qGui.SetFont("s10 bold c0x" accHex)
+        saveBtn := qGui.Add("Button", "x+10 yp w120 h30 Background0x" surfHex, I18n.t("editor.save"))
+        saveBtn.OnEvent("Click", (*) => SaveQuick(qGui))
+
+        cancelBtn := qGui.Add("Button",
+            "x+10 yp w120 h30 Background0x" surfHex .
+            " c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())),
+            I18n.t("quick.cancel"))
+        cancelBtn.OnEvent("Click", (*) => qGui.Destroy())
+        qGui.OnEvent("Escape", (*) => qGui.Destroy())
+
+        SaveQuick(gui) {
+            if (edDesc.Value = "") {
+                MsgBox(I18n.t("msg.desc_required"), "Key Atlas", "Icon!")
+                return
+            }
+            data := Map()
+            data["id"] := ""
+            data["program"] := program
+            data["process"] := process
+            data["category"] := edCat.Value
+            data["description"] := edDesc.Value
+            data["triggerKeys"] := triggerKeys
+            data["targetKeys"] := edTarget.Value
+            data["mode"] := "remap"
+            Database.Add(data)
+            gui.Destroy()
+            if (this.IsVisible)
+                this._RefreshView()
+        }
+
+        qGui.Show("AutoSize Center")
+    }
+
     ; ==========================================================
     ; Settings Dialog
     ; ==========================================================
@@ -489,6 +553,18 @@ class GuiManager {
         applyThemeBtn := setGui.Add("Button", "x+10 yp w100 h23", I18n.t("settings.apply"))
         applyThemeBtn.OnEvent("Click", (*) => ApplyTheme(setGui, themeDDL))
 
+        ; Language
+        setGui.SetFont("s10 bold c0x" accHex)
+        setGui.Add("Text", "xm y+15 w400", I18n.t("settings.lang"))
+        setGui.SetFont("s9 c0x" txtHex)
+        currentLang := Config.Get("lang", "en")
+        langInitial := currentLang = "es" ? 2 : 1
+        langDDL := setGui.Add("DropDownList", "xm y+5 w280 Choose" langInitial,
+            [I18n.t("settings.lang_en"), I18n.t("settings.lang_es")])
+
+        applyLangBtn := setGui.Add("Button", "x+10 yp w100 h23", I18n.t("settings.apply"))
+        applyLangBtn.OnEvent("Click", (*) => ApplyLang(setGui, langDDL))
+
         setGui.Add("Text", "xm y+15 h40 w420 Background0x" Format("{:06X}", Theme.ToBGR(Theme.BG())))
 
         setGui.SetFont("s9 c0x" accHex)
@@ -518,6 +594,17 @@ class GuiManager {
             name := ddl.Text
             Theme.Apply(name)
             MsgBox(I18n.t("msg.apply_theme") name I18n.t("msg.theme_restart"), "Key Atlas")
+            parentGui.Destroy()
+            this.Close()
+            this.Show()
+        }
+
+        ApplyLang(parentGui, ddl) {
+            newLang := ddl.Value = 1 ? "en" : "es"
+            Config.Set("lang", newLang)
+            Config.Save()
+            I18n.Init()
+            MsgBox(I18n.t("msg.apply_theme") I18n.t("settings.lang") I18n.t("msg.theme_restart"), "Key Atlas")
             parentGui.Destroy()
             this.Close()
             this.Show()

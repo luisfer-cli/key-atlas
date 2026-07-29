@@ -101,40 +101,6 @@ class Theme {
             "textBright", "ECEFF4"
         )
 
-        ; ----- Gruvbox Dark -----
-        this.Presets["gruvbox"] := Map(
-            "background", "282828",
-            "foreground", "EBDBB2",
-            "accent", "83A598",
-            "highlight", "504945",
-            "border", "665C54",
-            "surface", "3C3836",
-            "overlay", "1D2021",
-            "success", "B8BB26",
-            "warning", "FABD2F",
-            "error", "FB4934",
-            "text", "EBDBB2",
-            "textDim", "928374",
-            "textBright", "FBF1C7"
-        )
-
-        ; ----- Tokyo Night Storm -----
-        this.Presets["tokyonight"] := Map(
-            "background", "24283B",
-            "foreground", "C0CAF5",
-            "accent", "7AA2F7",
-            "highlight", "363D5A",
-            "border", "545C7E",
-            "surface", "1F2335",
-            "overlay", "1A1B26",
-            "success", "9ECE6A",
-            "warning", "E0AF68",
-            "error", "F7768E",
-            "text", "C0CAF5",
-            "textDim", "565F89",
-            "textBright", "A9B1D6"
-        )
-
         ; ----- Catppuccin Latte -----
         this.Presets["light"] := Map(
             "background", "EFF1F5",
@@ -150,40 +116,6 @@ class Theme {
             "text", "4C4F69",
             "textDim", "6C6F85",
             "textBright", "1E1E2E"
-        )
-
-        ; ----- Dracula -----
-        this.Presets["dracula"] := Map(
-            "background", "282A36",
-            "foreground", "F8F8F2",
-            "accent", "BD93F9",
-            "highlight", "44475A",
-            "border", "6272A4",
-            "surface", "343746",
-            "overlay", "21222C",
-            "success", "50FA7B",
-            "warning", "FFB86C",
-            "error", "FF5555",
-            "text", "F8F8F2",
-            "textDim", "6272A4",
-            "textBright", "FFFFFF"
-        )
-
-        ; ----- Solarized Dark -----
-        this.Presets["solarized"] := Map(
-            "background", "002B36",
-            "foreground", "839496",
-            "accent", "268BD2",
-            "highlight", "073642",
-            "border", "586E75",
-            "surface", "073642",
-            "overlay", "002B36",
-            "success", "859900",
-            "warning", "B58900",
-            "error", "DC322F",
-            "text", "839496",
-            "textDim", "586E75",
-            "textBright", "FDF6E3"
         )
     }
 }

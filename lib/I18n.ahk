@@ -87,6 +87,9 @@ class I18n {
             "settings.mode_cheatsheet", "Cheatsheet (view shortcuts)",
             "settings.mode_remap",      "Remap (execute shortcuts)",
             "settings.theme",           "Color Theme",
+            "settings.lang",            "Language",
+            "settings.lang_en",         "English",
+            "settings.lang_es",         "Spanish",
             "settings.close",           "Close",
 
             ; GUI: auto-assign dialog
@@ -127,8 +130,8 @@ class I18n {
             "sheet.available",     " shortcuts available | Type to filter | Esc to close",
             "sheet.search",        "Search: ",
             "sheet.no_shortcuts",  "No shortcuts found.",
-            "sheet.hint",          "Add shortcuts from Settings (right-click tray icon)",
-            "sheet.footer",        " activate | [↑↓] navigate | [Enter] execute | [Esc] close",
+            "sheet.hint",          "Press Ctrl+N to add a shortcut for this program",
+            "sheet.footer",        " activate | [↑↓] navigate | [Enter] execute | [Esc] close | [Ctrl+N] new",
 
             ; InputProcessor / Remap overlay
             "remap.title",         "Key Atlas - Remap Mode",
@@ -146,7 +149,13 @@ class I18n {
             ; General
             "program.all",         "--- All programs ---",
             "program.unnamed",     "Unnamed program",
-            "category.general",    "General"
+            "category.general",    "General",
+
+            ; Quick new shortcut from overlays
+            "quick.new_title",     "Key Atlas - Quick New Shortcut",
+            "quick.keys_captured", "Keys captured: ",
+            "quick.target_prompt", "Target keys (AHK format):",
+            "quick.cancel",        "Cancel"
         )
 
         ; ── Spanish ──
@@ -216,6 +225,9 @@ class I18n {
             "settings.mode_cheatsheet", "Cheatsheet (ver atajos)",
             "settings.mode_remap",      "Remap (ejecutar atajos)",
             "settings.theme",           "Tema de Color",
+            "settings.lang",            "Idioma",
+            "settings.lang_en",         "Ingles",
+            "settings.lang_es",         "Espanol",
             "settings.close",           "Cerrar",
 
             "auto.title",              "Key Atlas - Asignacion Automatica",
@@ -253,8 +265,8 @@ class I18n {
             "sheet.available",     " atajos disponibles | Escribe para filtrar | Esc para cerrar",
             "sheet.search",        "Buscar: ",
             "sheet.no_shortcuts",  "No se encontraron atajos.",
-            "sheet.hint",          "Agrega atajos desde la configuracion (click derecho en el icono de bandeja)",
-            "sheet.footer",        " activar | [↑↓] navegar | [Enter] ejecutar | [Esc] cerrar",
+            "sheet.hint",          "Pulsa Ctrl+N para agregar un atajo a este programa",
+            "sheet.footer",        " activar | [↑↓] navegar | [Enter] ejecutar | [Esc] cerrar | [Ctrl+N] nuevo",
 
             "remap.title",         "Key Atlas - Modo Remap",
             "remap.waiting",       "Esperando teclas...",
@@ -270,7 +282,12 @@ class I18n {
 
             "program.all",         "--- Todos los programas ---",
             "program.unnamed",     "Sin programa",
-            "category.general",    "General"
+            "category.general",    "General",
+
+            "quick.new_title",     "Key Atlas - Nuevo Atajo Rapido",
+            "quick.keys_captured", "Teclas capturadas: ",
+            "quick.target_prompt", "Teclas destino (formato AHK):",
+            "quick.cancel",        "Cancelar"
         )
     }
 
