@@ -19,8 +19,8 @@ class Theme {
         if (!this.Presets.Has(themeName))
             return false
 
-        themeColors := this.Presets[themeName]
-        for key, val in themeColors
+        colors := this.Presets[themeName]
+        for key, val in colors
             Config.Set("colors." . key, val)
 
         Config.SetTheme(themeName)
@@ -30,13 +30,13 @@ class Theme {
 
     static GetCurrent() {
         if (Config.GetTheme() = "system")
-            return this._ReadSystemColors()
+            return this._GetSystemColors()
         return Config.GetColors()
     }
 
     static GetPreset(name) {
         if (name = "system")
-            return this._ReadSystemColors()
+            return this._GetSystemColors()
         if (this.Presets.Has(name))
             return this.Presets[name]
         return Map()
@@ -68,7 +68,6 @@ class Theme {
     static TXTDIM() => this.GetColor("textDim")
     static TXTBRIGHT() => this.GetColor("textBright")
 
-    ; Convert hex color to BGR for AHK Gui (0xBBGGRR)
     static ToBGR(hexColor) {
         hexColor := StrReplace(hexColor, "#", "")
         if (StrLen(hexColor) = 6)
@@ -77,53 +76,49 @@ class Theme {
     }
 
     ; ==========================================================
-    ; System color detection (reads live Windows colors)
+    ; System color detection
     ; ==========================================================
 
-    static _ReadSystemColors() {
-        ; OS color indices via SysGet:
-        ;  5 = COLOR_WINDOW          (window background)
-        ;  8 = COLOR_WINDOWTEXT      (window text)
-        ; 13 = COLOR_HIGHLIGHT       (selected item bg)
-        ; 14 = COLOR_HIGHLIGHTTEXT   (selected item text)
-        ; 15 = COLOR_3DFACE          (button face / dialog bg)
-        ; 16 = COLOR_3DSHADOW        (shadow / border)
-        ; 17 = COLOR_GRAYTEXT        (dimmed text)
-
-        bg := Format("{:06X}", SysGet(15))        ; button face = dialog bg
-        fg := Format("{:06X}", SysGet(8))         ; window text
-        hl := Format("{:06X}", SysGet(13))        ; highlight
-        hlText := Format("{:06X}", SysGet(14))    ; highlight text
-        shadow := Format("{:06X}", SysGet(16))    ; border/shadow
-        window := Format("{:06X}", SysGet(5))     ; window bg (whiter)
-        dim := Format("{:06X}", SysGet(17))       ; gray text
-
-        ; Detect dark mode from registry for accent choice
-        isLight := true
+    static _GetSystemColors() {
+        dark := false
         try {
-            appsLight := RegRead(
-                "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize",
+            val := RegRead("HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize",
                 "AppsUseLightTheme")
-            isLight := appsLight != 0
+            dark := val = 0
         }
 
-        accent := isLight ? "005FB8" : "60CDFF"
-        overlay := bg  ; overlay matches dialog bg
+        if (dark) {
+            return Map(
+                "background", "1F1F1F",
+                "foreground", "CCCCCC",
+                "accent", "4F9BD8",
+                "highlight", "264F78",
+                "border", "3C3C3C",
+                "surface", "2A2A2A",
+                "overlay", "1F1F1F",
+                "success", "4EC94E",
+                "warning", "CCA700",
+                "error", "F44747",
+                "text", "CCCCCC",
+                "textDim", "6A6A6A",
+                "textBright", "FFFFFF"
+            )
+        }
 
         return Map(
-            "background",  bg,
-            "foreground",  fg,
-            "accent",      accent,
-            "highlight",   hl,
-            "border",      shadow,
-            "surface",     window,
-            "overlay",     overlay,
-            "success",     isLight ? "0F7B0F" : "3BDA3B",
-            "warning",     isLight ? "D83B01" : "FF9100",
-            "error",       isLight ? "C50500" : "FF5252",
-            "text",        fg,
-            "textDim",     dim,
-            "textBright",  hlText
+            "background", "F0F0F0",
+            "foreground", "000000",
+            "accent", "005FB8",
+            "highlight", "0078D4",
+            "border", "B0B0B0",
+            "surface", "FFFFFF",
+            "overlay", "F0F0F0",
+            "success", "0F7B0F",
+            "warning", "D83B01",
+            "error", "C50500",
+            "text", "000000",
+            "textDim", "6B6B6B",
+            "textBright", "000000"
         )
     }
 
@@ -133,18 +128,18 @@ class Theme {
 
     static _RegisterPresets() {
         this.Presets["dark"] := Map(
-            "background", "1E1E2E",
-            "foreground", "CDD6F4",
-            "accent", "89B4FA",
-            "highlight", "45475A",
-            "border", "585B70",
-            "surface", "313244",
-            "overlay", "11111B",
-            "success", "A6E3A1",
-            "warning", "F9E2AF",
-            "error", "F38BA8",
-            "text", "CDD6F4",
-            "textDim", "6C7086",
+            "background", "1F1F1F",
+            "foreground", "CCCCCC",
+            "accent", "4F9BD8",
+            "highlight", "264F78",
+            "border", "3C3C3C",
+            "surface", "2A2A2A",
+            "overlay", "1F1F1F",
+            "success", "4EC94E",
+            "warning", "CCA700",
+            "error", "F44747",
+            "text", "CCCCCC",
+            "textDim", "6A6A6A",
             "textBright", "FFFFFF"
         )
 
@@ -165,19 +160,19 @@ class Theme {
         )
 
         this.Presets["light"] := Map(
-            "background", "EFF1F5",
-            "foreground", "4C4F69",
-            "accent", "1E66F5",
-            "highlight", "CCD0DA",
-            "border", "BCC0CC",
-            "surface", "E6E9EF",
-            "overlay", "DCE0E8",
-            "success", "40A02B",
-            "warning", "DF8E1D",
-            "error", "D20F39",
-            "text", "4C4F69",
-            "textDim", "6C6F85",
-            "textBright", "1E1E2E"
+            "background", "F0F0F0",
+            "foreground", "1F1F1F",
+            "accent", "005FB8",
+            "highlight", "0078D4",
+            "border", "B0B0B0",
+            "surface", "FFFFFF",
+            "overlay", "F0F0F0",
+            "success", "0F7B0F",
+            "warning", "D83B01",
+            "error", "C50500",
+            "text", "1F1F1F",
+            "textDim", "6B6B6B",
+            "textBright", "000000"
         )
     }
 }
