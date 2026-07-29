@@ -10,6 +10,7 @@
 ; ---- Includes ----
 #Include "lib\Json.ahk"
 #Include "lib\Config.ahk"
+#Include "lib\I18n.ahk"
 #Include "lib\Theme.ahk"
 #Include "lib\Database.ahk"
 #Include "lib\HotkeyManager.ahk"
@@ -33,6 +34,7 @@ Persistent()
 Init() {
     Config.Init()
     Database.Init()
+    I18n.Init()
     Theme.Init()
 
     HotkeyManager.Init(OnTriggerActivated)
@@ -40,9 +42,9 @@ Init() {
     iconPath := A_ScriptDir . "\assets\icon.ico"
     if FileExist(iconPath)
         TraySetIcon(iconPath)
-    A_IconTip := "Key Atlas - Asistente de Atajos" .
-        "`nTrigger: " . HotkeyManager.FormatForDisplay(HotkeyManager.GetCurrentTrigger()) .
-        "`nModo: " . HotkeyManager.GetCurrentMode()
+    A_IconTip := I18n.t("tray.title") .
+        "`n" I18n.t("tray.trigger") HotkeyManager.FormatForDisplay(HotkeyManager.GetCurrentTrigger()) .
+        "`n" I18n.t("tray.mode") HotkeyManager.GetCurrentMode()
 
     OutputDebug("Key Atlas initialized.")
     OutputDebug("Trigger: " . Config.GetTriggerHotkey())
@@ -59,20 +61,20 @@ SetupTray() {
     TrayMenu := A_TrayMenu
     TrayMenu.Delete()
 
-    TrayMenu.Add("Abrir Configuracion", (*) => OpenConfig())
-    TrayMenu.Default := "Abrir Configuracion"
+    TrayMenu.Add(I18n.t("menu.open"), (*) => OpenConfig())
+    TrayMenu.Default := I18n.t("menu.open")
 
     TrayMenu.Add()
-    TrayMenu.Add("Modo Cheatsheet", (*) => SwitchMode("cheatsheet"))
-    TrayMenu.Add("Modo Remap", (*) => SwitchMode("remap"))
+    TrayMenu.Add(I18n.t("menu.cheatsheet"), (*) => SwitchMode("cheatsheet"))
+    TrayMenu.Add(I18n.t("menu.remap"), (*) => SwitchMode("remap"))
 
     TrayMenu.Add()
-    TrayMenu.Add("Recargar Base de Datos", (*) => ReloadDatabase())
-    TrayMenu.Add("Recargar Configuracion", (*) => ReloadConfig())
+    TrayMenu.Add(I18n.t("menu.reload_db"), (*) => ReloadDatabase())
+    TrayMenu.Add(I18n.t("menu.reload_cfg"), (*) => ReloadConfig())
 
     TrayMenu.Add()
-    TrayMenu.Add("Acerca de Key Atlas", (*) => ShowAbout())
-    TrayMenu.Add("Salir", (*) => ExitApp())
+    TrayMenu.Add(I18n.t("menu.about"), (*) => ShowAbout())
+    TrayMenu.Add(I18n.t("menu.exit"), (*) => ExitApp())
 }
 
 ; ============================================================
@@ -99,49 +101,40 @@ OpenConfig() {
 
 SwitchMode(newMode) {
     HotkeyManager.SwitchMode(newMode)
-    A_IconTip := "Key Atlas - Asistente de Atajos" .
-        "`nTrigger: " . HotkeyManager.FormatForDisplay(HotkeyManager.GetCurrentTrigger()) .
-        "`nModo: " . HotkeyManager.GetCurrentMode()
+    A_IconTip := I18n.t("tray.title") .
+        "`n" I18n.t("tray.trigger") HotkeyManager.FormatForDisplay(HotkeyManager.GetCurrentTrigger()) .
+        "`n" I18n.t("tray.mode") HotkeyManager.GetCurrentMode()
 
     if (CheatsheetGui.IsVisible)
         CheatsheetGui.Hide()
     if (InputProcessor.IsVisible)
         InputProcessor.Hide()
 
-    MsgBox("Modo cambiado a: " . newMode, "Key Atlas")
+    MsgBox(I18n.t("msg.mode_changed") newMode, "Key Atlas")
 }
 
 ReloadDatabase() {
     Database.Reload()
-    TrayTip("Base de datos recargada: " . Database.GetAll().Length . " atajos.",
+    TrayTip(I18n.t("msg.db_reloaded") Database.GetAll().Length I18n.t("msg.shortcuts_count"),
         "Key Atlas")
 }
 
 ReloadConfig() {
     Config.Reload()
     HotkeyManager.UpdateTrigger()
-    TrayTip("Configuracion recargada.", "Key Atlas")
+    TrayTip(I18n.t("msg.cfg_reloaded"), "Key Atlas")
 }
 
 ShowAbout() {
     aboutMsg := "
     (
-        Key Atlas v1.0.0
+        " I18n.t("about.body") "
 
-        Asistente de atajos de teclado universal.
-
-        Funcionalidades:
-        - Cheatsheet estilo which-key
-        - Modo remap para ejecutar atajos
-        - Base de datos JSON configurable
-        - Multiples temas de color
-        - Deteccion automatica de programa activo
-
-        Trigger: " . HotkeyManager.FormatForDisplay(HotkeyManager.GetCurrentTrigger()) . "
-        Modo actual: " . HotkeyManager.GetCurrentMode() . "
+        " I18n.t("tray.trigger") HotkeyManager.FormatForDisplay(HotkeyManager.GetCurrentTrigger()) "
+        " I18n.t("tray.mode") HotkeyManager.GetCurrentMode() "
 
         AutoHotkey v2.0
     )"
 
-    MsgBox(aboutMsg, "Key Atlas - Acerca de")
+    MsgBox(aboutMsg, I18n.t("about.title"))
 }

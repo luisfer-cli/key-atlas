@@ -78,7 +78,6 @@ class CheatsheetGui {
     static _Render() {
         this._ClearControls()
 
-        ; Header: program name and search
         headerColor := Theme.ToBGR(Theme.ACC())
         dimColor := Theme.ToBGR(Theme.TXTDIM())
         brightColor := Theme.ToBGR(Theme.TXTBRIGHT())
@@ -90,17 +89,17 @@ class CheatsheetGui {
             processName := SubStr(processName, 1, 37) . "..."
 
         headerTxt := this.GuiObj.Add("Text", "xm y" . this.GuiObj.MarginY . " w500",
-            "Key Atlas - " . processName)
+            I18n.t("sheet.header") . processName)
         this.RowControls.Push(headerTxt)
 
         this.GuiObj.SetFont("s9 c0x" . Format("{:06X}", dimColor), "Consolas")
 
         if (this.SearchQuery != "")
             this.GuiObj.Add("Text", "xm y+2 w500",
-                "Buscar: " . this.SearchQuery . " (" . this.Shortcuts.Length . " resultados)")
+                I18n.t("sheet.search") this.SearchQuery " (" this.Shortcuts.Length I18n.t("sheet.results"))
         else
             this.GuiObj.Add("Text", "xm y+2 w500",
-                this.Shortcuts.Length . " atajos disponibles | Escribe para filtrar | Esc para cerrar")
+                this.Shortcuts.Length I18n.t("sheet.available"))
 
         ; Separator line
         sepColor := Theme.ToBGR(Theme.BDR())
@@ -138,7 +137,7 @@ class CheatsheetGui {
 
                 this.GuiObj.SetFont("s9 c0x" . Format("{:06X}", txtColor), "Consolas")
 
-                desc := shortcut.Has("description") ? shortcut["description"] : "(sin desc)"
+                desc := shortcut.Has("description") ? shortcut["description"] : "(--)"
                 trigger := shortcut.Has("triggerKeys") ? shortcut["triggerKeys"] : ""
                 mode := shortcut.Has("mode") ? shortcut["mode"] : "remap"
                 modeIndicator := mode = "remap" ? "[R]" : "[C]"
@@ -155,13 +154,12 @@ class CheatsheetGui {
         if (itemIdx = 0) {
             warnColor := Theme.ToBGR(Theme.GetColor("warning"))
             this.GuiObj.SetFont("s10 c0x" . Format("{:06X}", warnColor), "Consolas")
-            noResults := this.GuiObj.Add("Text", "xm y+10 w500", "No se encontraron atajos.")
+            noResults := this.GuiObj.Add("Text", "xm y+10 w500", I18n.t("sheet.no_shortcuts"))
             this.RowControls.Push(noResults)
 
             dimColor := Theme.ToBGR(Theme.TXTDIM())
             this.GuiObj.SetFont("s8 c0x" . Format("{:06X}", dimColor), "Consolas")
-            hint := this.GuiObj.Add("Text", "xm y+2 w500",
-                "Agrega atajos desde la configuracion (click derecho en el icono de bandeja)")
+            hint := this.GuiObj.Add("Text", "xm y+2 w500", I18n.t("sheet.hint"))
             this.RowControls.Push(hint)
         }
 
@@ -170,7 +168,7 @@ class CheatsheetGui {
         this.GuiObj.SetFont("s8 c0x" . Format("{:06X}", dimColor), "Consolas")
         footer := this.GuiObj.Add("Text", "xm y+12 w500",
             "[" . HotkeyManager.FormatForDisplay(HotkeyManager.GetCurrentTrigger())
-            . "] activar | [↑↓] navegar | [Enter] ejecutar | [Esc] cerrar")
+            . "]" I18n.t("sheet.footer"))
         this.RowControls.Push(footer)
 
         this.GuiObj.Show("AutoSize NoActivate")
@@ -304,7 +302,7 @@ class CheatsheetGui {
             SetKeyDelay(-1, -1)
             Send(targetKeys)
         } catch as err {
-            TrayTip("Error al ejecutar atajo: " err.Message, "Key Atlas", "Icon!")
+            TrayTip("Error executing shortcut: " err.Message, "Key Atlas", "Icon!")
         }
     }
 }

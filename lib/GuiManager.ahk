@@ -10,7 +10,6 @@ class GuiManager {
     static ShortcutLV := ""
     static ProgramDDL := ""
     static SearchEdit := ""
-    static EditingId := ""
 
     static Show() {
         if (this.IsVisible) {
@@ -43,20 +42,14 @@ class GuiManager {
         bg := Theme.ToBGR(Theme.BG())
         txt := Theme.ToBGR(Theme.TXT())
 
-        this.GuiObj := Gui("+Resize +MinSize720x420", "Key Atlas - Configuracion")
+        this.GuiObj := Gui("+Resize +MinSize720x420", I18n.t("gui.title"))
         this.GuiObj.BackColor := bg
         this.GuiObj.MarginX := 8
         this.GuiObj.MarginY := 8
         this.GuiObj.OnEvent("Close", (*) => this.Close())
         this.GuiObj.OnEvent("Escape", (*) => this.Close())
 
-        ; ---- Toolbar ----
         this._CreateToolbar()
-
-        ; ---- Main content area ----
-        ; Left: TreeView (categories)
-        ; Right: ListView (shortcuts)
-
         this._CreateTreePanel()
         this._CreateShortcutPanel()
     }
@@ -65,17 +58,16 @@ class GuiManager {
         txt := Theme.ToBGR(Theme.TXT())
         acc := Theme.ToBGR(Theme.ACC())
         surf := Theme.ToBGR(Theme.SURF())
-        dim := Theme.ToBGR(Theme.TXTDIM())
 
         this.GuiObj.SetFont("s9 c0x" Format("{:06X}", txt), "Segoe UI")
 
-        this.GuiObj.Add("Text", "xm y+2 w70", "Programa:")
+        this.GuiObj.Add("Text", "xm y+2 w70", I18n.t("toolbar.program"))
         this.ProgramDDL := this.GuiObj.Add("DropDownList",
             "x+2 yp-2 w200 Background0x" Format("{:06X}", surf) .
             " c0x" Format("{:06X}", txt))
         this.ProgramDDL.OnEvent("Change", (*) => this._OnProgramChange())
 
-        this.GuiObj.Add("Text", "x+15 yp+2 w50", "Buscar:")
+        this.GuiObj.Add("Text", "x+15 yp+2 w50", I18n.t("toolbar.search"))
         this.SearchEdit := this.GuiObj.Add("Edit",
             "x+2 yp-2 w200 Background0x" Format("{:06X}", surf) .
             " c0x" Format("{:06X}", txt))
@@ -84,15 +76,14 @@ class GuiManager {
         this.GuiObj.SetFont("s9 c0x" Format("{:06X}", acc), "Segoe UI")
         autoBtn := this.GuiObj.Add("Button",
             "x+15 yp-2 w130 Background0x" Format("{:06X}", surf),
-            "Asignar Teclas")
+            I18n.t("toolbar.autoassign"))
         autoBtn.OnEvent("Click", (*) => this._ShowAutoAssign())
 
         configBtn := this.GuiObj.Add("Button",
             "x+5 yp w80 Background0x" Format("{:06X}", surf),
-            "Ajustes")
+            I18n.t("toolbar.settings"))
         configBtn.OnEvent("Click", (*) => this._ShowSettingsDialog())
 
-        ; Separator line
         this.GuiObj.Add("Text",
             "xm y+8 w880 h1 Background0x" Format("{:06X}", Theme.ToBGR(Theme.BDR())))
     }
@@ -102,7 +93,7 @@ class GuiManager {
         txt := Theme.ToBGR(Theme.TXT())
 
         this.GuiObj.SetFont("s9 c0x" Format("{:06X}", txt), "Segoe UI")
-        this.GuiObj.Add("Text", "xm y+8 w190 Section", "Categorias por Programa")
+        this.GuiObj.Add("Text", "xm y+8 w190 Section", I18n.t("tree.title"))
         this.TreeView := this.GuiObj.Add("TreeView",
             "xs y+2 w190 h400 Background0x" Format("{:06X}", surf) .
             " c0x" Format("{:06X}", txt))
@@ -116,11 +107,12 @@ class GuiManager {
 
         this.GuiObj.SetFont("s9 c0x" Format("{:06X}", txt), "Segoe UI")
 
-        this.GuiObj.Add("Text", "xs+210 ys w400 Section", "Atajos")
+        this.GuiObj.Add("Text", "xs+210 ys w400 Section", I18n.t("list.title"))
         this.ShortcutLV := this.GuiObj.Add("ListView",
             "xs y+2 w650 h340 Grid -Multi Background0x" Format("{:06X}", surf) .
             " c0x" Format("{:06X}", txt),
-            ["Trigger", "Descripcion", "Target", "Proceso", "Categoria", "Modo"])
+            [I18n.t("col.trigger"), I18n.t("col.desc"), I18n.t("col.target"),
+             I18n.t("col.process"), I18n.t("col.category"), I18n.t("col.mode")])
         this.ShortcutLV.OnEvent("DoubleClick", (*) => this._EditSelected())
 
         this.ShortcutLV.ModifyCol(1, 120)
@@ -130,26 +122,23 @@ class GuiManager {
         this.ShortcutLV.ModifyCol(5, 80)
         this.ShortcutLV.ModifyCol(6, 50)
 
-        ; Action buttons
         this.GuiObj.SetFont("s9 c0x" Format("{:06X}", acc), "Segoe UI")
         btnOpts := "w120 h28 Background0x" Format("{:06X}", surf)
 
-        addBtn := this.GuiObj.Add("Button", "xs y+5 " btnOpts, "Nuevo Atajo")
+        addBtn := this.GuiObj.Add("Button", "xs y+5 " btnOpts, I18n.t("btn.new"))
         addBtn.OnEvent("Click", (*) => this._ShowEditor())
 
-        editBtn := this.GuiObj.Add("Button", "x+5 yp " btnOpts, "Editar")
+        editBtn := this.GuiObj.Add("Button", "x+5 yp " btnOpts, I18n.t("btn.edit"))
         editBtn.OnEvent("Click", (*) => this._EditSelected())
 
         delBtn := this.GuiObj.Add("Button",
             "x+5 yp " btnOpts " c0x" Format("{:06X}", Theme.ToBGR(Theme.GetColor("error"))),
-            "Eliminar")
+            I18n.t("btn.delete"))
         delBtn.OnEvent("Click", (*) => this._DeleteSelected())
 
-        ; Quick info at bottom
         this.GuiObj.SetFont("s8 c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())), "Segoe UI")
         this.GuiObj.Add("Text", "xs y+5 w650",
-            "Doble click para editar | " .
-            Database.GetAll().Length " atajos en total")
+            I18n.t("footer.dblclick") Database.GetAll().Length I18n.t("footer.total"))
     }
 
     ; ==========================================================
@@ -161,10 +150,10 @@ class GuiManager {
 
         allProc := Map()
         for shortcut in Database.GetAll() {
-            prog := shortcut.Has("program") ? shortcut["program"] : "Sin programa"
-            cat := shortcut.Has("category") ? shortcut["category"] : "General"
+            prog := shortcut.Has("program") ? shortcut["program"] : I18n.t("program.unnamed")
+            cat := shortcut.Has("category") ? shortcut["category"] : I18n.t("category.general")
             if (cat = "")
-                cat := "General"
+                cat := I18n.t("category.general")
 
             if (!allProc.Has(prog))
                 allProc[prog] := Map()
@@ -172,20 +161,16 @@ class GuiManager {
                 allProc[prog][cat] := true
         }
 
-        ; Sort programs
         progNames := Array()
         for prog in allProc
             progNames.Push(prog)
         Database._SortArray(&progNames)
 
-        ; Update program dropdown
         ddlItems := Array()
-        ddlItems.Push("--- Todos los programas ---")
+        ddlItems.Push(I18n.t("program.all"))
         for prog in progNames {
             ddlItems.Push(prog)
-            ; Add program node
             progID := this.TreeView.Add(prog, 0, "Expand")
-            ; Sort categories and add them
             catNames := Array()
             for cat in allProc[prog]
                 catNames.Push(cat)
@@ -201,9 +186,8 @@ class GuiManager {
 
     static _OnProgramChange() {
         sel := this.ProgramDDL.Text
-        if (sel = "--- Todos los programas ---") {
+        if (sel = I18n.t("program.all")) {
             this._RefreshListView(Database.GetAll())
-            this._SelectFirstTreeItem()
             return
         }
 
@@ -215,9 +199,6 @@ class GuiManager {
                 filtered.Push(sc)
         }
         this._RefreshListView(filtered)
-
-        ; Select first tree item matching this program
-        this._SelectFirstTreeItem()
     }
 
     static _OnTreeSelect() {
@@ -229,11 +210,9 @@ class GuiManager {
         selText := this.TreeView.GetText(selItem)
 
         if (parentID = 0) {
-            ; Program node selected
             try this.ProgramDDL.Choose(selText)
             this._RefreshListView(this._GetShortcutsByProgram(selText))
         } else {
-            ; Category node selected
             progName := this.TreeView.GetText(parentID)
             try this.ProgramDDL.Choose(progName)
             this._RefreshListView(this._GetShortcutsByCategory(progName, selText))
@@ -279,9 +258,9 @@ class GuiManager {
         results := Array()
         for sc in Database.GetAll() {
             p := sc.Has("program") ? sc["program"] : ""
-            c := sc.Has("category") ? sc["category"] : "General"
+            c := sc.Has("category") ? sc["category"] : I18n.t("category.general")
             if (c = "")
-                c := "General"
+                c := I18n.t("category.general")
             if (p = progName && c = catName)
                 results.Push(sc)
         }
@@ -302,14 +281,13 @@ class GuiManager {
         isEditing := shortcutData != "" && shortcutData is Map
 
         editGui := Gui("+Owner" this.GuiObj.Hwnd,
-            isEditing ? "Key Atlas - Editar Atajo" : "Key Atlas - Nuevo Atajo")
+            isEditing ? I18n.t("editor.title_edit") : I18n.t("editor.title_new"))
         editGui.BackColor := Theme.ToBGR(Theme.BG())
         editGui.SetFont("s9", "Segoe UI")
 
         txt := Theme.ToBGR(Theme.TXT())
         surf := Theme.ToBGR(Theme.SURF())
         acc := Theme.ToBGR(Theme.ACC())
-        bdr := Theme.ToBGR(Theme.BDR())
 
         txtColor := Format("{:06X}", txt)
         surfColor := Format("{:06X}", surf)
@@ -318,17 +296,15 @@ class GuiManager {
 
         editGui.SetFont("s9 c0x" txtColor)
 
-        ; Program
-        editGui.Add("Text", "xm y+10 w100", "Programa:")
+        editGui.Add("Text", "xm y+10 w100", I18n.t("editor.program"))
         edProgram := editGui.Add("Edit", "x+10 yp-3 " inputStyle)
         edProgram.Value := isEditing && shortcutData.Has("program") ? shortcutData["program"] : ""
 
-        ; Process
-        editGui.Add("Text", "xm y+5 w100", "Proceso (.exe):")
+        editGui.Add("Text", "xm y+5 w100", I18n.t("editor.process"))
         edProcess := editGui.Add("Edit", "x+10 yp-3 " inputStyle)
         edProcess.Value := isEditing && shortcutData.Has("process") ? shortcutData["process"] : ""
 
-        detectBtn := editGui.Add("Button", "x+10 yp w160 h23", "Detectar Ventana Activa")
+        detectBtn := editGui.Add("Button", "x+10 yp w160 h23", I18n.t("editor.detect"))
         detectBtn.OnEvent("Click", (*) => DetectWindow(edProgram, edProcess))
 
         DetectWindow(edProg, edProc) {
@@ -336,49 +312,42 @@ class GuiManager {
             edProc.Value := WinGetProcessName("A")
         }
 
-        ; Category
-        editGui.Add("Text", "xm y+5 w100", "Categoria:")
+        editGui.Add("Text", "xm y+5 w100", I18n.t("editor.category"))
         edCategory := editGui.Add("Edit", "x+10 yp-3 " inputStyle)
         edCategory.Value := isEditing && shortcutData.Has("category") ? shortcutData["category"] : ""
 
-        ; Description
-        editGui.Add("Text", "xm y+5 w100", "Descripcion:")
+        editGui.Add("Text", "xm y+5 w100", I18n.t("editor.desc"))
         edDesc := editGui.Add("Edit", "x+10 yp-3 " inputStyle)
         edDesc.Value := isEditing && shortcutData.Has("description") ? shortcutData["description"] : ""
 
-        ; Trigger Keys
-        editGui.Add("Text", "xm y+5 w100", "Teclas Trigger:")
+        editGui.Add("Text", "xm y+5 w100", I18n.t("editor.trigger"))
         edTrigger := editGui.Add("Edit", "x+10 yp-3 " inputStyle)
         edTrigger.Value := isEditing && shortcutData.Has("triggerKeys") ? shortcutData["triggerKeys"] : ""
         editGui.SetFont("s8 c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())))
-        editGui.Add("Text", "x+10 y+1 w350",
-            "Combinacional: Ctrl+S | Secuencial: g d | AHK: ^s +!f")
+        editGui.Add("Text", "x+10 y+1 w350", I18n.t("editor.hint"))
 
-        ; Target Keys
         editGui.SetFont("s9 c0x" txtColor)
-        editGui.Add("Text", "xm y+5 w100", "Teclas Target:")
+        editGui.Add("Text", "xm y+5 w100", I18n.t("editor.target"))
         edTarget := editGui.Add("Edit", "x+10 yp-3 " inputStyle)
         edTarget.Value := isEditing && shortcutData.Has("targetKeys") ? shortcutData["targetKeys"] : ""
 
-        ; Mode
-        editGui.Add("Text", "xm y+5 w100", "Modo:")
+        editGui.Add("Text", "xm y+5 w100", I18n.t("editor.mode"))
         cbMode := editGui.Add("DropDownList", "x+10 yp-3 w200 Choose1",
-            ["remap (ejecuta atajo)", "cheatsheet (solo mostrar)"])
+            [I18n.t("editor.mode_remap"), I18n.t("editor.mode_sheet")])
         if (isEditing && shortcutData.Has("mode") && shortcutData["mode"] = "cheatsheet")
             cbMode.Choose(2)
 
-        ; Action buttons
         editGui.Add("Text", "xm y+15 w100", "")
         editGui.SetFont("s10 bold c0x" accColor)
 
         saveBtn := editGui.Add("Button",
-            "x+10 yp-3 w150 h32 Background0x" surfColor, "Guardar")
+            "x+10 yp-3 w150 h32 Background0x" surfColor, I18n.t("editor.save"))
         saveBtn.OnEvent("Click", (*) => SaveShortcut(editGui))
 
         cancelBtn := editGui.Add("Button",
             "x+10 yp w150 h32 Background0x" surfColor .
             " c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())),
-            "Cancelar")
+            I18n.t("editor.cancel"))
         cancelBtn.OnEvent("Click", (*) => editGui.Destroy())
 
         editGui.OnEvent("Escape", (*) => editGui.Destroy())
@@ -394,17 +363,17 @@ class GuiManager {
             data["mode"] := cbMode.Value = 2 ? "cheatsheet" : "remap"
 
             if (data["description"] = "") {
-                MsgBox("La descripcion es obligatoria.", "Key Atlas", "Icon!")
+                MsgBox(I18n.t("msg.desc_required"), "Key Atlas", "Icon!")
                 return
             }
             if (data["triggerKeys"] = "") {
-                MsgBox("Las teclas trigger son obligatorias.", "Key Atlas", "Icon!")
+                MsgBox(I18n.t("msg.trigger_required"), "Key Atlas", "Icon!")
                 return
             }
 
-            if (isEditing && shortcutData.Has("id")) {
+            if (isEditing && shortcutData.Has("id"))
                 Database.Update(shortcutData["id"], data)
-            } else {
+            else {
                 data["id"] := ""
                 Database.Add(data)
             }
@@ -419,15 +388,13 @@ class GuiManager {
     static _EditSelected() {
         row := this.ShortcutLV.GetNext()
         if (row = 0) {
-            MsgBox("Selecciona un atajo para editar.", "Key Atlas", "Iconi")
+            MsgBox(I18n.t("msg.select_edit"), "Key Atlas", "Iconi")
             return
         }
 
-        ; Find the shortcut by matching trigger and description
         trig := this.ShortcutLV.GetText(row, 1)
         desc := this.ShortcutLV.GetText(row, 2)
-        all := Database.GetAll()
-        for sc in all {
+        for sc in Database.GetAll() {
             t := sc.Has("triggerKeys") ? sc["triggerKeys"] : ""
             d := sc.Has("description") ? sc["description"] : ""
             if (t = trig && d = desc) {
@@ -440,20 +407,19 @@ class GuiManager {
     static _DeleteSelected() {
         row := this.ShortcutLV.GetNext()
         if (row = 0) {
-            MsgBox("Selecciona un atajo para eliminar.", "Key Atlas", "Iconi")
+            MsgBox(I18n.t("msg.select_delete"), "Key Atlas", "Iconi")
             return
         }
 
         trig := this.ShortcutLV.GetText(row, 1)
         desc := this.ShortcutLV.GetText(row, 2)
-        all := Database.GetAll()
-
-        for sc in all {
+        for sc in Database.GetAll() {
             t := sc.Has("triggerKeys") ? sc["triggerKeys"] : ""
             d := sc.Has("description") ? sc["description"] : ""
             if (t = trig && d = desc) {
                 id := sc.Has("id") ? sc["id"] : ""
-                result := MsgBox("Eliminar '" desc "'?", "Key Atlas - Confirmar", "YesNo Icon?")
+                result := MsgBox(I18n.t("msg.confirm_delete") desc "'?",
+                    "Key Atlas", "YesNo Icon?")
                 if (result = "Yes") {
                     Database.Delete(id)
                     this._RefreshView()
@@ -473,7 +439,7 @@ class GuiManager {
     ; ==========================================================
 
     static _ShowSettingsDialog() {
-        setGui := Gui("+Owner" this.GuiObj.Hwnd, "Key Atlas - Ajustes")
+        setGui := Gui("+Owner" this.GuiObj.Hwnd, I18n.t("settings.title"))
         setGui.BackColor := Theme.ToBGR(Theme.BG())
         setGui.SetFont("s9", "Segoe UI")
 
@@ -486,31 +452,28 @@ class GuiManager {
         inputStyle := "w280 Background0x" surfHex " c0x" txtHex
 
         setGui.SetFont("s10 bold c0x" accHex)
-        setGui.Add("Text", "xm y+10 w400", "Hotkey de Activacion")
+        setGui.Add("Text", "xm y+10 w400", I18n.t("settings.hotkey"))
         setGui.SetFont("s9 c0x" txtHex)
-        setGui.Add("Text", "xm y+5 w120", "Combinacion:")
-        inputStyleNoBg := "w280 c0x" txtHex
-        triggerCtrl := setGui.Add("Hotkey", "x+10 yp-3 " inputStyleNoBg)
+        setGui.Add("Text", "xm y+5 w120", I18n.t("settings.combo"))
+        triggerCtrl := setGui.Add("Hotkey", "x+10 yp-3 w280 c0x" txtHex)
         triggerCtrl.Value := HotkeyManager.GetCurrentTrigger()
 
-        applyTriggerBtn := setGui.Add("Button", "x+10 yp w100 h23", "Aplicar")
+        applyTriggerBtn := setGui.Add("Button", "x+10 yp w100 h23", I18n.t("settings.apply"))
         applyTriggerBtn.OnEvent("Click", (*) => ApplyTrigger(triggerCtrl))
 
-        ; Default mode
         setGui.SetFont("s10 bold c0x" accHex)
-        setGui.Add("Text", "xm y+15 w400", "Modo por Defecto")
+        setGui.Add("Text", "xm y+15 w400", I18n.t("settings.default_mode"))
         setGui.SetFont("s9 c0x" txtHex)
         currentMode := HotkeyManager.GetCurrentMode()
         modeInitial := currentMode = "cheatsheet" ? 1 : 2
         modeDDL := setGui.Add("DropDownList", "xm y+5 w280 Choose" modeInitial,
-            ["Cheatsheet (ver atajos)", "Remap (ejecutar atajos)"])
+            [I18n.t("settings.mode_cheatsheet"), I18n.t("settings.mode_remap")])
 
-        applyModeBtn := setGui.Add("Button", "x+10 yp w100 h23", "Aplicar")
+        applyModeBtn := setGui.Add("Button", "x+10 yp w100 h23", I18n.t("settings.apply"))
         applyModeBtn.OnEvent("Click", (*) => ApplyMode(modeDDL))
 
-        ; Theme
         setGui.SetFont("s10 bold c0x" accHex)
-        setGui.Add("Text", "xm y+15 w400", "Tema de Color")
+        setGui.Add("Text", "xm y+15 w400", I18n.t("settings.theme"))
         setGui.SetFont("s9 c0x" txtHex)
         themeNames := Theme.GetPresetNames()
         currentTheme := Config.GetTheme()
@@ -523,40 +486,38 @@ class GuiManager {
         }
         themeDDL := setGui.Add("DropDownList", "xm y+5 w280 Choose" themeIdx, themeNames)
 
-        applyThemeBtn := setGui.Add("Button", "x+10 yp w100 h23", "Aplicar")
+        applyThemeBtn := setGui.Add("Button", "x+10 yp w100 h23", I18n.t("settings.apply"))
         applyThemeBtn.OnEvent("Click", (*) => ApplyTheme(setGui, themeDDL))
 
-        ; Preview
         setGui.Add("Text", "xm y+15 h40 w420 Background0x" Format("{:06X}", Theme.ToBGR(Theme.BG())))
 
-        ; Close button
         setGui.SetFont("s9 c0x" accHex)
-        closeBtn := setGui.Add("Button", "xm y+15 w120 h30 Background0x" surfHex, "Cerrar")
+        closeBtn := setGui.Add("Button", "xm y+15 w120 h30 Background0x" surfHex, I18n.t("settings.close"))
         closeBtn.OnEvent("Click", (*) => setGui.Destroy())
         setGui.OnEvent("Escape", (*) => setGui.Destroy())
 
         ApplyTrigger(ctrl) {
             val := ctrl.Value
             if (val = "") {
-                MsgBox("Presiona una combinacion valida.", "Key Atlas", "Icon!")
+                MsgBox(I18n.t("msg.press_valid"), "Key Atlas", "Icon!")
                 return
             }
             Config.SetTriggerHotkey(val)
             Config.Save()
             HotkeyManager.UpdateTrigger()
-            MsgBox("Hotkey actualizado.", "Key Atlas")
+            MsgBox(I18n.t("msg.apply_hotkey"), "Key Atlas")
         }
 
         ApplyMode(ddl) {
             newMode := ddl.Value = 1 ? "cheatsheet" : "remap"
             HotkeyManager.SwitchMode(newMode)
-            MsgBox("Modo: " newMode, "Key Atlas")
+            MsgBox(I18n.t("msg.apply_mode") newMode, "Key Atlas")
         }
 
         ApplyTheme(parentGui, ddl) {
             name := ddl.Text
             Theme.Apply(name)
-            MsgBox("Tema '" name "' aplicado. La ventana se reiniciara.", "Key Atlas")
+            MsgBox(I18n.t("msg.apply_theme") name I18n.t("msg.theme_restart"), "Key Atlas")
             parentGui.Destroy()
             this.Close()
             this.Show()
@@ -570,7 +531,7 @@ class GuiManager {
     ; ==========================================================
 
     static _ShowAutoAssign() {
-        agui := Gui("+Owner" this.GuiObj.Hwnd, "Key Atlas - Asignacion Automatica")
+        agui := Gui("+Owner" this.GuiObj.Hwnd, I18n.t("auto.title"))
         agui.BackColor := Theme.ToBGR(Theme.BG())
         agui.SetFont("s9", "Segoe UI")
 
@@ -583,102 +544,90 @@ class GuiManager {
         inputStyle := "w320 Background0x" surfHex " c0x" txtHex
 
         agui.SetFont("s10 bold c0x" accHex)
-        agui.Add("Text", "xm y+10 w500",
-            "Generar atajos automaticamente a partir de un conjunto de teclas")
+        agui.Add("Text", "xm y+10 w500", I18n.t("auto.desc"))
 
-        ; Program selector
         agui.SetFont("s9 c0x" txtHex)
-        agui.Add("Text", "xm y+10 w100", "Programa:")
+        agui.Add("Text", "xm y+10 w100", I18n.t("auto.program"))
         progNames := Database.GetPrograms()
         progItems := Array()
-        progItems.Push("--- Seleccionar ---")
+        progItems.Push(I18n.t("auto.select"))
         for p in progNames
             progItems.Push(p)
         aaProgDDL := agui.Add("DropDownList", "x+10 yp-3 w320 Choose1", progItems)
 
-        agui.Add("Text", "xm y+5 w100", "Categoria:")
+        agui.Add("Text", "xm y+5 w100", I18n.t("auto.category"))
         catNames := Database.GetCategories()
         catItems := Array()
-        catItems.Push("--- Todas ---")
+        catItems.Push(I18n.t("auto.all"))
         for c in catNames
             catItems.Push(c)
         aaCatDDL := agui.Add("DropDownList", "x+10 yp-3 w320 Choose1", catItems)
 
-        ; Key pool
-        agui.Add("Text", "xm y+5 w100", "Teclas disponibles:")
+        agui.Add("Text", "xm y+5 w100", I18n.t("auto.keys"))
         aaKeyPool := agui.Add("Edit", "x+10 yp-3 " inputStyle,
             "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z")
         agui.SetFont("s8 c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())))
-        agui.Add("Text", "x+10 y+1 w320",
-            "Lista de teclas separadas por coma. Se asignaran en orden.")
+        agui.Add("Text", "x+10 y+1 w320", I18n.t("auto.keys_hint"))
 
-        ; Prefix
         agui.SetFont("s9 c0x" txtHex)
-        agui.Add("Text", "xm y+5 w100", "Prefijo:")
+        agui.Add("Text", "xm y+5 w100", I18n.t("auto.prefix"))
         aaPrefix := agui.Add("Edit", "x+10 yp-3 " inputStyle,
             HotkeyManager.FormatForDisplay(HotkeyManager.GetCurrentTrigger()))
 
-        ; Category prefix mapping
         agui.SetFont("s10 bold c0x" accHex)
-        agui.Add("Text", "xm y+10 w500", "Prefijos por Categoria (opcional)")
+        agui.Add("Text", "xm y+10 w500", I18n.t("auto.cat_prefix"))
         agui.SetFont("s9 c0x" txtHex)
-        agui.Add("Text", "xm y+2 w100", "Formato:")
+        agui.Add("Text", "xm y+2 w100", "Format:")
         aaCatPrefix := agui.Add("Edit", "x+10 yp-3 " inputStyle,
-            "f=Buscar, e=Editar, n=Navegar, v=Ver")
+            "f=Search, e=Edit, n=Navigate, v=View")
         agui.SetFont("s8 c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())))
-        agui.Add("Text", "x+10 y+1 w320",
-            "letra=nombre_categoria. Se usara como prefijo en las teclas trigger.")
+        agui.Add("Text", "x+10 y+1 w320", I18n.t("auto.cat_prefix_hint"))
 
-        ; Generate button
         agui.Add("Text", "xm y+15 w100", "")
         agui.SetFont("s10 bold c0x" accHex)
         genBtn := agui.Add("Button", "x+10 yp-3 w180 h32 Background0x" surfHex,
-            "Generar Asignaciones")
+            I18n.t("auto.generate"))
         genBtn.OnEvent("Click", (*) => GenerateAssignments(agui))
 
         cancelBtn := agui.Add("Button",
             "x+10 yp w120 h32 Background0x" surfHex .
             " c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())),
-            "Cancelar")
+            I18n.t("editor.cancel"))
         cancelBtn.OnEvent("Click", (*) => agui.Destroy())
         agui.OnEvent("Escape", (*) => agui.Destroy())
 
         GenerateAssignments(gui) {
             prog := aaProgDDL.Text
-            if (prog = "--- Seleccionar ---") {
-                MsgBox("Selecciona un programa.", "Key Atlas", "Icon!")
+            selText := I18n.t("auto.select")
+            if (prog = selText) {
+                MsgBox(I18n.t("msg.select_program"), "Key Atlas", "Icon!")
                 return
             }
 
             catFilter := aaCatDDL.Text
-            if (catFilter = "--- Todas ---")
+            if (catFilter = I18n.t("auto.all"))
                 catFilter := ""
 
-            ; Parse key pool
-            poolRaw := aaKeyPool.Value
             pool := Array()
-            for part in StrSplit(poolRaw, ",") {
+            for part in StrSplit(aaKeyPool.Value, ",") {
                 key := Trim(part)
                 if (key != "")
                     pool.Push(key)
             }
 
             if (pool.Length = 0) {
-                MsgBox("Define al menos una tecla disponible.", "Key Atlas", "Icon!")
+                MsgBox(I18n.t("msg.define_key"), "Key Atlas", "Icon!")
                 return
             }
 
-            ; Parse category prefixes
             catPrefixMap := Map()
-            cpRaw := aaCatPrefix.Value
-            for part in StrSplit(cpRaw, ",") {
+            for part in StrSplit(aaCatPrefix.Value, ",") {
                 part := Trim(part)
                 parts := StrSplit(part, "=")
                 if (parts.Length = 2)
                     catPrefixMap[Trim(parts[1])] := Trim(parts[2])
             }
 
-            ; Get shortcuts for this program/category
             candidates := Array()
             for sc in Database.GetAll() {
                 p := sc.Has("program") ? sc["program"] : ""
@@ -690,11 +639,10 @@ class GuiManager {
             }
 
             if (candidates.Length = 0) {
-                MsgBox("No hay atajos para '" prog "' en la base de datos.", "Key Atlas", "Icon!")
+                MsgBox(I18n.t("msg.no_shortcuts_for") prog I18n.t("msg.in_db"), "Key Atlas", "Icon!")
                 return
             }
 
-            ; Assign keys
             poolIdx := 1
             assigned := 0
             for sc in candidates {
@@ -702,9 +650,8 @@ class GuiManager {
                     break
 
                 key := pool[poolIdx]
-                cat := sc.Has("category") ? sc["category"] : "General"
+                cat := sc.Has("category") ? sc["category"] : I18n.t("category.general")
 
-                ; Build trigger: optional category prefix + key
                 catLetter := ""
                 for letter, catName in catPrefixMap {
                     if (catName = cat) {
@@ -723,8 +670,7 @@ class GuiManager {
             Database.Save()
             gui.Destroy()
             this._RefreshView()
-            MsgBox(assigned " atajos asignados para '" prog "'`n" .
-                "Revisa los triggers generados en la lista.", "Key Atlas")
+            MsgBox(assigned I18n.t("msg.assigned1") prog I18n.t("msg.assigned2"), "Key Atlas")
         }
 
         agui.Show("AutoSize Center")

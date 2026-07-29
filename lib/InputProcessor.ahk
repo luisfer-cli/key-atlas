@@ -56,7 +56,7 @@ class InputProcessor {
         dimColor := Format("{:06X}", Theme.ToBGR(Theme.TXTDIM()))
 
         this.GuiObj.SetFont("s12 bold c0x" accColor, "Segoe UI")
-        this.GuiObj.Add("Text", "xm w400 Center", "Key Atlas - Modo Remap")
+        this.GuiObj.Add("Text", "xm w400 Center", I18n.t("remap.title"))
 
         this.GuiObj.SetFont("s10 c0x" txtColor, "Consolas")
 
@@ -68,17 +68,14 @@ class InputProcessor {
         this.GuiObj.Add("Text", "xm y+10 h2 w400 Background0x" Format("{:06X}", Theme.ToBGR(Theme.BDR())))
 
         this.GuiObj.SetFont("s18 bold c0x" txtColor, "Consolas")
-        this.KeysDisplay := this.GuiObj.Add("Text", "xm y+8 w400 Center", "Esperando teclas...")
+        this.KeysDisplay := this.GuiObj.Add("Text", "xm y+8 w400 Center", I18n.t("remap.waiting"))
 
         this.GuiObj.SetFont("s9 c0x" dimColor, "Segoe UI")
-        this.StatusDisplay := this.GuiObj.Add("Text", "xm y+4 w400 Center",
-            "Escribe la secuencia o combinacion de teclas")
+        this.StatusDisplay := this.GuiObj.Add("Text", "xm y+4 w400 Center", I18n.t("remap.hint"))
 
         this.GuiObj.SetFont("s8 c0x" dimColor, "Segoe UI")
         this.GuiObj.Add("Text", "xm y+10 w400 Center",
-            "[Esc] cancelar  |  [" .
-            HotkeyManager.FormatForDisplay(HotkeyManager.GetCurrentTrigger()) .
-            "] activar de nuevo")
+            I18n.t("remap.footer"))
 
         this.GuiObj.Show("AutoSize NoActivate xCenter yCenter")
     }
@@ -236,18 +233,18 @@ class InputProcessor {
         }
 
         if (partialMatches.Length = 1) {
-            this._UpdateStatus("Encontrado: " partialMatches[1]["description"] .
-                " [Enter para ejecutar]")
+            this._UpdateStatus(I18n.t("remap.found") partialMatches[1]["description"] .
+                I18n.t("remap.press_enter"))
         } else if (partialMatches.Length > 1) {
-            this._UpdateStatus(partialMatches.Length . " coincidencias parciales...")
+            this._UpdateStatus(partialMatches.Length . I18n.t("remap.partial"))
         } else {
-            this._UpdateStatus("Sin coincidencias - [Esc] para cancelar")
+            this._UpdateStatus(I18n.t("remap.no_match"))
         }
     }
 
     static _ExecuteShortcut(shortcut) {
         if (!shortcut.Has("targetKeys") || shortcut["targetKeys"] = "") {
-            this._UpdateStatus("Error: sin teclas destino definidas")
+            this._UpdateStatus(I18n.t("remap.err_target"))
             return
         }
 
@@ -255,9 +252,9 @@ class InputProcessor {
         try {
             SetKeyDelay(-1, -1)
             Send(targetKeys)
-            this._UpdateStatus("Ejecutado: " shortcut["description"])
+            this._UpdateStatus(I18n.t("remap.executed") shortcut["description"])
         } catch as err {
-            this._UpdateStatus("Error: " err.Message)
+            this._UpdateStatus(I18n.t("remap.err_prefix") err.Message)
         }
     }
 
@@ -267,7 +264,7 @@ class InputProcessor {
 
     static _UpdateDisplay() {
         if (this.AccumulatedKeys = "") {
-            this.KeysDisplay.Text := "Esperando teclas..."
+            this.KeysDisplay.Text := I18n.t("remap.waiting")
         } else {
             displayKeys := HotkeyManager.FormatForDisplay(this.AccumulatedKeys)
             this.KeysDisplay.Text := displayKeys

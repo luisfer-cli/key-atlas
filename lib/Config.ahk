@@ -107,6 +107,7 @@ class Config {
 
     static _CreateDefault() {
         this.Data := Map()
+        this.Data["lang"] := "en"
         this.Data["triggerHotkey"] := "^+Space"
         this.Data["defaultMode"] := "cheatsheet"
         this.Data["theme"] := "dark"
