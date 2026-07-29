@@ -37,7 +37,9 @@ Init() {
 
     HotkeyManager.Init(OnTriggerActivated)
 
-    TraySetIcon(A_ScriptDir . "\assets\icon.ico")
+    iconPath := A_ScriptDir . "\assets\icon.ico"
+    if FileExist(iconPath)
+        TraySetIcon(iconPath)
     A_IconTip := "Key Atlas - Asistente de Atajos" .
         "`nTrigger: " . HotkeyManager.FormatForDisplay(HotkeyManager.GetCurrentTrigger()) .
         "`nModo: " . HotkeyManager.GetCurrentMode()
