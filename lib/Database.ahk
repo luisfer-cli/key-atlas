@@ -229,8 +229,9 @@ class Database {
         if (arrLen <= 1)
             return
         Loop arrLen - 1 {
+            outerIdx := A_Index
             swapped := false
-            Loop arrLen - A_Index {
+            Loop arrLen - outerIdx {
                 if (StrLower(arr[A_Index]) > StrLower(arr[A_Index + 1])) {
                     temp := arr[A_Index]
                     arr[A_Index] := arr[A_Index + 1]
