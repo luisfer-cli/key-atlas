@@ -142,7 +142,7 @@ class CheatsheetGui {
                 mode := shortcut.Has("mode") ? shortcut["mode"] : "remap"
                 modeIndicator := mode = "remap" ? "[R]" : "[C]"
 
-                displayText := Format(" {1,-6} {2,-35} {3}",
+                displayText := Format("{1:-6} {2:-35} {3}",
                     modeIndicator, desc, trigger)
 
                 ctrl := this.GuiObj.Add("Text", "xm y+2 w600" . bgOpt, displayText)
