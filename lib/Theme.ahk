@@ -67,7 +67,7 @@ class Theme {
     }
 
     static _RegisterPresets() {
-        ; ----- Catppuccin Mocha (default dark) -----
+        ; ----- Catppuccin Mocha -----
         this.Presets["dark"] := Map(
             "background", "1E1E2E",
             "foreground", "CDD6F4",
@@ -84,7 +84,7 @@ class Theme {
             "textBright", "FFFFFF"
         )
 
-        ; ----- Nord Dark -----
+        ; ----- Nord -----
         this.Presets["nord"] := Map(
             "background", "2E3440",
             "foreground", "D8DEE9",
@@ -92,12 +92,12 @@ class Theme {
             "highlight", "4C566A",
             "border", "434C5E",
             "surface", "3B4252",
-            "overlay", "242933",
+            "overlay", "2E3440",
             "success", "A3BE8C",
             "warning", "EBCB8B",
             "error", "BF616A",
             "text", "D8DEE9",
-            "textDim", "7B88A1",
+            "textDim", "81A1C1",
             "textBright", "ECEFF4"
         )
 
@@ -118,37 +118,37 @@ class Theme {
             "textBright", "FBF1C7"
         )
 
-        ; ----- Tokyo Night -----
+        ; ----- Tokyo Night Storm -----
         this.Presets["tokyonight"] := Map(
-            "background", "1A1B26",
+            "background", "24283B",
             "foreground", "C0CAF5",
             "accent", "7AA2F7",
-            "highlight", "364A82",
-            "border", "565F89",
-            "surface", "24283B",
+            "highlight", "363D5A",
+            "border", "545C7E",
+            "surface", "1F2335",
             "overlay", "1A1B26",
             "success", "9ECE6A",
             "warning", "E0AF68",
             "error", "F7768E",
             "text", "C0CAF5",
             "textDim", "565F89",
-            "textBright", "FFFFFF"
+            "textBright", "A9B1D6"
         )
 
-        ; ----- Catppuccin Latte (light) -----
+        ; ----- Catppuccin Latte -----
         this.Presets["light"] := Map(
             "background", "EFF1F5",
             "foreground", "4C4F69",
             "accent", "1E66F5",
             "highlight", "CCD0DA",
-            "border", "9CA0B0",
+            "border", "BCC0CC",
             "surface", "E6E9EF",
-            "overlay", "EFF1F5",
+            "overlay", "DCE0E8",
             "success", "40A02B",
             "warning", "DF8E1D",
             "error", "D20F39",
             "text", "4C4F69",
-            "textDim", "8C8FA1",
+            "textDim", "6C6F85",
             "textBright", "1E1E2E"
         )
 
@@ -162,7 +162,7 @@ class Theme {
             "surface", "343746",
             "overlay", "21222C",
             "success", "50FA7B",
-            "warning", "F1FA8C",
+            "warning", "FFB86C",
             "error", "FF5555",
             "text", "F8F8F2",
             "textDim", "6272A4",
@@ -176,8 +176,8 @@ class Theme {
             "accent", "268BD2",
             "highlight", "073642",
             "border", "586E75",
-            "surface", "003847",
-            "overlay", "001F28",
+            "surface", "073642",
+            "overlay", "002B36",
             "success", "859900",
             "warning", "B58900",
             "error", "DC322F",
