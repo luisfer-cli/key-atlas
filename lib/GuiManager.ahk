@@ -1,12 +1,14 @@
 ; ============================================================
 ; GuiManager.ahk - Main Configuration Window
+; Redesigned: TreeView hierarchy, separate dialogs, auto-assign
 ; ============================================================
 
 class GuiManager {
     static GuiObj := ""
     static IsVisible := false
-    static TabCtrl := ""
+    static TreeView := ""
     static ShortcutLV := ""
+    static ProgramDDL := ""
     static SearchEdit := ""
     static EditingId := ""
 
@@ -17,15 +19,14 @@ class GuiManager {
             return
         }
         this._CreateGui()
-        this._PopulateListView()
-        this.GuiObj.Show("w820 h600 Center")
+        this._PopulateTreeView()
+        this.GuiObj.Show("w900 h580 Center")
         this.IsVisible := true
     }
 
     static Hide() {
-        if (this.IsVisible) {
+        if (this.IsVisible)
             this.GuiObj.Hide()
-        }
     }
 
     static Close() {
@@ -35,529 +36,696 @@ class GuiManager {
     }
 
     ; ==========================================================
-    ; Internal: Main GUI Creation
+    ; Main GUI Creation
     ; ==========================================================
 
     static _CreateGui() {
-        bgColor := Theme.ToBGR(Theme.BG())
-        txtColor := Theme.ToBGR(Theme.TXT())
+        bg := Theme.ToBGR(Theme.BG())
+        txt := Theme.ToBGR(Theme.TXT())
 
-        this.GuiObj := Gui("+Resize +MinSize640x480", "Key Atlas - Configuracion")
-        this.GuiObj.BackColor := bgColor
-        this.GuiObj.MarginX := 10
-        this.GuiObj.MarginY := 10
-
+        this.GuiObj := Gui("+Resize +MinSize720x420", "Key Atlas - Configuracion")
+        this.GuiObj.BackColor := bg
+        this.GuiObj.MarginX := 8
+        this.GuiObj.MarginY := 8
         this.GuiObj.OnEvent("Close", (*) => this.Close())
         this.GuiObj.OnEvent("Escape", (*) => this.Close())
 
-        this.GuiObj.SetFont("s9 c0x" . Format("{:06X}", txtColor), "Segoe UI")
+        ; ---- Toolbar ----
+        this._CreateToolbar()
 
-        this.TabCtrl := this.GuiObj.Add("Tab3", "w780 h520 +Theme",
-            ["Atajos", "Editor", "Configuracion"])
+        ; ---- Main content area ----
+        ; Left: TreeView (categories)
+        ; Right: ListView (shortcuts)
 
-        this._CreateShortcutsTab()
-        this._CreateEditorTab()
-        this._CreateSettingsTab()
-
-        this.TabCtrl.UseTab()
+        this._CreateTreePanel()
+        this._CreateShortcutPanel()
     }
 
-    ; ==========================================================
-    ; Tab 1: Shortcuts List
-    ; ==========================================================
+    static _CreateToolbar() {
+        txt := Theme.ToBGR(Theme.TXT())
+        acc := Theme.ToBGR(Theme.ACC())
+        surf := Theme.ToBGR(Theme.SURF())
+        dim := Theme.ToBGR(Theme.TXTDIM())
 
-    static _CreateShortcutsTab() {
-        this.TabCtrl.UseTab(1)
+        this.GuiObj.SetFont("s9 c0x" Format("{:06X}", txt), "Segoe UI")
 
-        ; Search bar
-        this.GuiObj.Add("Text", "xm y+5 w60", "Buscar:")
-        this.SearchEdit := this.GuiObj.Add("Edit", "x+5 yp-3 w300")
-        this.SearchEdit.OnEvent("Change", (*) => this._OnSearchChange())
+        this.GuiObj.Add("Text", "xm y+2 w70", "Programa:")
+        this.ProgramDDL := this.GuiObj.Add("DropDownList",
+            "x+2 yp-2 w200 Background0x" Format("{:06X}", surf) .
+            " c0x" Format("{:06X}", txt))
+        this.ProgramDDL.OnEvent("Change", (*) => this._OnProgramChange())
 
-        ; Refresh button
-        btnColor := Theme.ToBGR(Theme.ACC())
-        this.GuiObj.SetFont("s9 bold c0x" . Format("{:06X}", btnColor), "Segoe UI")
-        refreshBtn := this.GuiObj.Add("Button", "x+10 yp w80", "Recargar")
-        refreshBtn.OnEvent("Click", (*) => this._PopulateListView())
+        this.GuiObj.Add("Text", "x+15 yp+2 w50", "Buscar:")
+        this.SearchEdit := this.GuiObj.Add("Edit",
+            "x+2 yp-2 w200 Background0x" Format("{:06X}", surf) .
+            " c0x" Format("{:06X}", txt))
+        this.SearchEdit.OnEvent("Change", (*) => this._OnSearch())
 
-        this.GuiObj.SetFont("s9 c0x" . Format("{:06X}", Theme.ToBGR(Theme.TXT())), "Segoe UI")
+        this.GuiObj.SetFont("s9 c0x" Format("{:06X}", acc), "Segoe UI")
+        autoBtn := this.GuiObj.Add("Button",
+            "x+15 yp-2 w130 Background0x" Format("{:06X}", surf),
+            "Asignar Teclas")
+        autoBtn.OnEvent("Click", (*) => this._ShowAutoAssign())
 
-        ; ListView
+        configBtn := this.GuiObj.Add("Button",
+            "x+5 yp w80 Background0x" Format("{:06X}", surf),
+            "Ajustes")
+        configBtn.OnEvent("Click", (*) => this._ShowSettingsDialog())
+
+        ; Separator line
+        this.GuiObj.Add("Text",
+            "xm y+8 w880 h1 Background0x" Format("{:06X}", Theme.ToBGR(Theme.BDR())))
+    }
+
+    static _CreateTreePanel() {
+        surf := Theme.ToBGR(Theme.SURF())
+        txt := Theme.ToBGR(Theme.TXT())
+
+        this.GuiObj.SetFont("s9 c0x" Format("{:06X}", txt), "Segoe UI")
+        this.GuiObj.Add("Text", "xm y+8 w190 Section", "Categorias por Programa")
+        this.TreeView := this.GuiObj.Add("TreeView",
+            "xs y+2 w190 h400 Background0x" Format("{:06X}", surf) .
+            " c0x" Format("{:06X}", txt))
+        this.TreeView.OnEvent("ItemSelect", (*) => this._OnTreeSelect())
+    }
+
+    static _CreateShortcutPanel() {
+        txt := Theme.ToBGR(Theme.TXT())
+        surf := Theme.ToBGR(Theme.SURF())
+        acc := Theme.ToBGR(Theme.ACC())
+
+        this.GuiObj.SetFont("s9 c0x" Format("{:06X}", txt), "Segoe UI")
+
+        this.GuiObj.Add("Text", "xs+210 ys w400 Section", "Atajos")
         this.ShortcutLV := this.GuiObj.Add("ListView",
-            "xm y+10 w760 r20 Grid -Multi Sort Background0x" .
-            Format("{:06X}", Theme.ToBGR(Theme.SURF())) .
-            " c0x" . Format("{:06X}", Theme.ToBGR(Theme.TXT())),
-            ["ID", "Programa", "Proceso", "Categoria", "Descripcion", "Trigger", "Target", "Modo"])
-        this.ShortcutLV.OnEvent("DoubleClick", (*) => this._OnDoubleClick())
+            "xs y+2 w650 h340 Grid -Multi Background0x" Format("{:06X}", surf) .
+            " c0x" Format("{:06X}", txt),
+            ["Trigger", "Descripcion", "Target", "Proceso", "Categoria", "Modo"])
+        this.ShortcutLV.OnEvent("DoubleClick", (*) => this._EditSelected())
 
-        ; Set column widths
-        this.ShortcutLV.ModifyCol(1, 0)   ; ID hidden
-        this.ShortcutLV.ModifyCol(2, 120)
+        this.ShortcutLV.ModifyCol(1, 120)
+        this.ShortcutLV.ModifyCol(2, 220)
         this.ShortcutLV.ModifyCol(3, 100)
-        this.ShortcutLV.ModifyCol(4, 80)
-        this.ShortcutLV.ModifyCol(5, 160)
-        this.ShortcutLV.ModifyCol(6, 100)
-        this.ShortcutLV.ModifyCol(7, 80)
-        this.ShortcutLV.ModifyCol(8, 50)
+        this.ShortcutLV.ModifyCol(4, 100)
+        this.ShortcutLV.ModifyCol(5, 80)
+        this.ShortcutLV.ModifyCol(6, 50)
 
         ; Action buttons
-        btnColor := Theme.ToBGR(Theme.ACC())
-        surfColor := Theme.ToBGR(Theme.SURF())
+        this.GuiObj.SetFont("s9 c0x" Format("{:06X}", acc), "Segoe UI")
+        btnOpts := "w120 h28 Background0x" Format("{:06X}", surf)
 
-        btnStyle := "w100 h28 Background0x" . Format("{:06X}", surfColor) .
-            " c0x" . Format("{:06X}", btnColor)
+        addBtn := this.GuiObj.Add("Button", "xm y+5 " btnOpts, "Nuevo Atajo")
+        addBtn.OnEvent("Click", (*) => this._ShowEditor())
 
-        this.GuiObj.SetFont("s9 c0x" . Format("{:06X}", btnColor), "Segoe UI")
+        editBtn := this.GuiObj.Add("Button", "x+5 yp " btnOpts, "Editar")
+        editBtn.OnEvent("Click", (*) => this._EditSelected())
 
-        addBtn := this.GuiObj.Add("Button", "xm y+10 " . btnStyle, "Nuevo Atajo")
-        addBtn.OnEvent("Click", (*) => this._OnNewShortcut())
+        delBtn := this.GuiObj.Add("Button",
+            "x+5 yp " btnOpts " c0x" Format("{:06X}", Theme.ToBGR(Theme.GetColor("error"))),
+            "Eliminar")
+        delBtn.OnEvent("Click", (*) => this._DeleteSelected())
 
-        editBtn := this.GuiObj.Add("Button", "x+10 yp " . btnStyle, "Editar")
-        editBtn.OnEvent("Click", (*) => this._OnEditShortcut())
-
-        delBtn := this.GuiObj.Add("Button", "x+10 yp " . btnStyle . " c0x" .
-            Format("{:06X}", Theme.ToBGR(Theme.GetColor("error"))), "Eliminar")
-        delBtn.OnEvent("Click", (*) => this._OnDeleteShortcut())
-
-        exportBtn := this.GuiObj.Add("Button", "x+10 yp " . btnStyle, "Exportar")
-        exportBtn.OnEvent("Click", (*) => this._OnExport())
+        ; Quick info at bottom
+        this.GuiObj.SetFont("s8 c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())), "Segoe UI")
+        this.GuiObj.Add("Text", "xm y+5 w860",
+            "Doble click para editar | " .
+            Database.GetAll().Length " atajos en total")
     }
 
     ; ==========================================================
-    ; Tab 2: Shortcut Editor
+    ; TreeView: Programs > Categories
     ; ==========================================================
 
-    static _CreateEditorTab() {
-        this.TabCtrl.UseTab(2)
+    static _PopulateTreeView() {
+        this.TreeView.Delete()
 
-        txtColor := Theme.ToBGR(Theme.TXT())
-        surfColor := Theme.ToBGR(Theme.SURF())
-        bdrColor := Theme.ToBGR(Theme.BDR())
-        accColor := Theme.ToBGR(Theme.ACC())
+        allProc := Map()
+        for shortcut in Database.GetAll() {
+            prog := shortcut.Has("program") ? shortcut["program"] : "Sin programa"
+            cat := shortcut.Has("category") ? shortcut["category"] : "General"
+            if (cat = "")
+                cat := "General"
 
-        inputStyle := "w350 Background0x" . Format("{:06X}", surfColor) .
-            " c0x" . Format("{:06X}", txtColor)
+            if (!allProc.Has(prog))
+                allProc[prog] := Map()
+            if (!allProc[prog].Has(cat))
+                allProc[prog][cat] := true
+        }
 
-        this.GuiObj.SetFont("s9 c0x" . Format("{:06X}", txtColor), "Segoe UI")
+        ; Sort programs
+        progNames := Array()
+        for prog in allProc
+            progNames.Push(prog)
+        Database._SortArray(&progNames)
 
-        ; Program name
-        this.GuiObj.Add("Text", "xm y+10 w120", "Programa:")
-        this.EdProgram := this.GuiObj.Add("Edit", "x+10 yp-3 " . inputStyle)
+        ; Update program dropdown
+        ddlItems := Array()
+        ddlItems.Push("--- Todos los programas ---")
+        for prog in progNames {
+            ddlItems.Push(prog)
+            ; Add program node
+            progID := this.TreeView.Add(prog, 0, "Expand")
+            ; Sort categories and add them
+            catNames := Array()
+            for cat in allProc[prog]
+                catNames.Push(cat)
+            Database._SortArray(&catNames)
+            for cat in catNames
+                this.TreeView.Add(cat, progID)
+        }
 
-        ; Process name
-        this.GuiObj.Add("Text", "xm y+5 w120", "Proceso (.exe):")
-        this.EdProcess := this.GuiObj.Add("Edit", "x+10 yp-3 " . inputStyle)
+        this.ProgramDDL.Delete()
+        this.ProgramDDL.Add(ddlItems)
+        this.ProgramDDL.Choose(1)
+    }
 
-        ; Detect from active window
-        detectBtn := this.GuiObj.Add("Button", "x+10 yp-3 w160 h23",
-            "Detectar ventana activa")
-        detectBtn.OnEvent("Click", (*) => this._DetectActiveWindow())
+    static _OnProgramChange() {
+        sel := this.ProgramDDL.Text
+        if (sel = "--- Todos los programas ---") {
+            this._RefreshListView(Database.GetAll())
+            this._SelectFirstTreeItem()
+            return
+        }
+
+        all := Database.GetAll()
+        filtered := Array()
+        for sc in all {
+            prog := sc.Has("program") ? sc["program"] : ""
+            if (prog = sel)
+                filtered.Push(sc)
+        }
+        this._RefreshListView(filtered)
+
+        ; Select first tree item matching this program
+        this._SelectFirstTreeItem()
+    }
+
+    static _OnTreeSelect() {
+        selItem := this.TreeView.GetSelection()
+        if (!selItem)
+            return
+
+        parentID := this.TreeView.GetParent(selItem)
+        selText := this.TreeView.GetText(selItem)
+
+        if (parentID = 0) {
+            ; Program node selected
+            try this.ProgramDDL.Choose(selText)
+            this._RefreshListView(this._GetShortcutsByProgram(selText))
+        } else {
+            ; Category node selected
+            progName := this.TreeView.GetText(parentID)
+            try this.ProgramDDL.Choose(progName)
+            this._RefreshListView(this._GetShortcutsByCategory(progName, selText))
+        }
+    }
+
+    static _OnSearch() {
+        query := this.SearchEdit.Value
+        if (query = "") {
+            this._OnProgramChange()
+            return
+        }
+        results := Database.Search(query)
+        this._RefreshListView(results)
+    }
+
+    static _RefreshListView(shortcuts) {
+        this.ShortcutLV.Delete()
+        for sc in shortcuts {
+            trig := sc.Has("triggerKeys") ? sc["triggerKeys"] : ""
+            desc := sc.Has("description") ? sc["description"] : ""
+            targ := sc.Has("targetKeys") ? sc["targetKeys"] : ""
+            proc := sc.Has("process") ? sc["process"] : ""
+            cat  := sc.Has("category") ? sc["category"] : ""
+            mode := sc.Has("mode") ? sc["mode"] : "remap"
+            this.ShortcutLV.Add(, trig, desc, targ, proc, cat, mode)
+        }
+        this.ShortcutLV.ModifyCol(1, 120)
+        this.ShortcutLV.ModifyCol(2, 220)
+    }
+
+    static _GetShortcutsByProgram(progName) {
+        results := Array()
+        for sc in Database.GetAll() {
+            p := sc.Has("program") ? sc["program"] : ""
+            if (p = progName)
+                results.Push(sc)
+        }
+        return results
+    }
+
+    static _GetShortcutsByCategory(progName, catName) {
+        results := Array()
+        for sc in Database.GetAll() {
+            p := sc.Has("program") ? sc["program"] : ""
+            c := sc.Has("category") ? sc["category"] : "General"
+            if (c = "")
+                c := "General"
+            if (p = progName && c = catName)
+                results.Push(sc)
+        }
+        return results
+    }
+
+    static _SelectFirstTreeItem() {
+        firstItem := this.TreeView.GetNext()
+        if (firstItem)
+            this.TreeView.Modify(firstItem, "Select VisFirst")
+    }
+
+    ; ==========================================================
+    ; Shortcut Editor Dialog
+    ; ==========================================================
+
+    static _ShowEditor(shortcutData := "") {
+        isEditing := shortcutData != "" && shortcutData is Map
+
+        editGui := Gui("+Owner" this.GuiObj.Hwnd,
+            isEditing ? "Key Atlas - Editar Atajo" : "Key Atlas - Nuevo Atajo")
+        editGui.BackColor := Theme.ToBGR(Theme.BG())
+        editGui.SetFont("s9", "Segoe UI")
+
+        txt := Theme.ToBGR(Theme.TXT())
+        surf := Theme.ToBGR(Theme.SURF())
+        acc := Theme.ToBGR(Theme.ACC())
+        bdr := Theme.ToBGR(Theme.BDR())
+
+        txtColor := Format("{:06X}", txt)
+        surfColor := Format("{:06X}", surf)
+        accColor := Format("{:06X}", acc)
+        inputStyle := "w350 Background0x" surfColor " c0x" txtColor
+
+        editGui.SetFont("s9 c0x" txtColor)
+
+        ; Program
+        editGui.Add("Text", "xm y+10 w100", "Programa:")
+        edProgram := editGui.Add("Edit", "x+10 yp-3 " inputStyle)
+        edProgram.Value := isEditing && shortcutData.Has("program") ? shortcutData["program"] : ""
+
+        ; Process
+        editGui.Add("Text", "xm y+5 w100", "Proceso (.exe):")
+        edProcess := editGui.Add("Edit", "x+10 yp-3 " inputStyle)
+        edProcess.Value := isEditing && shortcutData.Has("process") ? shortcutData["process"] : ""
+
+        detectBtn := editGui.Add("Button", "x+10 yp w160 h23", "Detectar Ventana Activa")
+        detectBtn.OnEvent("Click", (*) => DetectWindow(edProgram, edProcess))
+
+        DetectWindow(edProg, edProc) {
+            edProg.Value := WinGetTitle("A")
+            edProc.Value := WinGetProcessName("A")
+        }
 
         ; Category
-        this.GuiObj.Add("Text", "xm y+5 w120", "Categoria:")
-        this.EdCategory := this.GuiObj.Add("Edit", "x+10 yp-3 " . inputStyle)
+        editGui.Add("Text", "xm y+5 w100", "Categoria:")
+        edCategory := editGui.Add("Edit", "x+10 yp-3 " inputStyle)
+        edCategory.Value := isEditing && shortcutData.Has("category") ? shortcutData["category"] : ""
 
         ; Description
-        this.GuiObj.Add("Text", "xm y+5 w120", "Descripcion:")
-        this.EdDescription := this.GuiObj.Add("Edit", "x+10 yp-3 " . inputStyle)
+        editGui.Add("Text", "xm y+5 w100", "Descripcion:")
+        edDesc := editGui.Add("Edit", "x+10 yp-3 " inputStyle)
+        edDesc.Value := isEditing && shortcutData.Has("description") ? shortcutData["description"] : ""
 
-        ; Trigger keys
-        this.GuiObj.Add("Text", "xm y+5 w120", "Teclas Trigger:")
-        this.EdTrigger := this.GuiObj.Add("Edit", "x+10 yp-3 " . inputStyle)
-        this.GuiObj.Add("Text", "x+10 y+0 w350",
-            "Combinacional: Ctrl+S | Secuencial: g d | O usa: ^!+s")
+        ; Trigger Keys
+        editGui.Add("Text", "xm y+5 w100", "Teclas Trigger:")
+        edTrigger := editGui.Add("Edit", "x+10 yp-3 " inputStyle)
+        edTrigger.Value := isEditing && shortcutData.Has("triggerKeys") ? shortcutData["triggerKeys"] : ""
+        editGui.SetFont("s8 c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())))
+        editGui.Add("Text", "x+10 y+1 w350",
+            "Combinacional: Ctrl+S | Secuencial: g d | AHK: ^s +!f")
 
-        ; Target keys (AHK Send format)
-        this.GuiObj.Add("Text", "xm y+5 w120", "Teclas Target:")
-        this.EdTarget := this.GuiObj.Add("Edit", "x+10 yp-3 " . inputStyle)
-        this.GuiObj.Add("Text", "x+10 y+0 w350",
-            "Formato AHK Send: ^s (Ctrl+S), !f (Alt+F), +{Tab}")
+        ; Target Keys
+        editGui.SetFont("s9 c0x" txtColor)
+        editGui.Add("Text", "xm y+5 w100", "Teclas Target:")
+        edTarget := editGui.Add("Edit", "x+10 yp-3 " inputStyle)
+        edTarget.Value := isEditing && shortcutData.Has("targetKeys") ? shortcutData["targetKeys"] : ""
 
         ; Mode
-        this.GuiObj.Add("Text", "xm y+5 w120", "Modo:")
-        this.CbMode := this.GuiObj.Add("DropDownList", "x+10 yp-3 w200 Choose1",
-            ["remap (ejecuta target)", "cheatsheet (solo mostrar)"])
+        editGui.Add("Text", "xm y+5 w100", "Modo:")
+        cbMode := editGui.Add("DropDownList", "x+10 yp-3 w200 Choose1",
+            ["remap (ejecuta atajo)", "cheatsheet (solo mostrar)"])
+        if (isEditing && shortcutData.Has("mode") && shortcutData["mode"] = "cheatsheet")
+            cbMode.Choose(2)
 
         ; Action buttons
-        this.GuiObj.Add("Text", "xm y+20 w120", "")
-        surfColor := Theme.ToBGR(Theme.SURF())
-        btnStyle := "w150 h30 Background0x" . Format("{:06X}", surfColor) .
-            " c0x" . Format("{:06X}", accColor)
+        editGui.Add("Text", "xm y+15 w100", "")
+        editGui.SetFont("s10 bold c0x" accColor)
 
-        this.GuiObj.SetFont("s10 bold c0x" . Format("{:06X}", accColor), "Segoe UI")
+        saveBtn := editGui.Add("Button",
+            "x+10 yp-3 w150 h32 Background0x" surfColor, "Guardar")
+        saveBtn.OnEvent("Click", (*) => SaveShortcut(editGui))
 
-        saveBtn := this.GuiObj.Add("Button", "x+10 yp-3 " . btnStyle, "Guardar Atajo")
-        saveBtn.OnEvent("Click", (*) => this._SaveShortcut())
+        cancelBtn := editGui.Add("Button",
+            "x+10 yp w150 h32 Background0x" surfColor .
+            " c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())),
+            "Cancelar")
+        cancelBtn.OnEvent("Click", (*) => editGui.Destroy())
 
-        cancelBtn := this.GuiObj.Add("Button", "x+10 yp " . btnStyle . " c0x" .
-            Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())), "Cancelar")
-        cancelBtn.OnEvent("Click", (*) => this._ClearEditor())
+        editGui.OnEvent("Escape", (*) => editGui.Destroy())
 
-        ; Hidden control for editing ID
-        this.EdId := this.GuiObj.Add("Edit", "x0 y0 w0 h0 Hidden")
-    }
+        SaveShortcut(gui) {
+            data := Map()
+            data["program"] := edProgram.Value
+            data["process"] := edProcess.Value
+            data["category"] := edCategory.Value
+            data["description"] := edDesc.Value
+            data["triggerKeys"] := edTrigger.Value
+            data["targetKeys"] := edTarget.Value
+            data["mode"] := cbMode.Value = 2 ? "cheatsheet" : "remap"
 
-    ; ==========================================================
-    ; Tab 3: Settings
-    ; ==========================================================
-
-    static _CreateSettingsTab() {
-        this.TabCtrl.UseTab(3)
-
-        txtColor := Theme.ToBGR(Theme.TXT())
-        surfColor := Theme.ToBGR(Theme.SURF())
-        accColor := Theme.ToBGR(Theme.ACC())
-
-        inputStyle := "w300 Background0x" . Format("{:06X}", surfColor) .
-            " c0x" . Format("{:06X}", txtColor)
-
-        this.GuiObj.SetFont("s9 c0x" . Format("{:06X}", txtColor), "Segoe UI")
-
-        ; ---- Trigger Hotkey ----
-        this.GuiObj.SetFont("s10 bold c0x" . Format("{:06X}", accColor), "Segoe UI")
-        this.GuiObj.Add("Text", "xm y+10 w200", "Hotkey de Activacion")
-        this.GuiObj.SetFont("s9 c0x" . Format("{:06X}", txtColor), "Segoe UI")
-
-        this.GuiObj.Add("Text", "xm y+5 w120", "Combinacion:")
-        this.SettingsTrigger := this.GuiObj.Add("Hotkey", "x+10 yp-3 w300 c0x" .
-            Format("{:06X}", txtColor))
-        this.SettingsTrigger.Value := HotkeyManager.GetCurrentTrigger()
-
-        applyTriggerBtn := this.GuiObj.Add("Button", "x+10 yp-3 w100 h23",
-            "Aplicar")
-        applyTriggerBtn.OnEvent("Click", (*) => this._ApplyTrigger())
-
-        ; ---- Default Mode ----
-        this.GuiObj.SetFont("s10 bold c0x" . Format("{:06X}", accColor), "Segoe UI")
-        this.GuiObj.Add("Text", "xm y+15 w200", "Modo por Defecto")
-        this.GuiObj.SetFont("s9 c0x" . Format("{:06X}", txtColor), "Segoe UI")
-
-        currentMode := HotkeyManager.GetCurrentMode()
-        initialMode := currentMode = "cheatsheet" ? 1 : 2
-        this.SettingsMode := this.GuiObj.Add("DropDownList",
-            "xm y+5 w300 Choose" . initialMode,
-            ["Cheatsheet (ver atajos del programa activo)",
-             "Remap (ejecutar atajos directamente)"])
-
-        applyModeBtn := this.GuiObj.Add("Button", "x+10 yp-3 w100 h23", "Aplicar")
-        applyModeBtn.OnEvent("Click", (*) => this._ApplyMode())
-
-        ; ---- Theme ----
-        this.GuiObj.SetFont("s10 bold c0x" . Format("{:06X}", accColor), "Segoe UI")
-        this.GuiObj.Add("Text", "xm y+15 w200", "Tema de Color")
-        this.GuiObj.SetFont("s9 c0x" . Format("{:06X}", txtColor), "Segoe UI")
-
-        currentTheme := Config.GetTheme()
-        themeNames := Theme.GetPresetNames()
-        themeInitial := 1
-        for i, name in themeNames {
-            if (name = currentTheme) {
-                themeInitial := i
-                break
+            if (data["description"] = "") {
+                MsgBox("La descripcion es obligatoria.", "Key Atlas", "Icon!")
+                return
             }
-        }
-
-        this.SettingsTheme := this.GuiObj.Add("DropDownList",
-            "xm y+5 w300 Choose" . themeInitial, themeNames)
-        this.SettingsTheme.OnEvent("Change", (*) => this._PreviewTheme())
-
-        applyThemeBtn := this.GuiObj.Add("Button", "x+10 yp-3 w100 h23", "Aplicar")
-        applyThemeBtn.OnEvent("Click", (*) => this._ApplyTheme())
-
-        ; ---- Theme Preview ----
-        this.GuiObj.SetFont("s10 bold c0x" . Format("{:06X}", accColor), "Segoe UI")
-        this.GuiObj.Add("Text", "xm y+15 w200", "Vista Previa")
-        this.GuiObj.SetFont("s9 c0x" . Format("{:06X}", txtColor), "Segoe UI")
-
-        previewW := 400
-        previewH := 100
-        this.ThemePreview := this.GuiObj.Add("Text",
-            "xm y+5 w" . previewW . " h" . previewH .
-            " Background0x" . Format("{:06X}", Theme.ToBGR(Theme.BG())), "")
-
-        ; ---- Color Customization ----
-        this.GuiObj.SetFont("s10 bold c0x" . Format("{:06X}", accColor), "Segoe UI")
-        this.GuiObj.Add("Text", "xm y+20 w300", "Colores Personalizados")
-        this.GuiObj.SetFont("s9 c0x" . Format("{:06X}", txtColor), "Segoe UI")
-
-        colorDefs := [
-            ["background",  "Fondo principal"],
-            ["foreground",  "Texto general"],
-            ["accent",      "Color de acento"],
-            ["highlight",   "Resaltado"],
-            ["border",      "Bordes"],
-            ["surface",     "Superficies"],
-            ["overlay",     "Fondo overlay"],
-            ["text",        "Texto principal"],
-            ["textDim",     "Texto secundario"],
-            ["textBright",  "Texto brillante"]
-        ]
-
-        yPos := 0
-        xPos := 0
-        this.ColorEdits := Map()
-
-        for i, def in colorDefs {
-            key := def[1]
-            label := def[2]
-            col := i <= 5 ? 0 : 1
-            if (col = 0) {
-                xPos := 10
-                yPos += i = 1 ? 5 : 5
-            } else if (i = 6) {
-                xPos := 420
-                yPos := 5
+            if (data["triggerKeys"] = "") {
+                MsgBox("Las teclas trigger son obligatorias.", "Key Atlas", "Icon!")
+                return
             }
 
-            this.GuiObj.Add("Text", "xm w110 y+5", label . ":")
-            edit := this.GuiObj.Add("Edit",
-                "x+5 yp-3 w80 Background0x" . Format("{:06X}", surfColor) .
-                " c0x" . Format("{:06X}", txtColor) . " Limit6")
-            edit.Value := Config.Get("colors." . key, "FFFFFF")
-            this.ColorEdits[key] := edit
+            if (isEditing && shortcutData.Has("id")) {
+                Database.Update(shortcutData["id"], data)
+            } else {
+                data["id"] := ""
+                Database.Add(data)
+            }
 
-            preview := this.GuiObj.Add("Text",
-                "x+5 yp w24 h20 Background0x" .
-                Format("{:06X}", Theme.ToBGR(Config.Get("colors." . key, "FFFFFF"))))
-            this.ColorEdits[key . "_preview"] := preview
+            gui.Destroy()
+            this._RefreshView()
         }
 
-        ; Apply colors button
-        applyColorsBtn := this.GuiObj.Add("Button",
-            "xm y+10 w150 h30 Background0x" . Format("{:06X}", Theme.ToBGR(Theme.SURF())) .
-            " c0x" . Format("{:06X}", accColor), "Aplicar Colores")
-        applyColorsBtn.OnEvent("Click", (*) => this._ApplyColors())
-
-        resetColorsBtn := this.GuiObj.Add("Button",
-            "x+10 yp w150 h30 Background0x" . Format("{:06X}", Theme.ToBGR(Theme.SURF())) .
-            " c0x" . Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())), "Restaurar Tema")
-        resetColorsBtn.OnEvent("Click", (*) => this._ResetColors())
+        editGui.Show("AutoSize Center")
     }
 
-    ; ==========================================================
-    ; Tab 1: ListView Operations
-    ; ==========================================================
-
-    static _PopulateListView() {
-        this.ShortcutLV.Delete()
-        shortcuts := Database.GetAll()
-
-        query := this.SearchEdit.Value
-        if (query != "") {
-            shortcuts := Database.Search(query)
-        }
-
-        for shortcut in shortcuts {
-            id := shortcut.Has("id") ? shortcut["id"] : ""
-            prog := shortcut.Has("program") ? shortcut["program"] : ""
-            proc := shortcut.Has("process") ? shortcut["process"] : ""
-            cat := shortcut.Has("category") ? shortcut["category"] : ""
-            desc := shortcut.Has("description") ? shortcut["description"] : ""
-            trig := shortcut.Has("triggerKeys") ? shortcut["triggerKeys"] : ""
-            targ := shortcut.Has("targetKeys") ? shortcut["targetKeys"] : ""
-            mode := shortcut.Has("mode") ? shortcut["mode"] : "remap"
-
-            this.ShortcutLV.Add(, id, prog, proc, cat, desc, trig, targ, mode)
-        }
-
-        this.ShortcutLV.ModifyCol(1, 0)
-    }
-
-    static _OnSearchChange() {
-        this._PopulateListView()
-    }
-
-    static _OnNewShortcut() {
-        this._ClearEditor()
-        this.TabCtrl.Choose(2)
-    }
-
-    static _OnEditShortcut() {
+    static _EditSelected() {
         row := this.ShortcutLV.GetNext()
         if (row = 0) {
             MsgBox("Selecciona un atajo para editar.", "Key Atlas", "Iconi")
             return
         }
 
-        id := this.ShortcutLV.GetText(row, 1)
-        shortcut := Database.GetById(id)
-        if (shortcut = "")
-            return
-
-        this.EdId.Value := id
-        this.EdProgram.Value := shortcut.Has("program") ? shortcut["program"] : ""
-        this.EdProcess.Value := shortcut.Has("process") ? shortcut["process"] : ""
-        this.EdCategory.Value := shortcut.Has("category") ? shortcut["category"] : ""
-        this.EdDescription.Value := shortcut.Has("description") ? shortcut["description"] : ""
-        this.EdTrigger.Value := shortcut.Has("triggerKeys") ? shortcut["triggerKeys"] : ""
-        this.EdTarget.Value := shortcut.Has("targetKeys") ? shortcut["targetKeys"] : ""
-        this.CbMode.Choose(shortcut.Has("mode") && shortcut["mode"] = "cheatsheet" ? 2 : 1)
-
-        this.TabCtrl.Choose(2)
+        ; Find the shortcut by matching trigger and description
+        trig := this.ShortcutLV.GetText(row, 1)
+        desc := this.ShortcutLV.GetText(row, 2)
+        all := Database.GetAll()
+        for sc in all {
+            t := sc.Has("triggerKeys") ? sc["triggerKeys"] : ""
+            d := sc.Has("description") ? sc["description"] : ""
+            if (t = trig && d = desc) {
+                this._ShowEditor(sc)
+                return
+            }
+        }
     }
 
-    static _OnDoubleClick() {
-        this._OnEditShortcut()
-    }
-
-    static _OnDeleteShortcut() {
+    static _DeleteSelected() {
         row := this.ShortcutLV.GetNext()
         if (row = 0) {
             MsgBox("Selecciona un atajo para eliminar.", "Key Atlas", "Iconi")
             return
         }
 
-        id := this.ShortcutLV.GetText(row, 1)
-        desc := this.ShortcutLV.GetText(row, 5)
+        trig := this.ShortcutLV.GetText(row, 1)
+        desc := this.ShortcutLV.GetText(row, 2)
+        all := Database.GetAll()
 
-        result := MsgBox("Eliminar atajo '" desc "'?", "Key Atlas - Confirmar", "YesNo Icon?")
-        if (result = "Yes") {
-            Database.Delete(id)
-            this._PopulateListView()
-        }
-    }
-
-    static _OnExport() {
-        savePath := FileSelect("S16", A_Desktop . "\keyatlas_export.json",
-            "Exportar atajos", "JSON (*.json)")
-        if (savePath = "")
-            return
-        try {
-            Json.Save(savePath, Database.ExportAll(), 2)
-            MsgBox("Atajos exportados correctamente.", "Key Atlas")
-        } catch as err {
-            MsgBox("Error al exportar: " . err.Message, "Key Atlas", "IconX")
-        }
-    }
-
-    ; ==========================================================
-    ; Tab 2: Editor Operations
-    ; ==========================================================
-
-    static _SaveShortcut() {
-        shortcutData := Map()
-        shortcutData["program"] := this.EdProgram.Value
-        shortcutData["process"] := this.EdProcess.Value
-        shortcutData["category"] := this.EdCategory.Value
-        shortcutData["description"] := this.EdDescription.Value
-        shortcutData["triggerKeys"] := this.EdTrigger.Value
-        shortcutData["targetKeys"] := this.EdTarget.Value
-
-        modeIdx := this.CbMode.Value - 1
-        shortcutData["mode"] := modeIdx = 0 ? "remap" : "cheatsheet"
-
-        if (shortcutData["description"] = "") {
-            MsgBox("La descripcion es obligatoria.", "Key Atlas", "Icon!")
-            return
-        }
-
-        if (shortcutData["triggerKeys"] = "") {
-            MsgBox("Las teclas trigger son obligatorias.", "Key Atlas", "Icon!")
-            return
-        }
-
-        existingId := this.EdId.Value
-        if (existingId != "") {
-            Database.Update(existingId, shortcutData)
-        } else {
-            shortcutData["id"] := ""
-            Database.Add(shortcutData)
-        }
-
-        this._ClearEditor()
-        this.TabCtrl.Choose(1)
-        this._PopulateListView()
-    }
-
-    static _ClearEditor() {
-        this.EdId.Value := ""
-        this.EdProgram.Value := ""
-        this.EdProcess.Value := ""
-        this.EdCategory.Value := ""
-        this.EdDescription.Value := ""
-        this.EdTrigger.Value := ""
-        this.EdTarget.Value := ""
-        try this.CbMode.Choose(1)
-    }
-
-    static _DetectActiveWindow() {
-        this.EdProgram.Value := WinGetTitle("A")
-        this.EdProcess.Value := WinGetProcessName("A")
-    }
-
-    ; ==========================================================
-    ; Tab 3: Settings Operations
-    ; ==========================================================
-
-    static _ApplyTrigger() {
-        newTrigger := this.SettingsTrigger.Value
-        if (newTrigger = "") {
-            MsgBox("Presiona una combinacion de teclas valida.", "Key Atlas", "Icon!")
-            return
-        }
-        Config.SetTriggerHotkey(newTrigger)
-        Config.Save()
-        HotkeyManager.UpdateTrigger()
-        MsgBox("Hotkey '" HotkeyManager.FormatForDisplay(newTrigger) . "' activado.",
-            "Key Atlas")
-    }
-
-    static _ApplyMode() {
-        modeIdx := this.SettingsMode.Value - 1
-        newMode := modeIdx = 0 ? "cheatsheet" : "remap"
-        HotkeyManager.SwitchMode(newMode)
-        MsgBox("Modo cambiado a: " . newMode, "Key Atlas")
-    }
-
-    static _ApplyTheme() {
-        themeName := this.SettingsTheme.Text
-        Theme.Apply(themeName)
-        MsgBox("Tema '" . themeName . "' aplicado. Reinicia la ventana para ver los cambios.",
-            "Key Atlas")
-    }
-
-    static _PreviewTheme() {
-        themeName := this.SettingsTheme.Text
-        preset := Theme.GetPreset(themeName)
-        if (preset.Count > 0) {
-            this.ThemePreview.Opt("Background0x" .
-                Format("{:06X}", Theme.ToBGR(preset["background"])))
-            this.ThemePreview.Redraw()
-        }
-    }
-
-    static _ApplyColors() {
-        for key, edit in this.ColorEdits {
-            if (InStr(key, "_preview"))
-                continue
-            colorVal := edit.Value
-            if (RegExMatch(colorVal, "i)^[0-9A-Fa-f]{6}$")) {
-                Config.Set("colors." . key, StrUpper(colorVal))
+        for sc in all {
+            t := sc.Has("triggerKeys") ? sc["triggerKeys"] : ""
+            d := sc.Has("description") ? sc["description"] : ""
+            if (t = trig && d = desc) {
+                id := sc.Has("id") ? sc["id"] : ""
+                result := MsgBox("Eliminar '" desc "'?", "Key Atlas - Confirmar", "YesNo Icon?")
+                if (result = "Yes") {
+                    Database.Delete(id)
+                    this._RefreshView()
+                }
+                return
             }
         }
-        Config.Save()
-        MsgBox("Colores personalizados guardados. Reinicia la ventana para ver los cambios.",
-            "Key Atlas")
     }
 
-    static _ResetColors() {
-        themeName := Config.GetTheme()
-        Theme.Apply(themeName)
-        this._RefreshColorEdits()
-        MsgBox("Colores restaurados al tema '" . themeName . "'.", "Key Atlas")
+    static _RefreshView() {
+        this._PopulateTreeView()
+        this._OnProgramChange()
     }
 
-    static _RefreshColorEdits() {
-        for key, edit in this.ColorEdits {
-            if (InStr(key, "_preview"))
-                continue
-            edit.Value := Config.Get("colors." . key, "FFFFFF")
-            previewKey := key . "_preview"
-            if (this.ColorEdits.Has(previewKey)) {
-                this.ColorEdits[previewKey].Opt("Background0x" .
-                    Format("{:06X}", Theme.ToBGR(Config.Get("colors." . key, "FFFFFF"))))
-                this.ColorEdits[previewKey].Redraw()
+    ; ==========================================================
+    ; Settings Dialog
+    ; ==========================================================
+
+    static _ShowSettingsDialog() {
+        setGui := Gui("+Owner" this.GuiObj.Hwnd, "Key Atlas - Ajustes")
+        setGui.BackColor := Theme.ToBGR(Theme.BG())
+        setGui.SetFont("s9", "Segoe UI")
+
+        txt := Theme.ToBGR(Theme.TXT())
+        surf := Theme.ToBGR(Theme.SURF())
+        acc := Theme.ToBGR(Theme.ACC())
+        surfHex := Format("{:06X}", surf)
+        txtHex := Format("{:06X}", txt)
+        accHex := Format("{:06X}", acc)
+        inputStyle := "w280 Background0x" surfHex " c0x" txtHex
+
+        setGui.SetFont("s10 bold c0x" accHex)
+        setGui.Add("Text", "xm y+10 w400", "Hotkey de Activacion")
+        setGui.SetFont("s9 c0x" txtHex)
+        setGui.Add("Text", "xm y+5 w120", "Combinacion:")
+        triggerCtrl := setGui.Add("Hotkey", "x+10 yp-3 " inputStyle)
+        triggerCtrl.Value := HotkeyManager.GetCurrentTrigger()
+
+        applyTriggerBtn := setGui.Add("Button", "x+10 yp w100 h23", "Aplicar")
+        applyTriggerBtn.OnEvent("Click", (*) => ApplyTrigger(triggerCtrl))
+
+        ; Default mode
+        setGui.SetFont("s10 bold c0x" accHex)
+        setGui.Add("Text", "xm y+15 w400", "Modo por Defecto")
+        setGui.SetFont("s9 c0x" txtHex)
+        currentMode := HotkeyManager.GetCurrentMode()
+        modeInitial := currentMode = "cheatsheet" ? 1 : 2
+        modeDDL := setGui.Add("DropDownList", "xm y+5 w280 Choose" modeInitial,
+            ["Cheatsheet (ver atajos)", "Remap (ejecutar atajos)"])
+
+        applyModeBtn := setGui.Add("Button", "x+10 yp w100 h23", "Aplicar")
+        applyModeBtn.OnEvent("Click", (*) => ApplyMode(modeDDL))
+
+        ; Theme
+        setGui.SetFont("s10 bold c0x" accHex)
+        setGui.Add("Text", "xm y+15 w400", "Tema de Color")
+        setGui.SetFont("s9 c0x" txtHex)
+        themeNames := Theme.GetPresetNames()
+        currentTheme := Config.GetTheme()
+        themeIdx := 1
+        for i, name in themeNames {
+            if (name = currentTheme) {
+                themeIdx := i
+                break
             }
         }
+        themeDDL := setGui.Add("DropDownList", "xm y+5 w280 Choose" themeIdx, themeNames)
+
+        applyThemeBtn := setGui.Add("Button", "x+10 yp w100 h23", "Aplicar")
+        applyThemeBtn.OnEvent("Click", (*) => ApplyTheme(setGui, themeDDL))
+
+        ; Preview
+        setGui.Add("Text", "xm y+15 h40 w420 Background0x" Format("{:06X}", Theme.ToBGR(Theme.BG())))
+
+        ; Close button
+        setGui.SetFont("s9 c0x" accHex)
+        closeBtn := setGui.Add("Button", "xm y+15 w120 h30 Background0x" surfHex, "Cerrar")
+        closeBtn.OnEvent("Click", (*) => setGui.Destroy())
+        setGui.OnEvent("Escape", (*) => setGui.Destroy())
+
+        ApplyTrigger(ctrl) {
+            val := ctrl.Value
+            if (val = "") {
+                MsgBox("Presiona una combinacion valida.", "Key Atlas", "Icon!")
+                return
+            }
+            Config.SetTriggerHotkey(val)
+            Config.Save()
+            HotkeyManager.UpdateTrigger()
+            MsgBox("Hotkey actualizado.", "Key Atlas")
+        }
+
+        ApplyMode(ddl) {
+            newMode := ddl.Value = 1 ? "cheatsheet" : "remap"
+            HotkeyManager.SwitchMode(newMode)
+            MsgBox("Modo: " newMode, "Key Atlas")
+        }
+
+        ApplyTheme(parentGui, ddl) {
+            name := ddl.Text
+            Theme.Apply(name)
+            MsgBox("Tema '" name "' aplicado. La ventana se reiniciara.", "Key Atlas")
+            parentGui.Destroy()
+            this.Close()
+            this.Show()
+        }
+
+        setGui.Show("AutoSize Center")
+    }
+
+    ; ==========================================================
+    ; Auto-Assign Keys Dialog
+    ; ==========================================================
+
+    static _ShowAutoAssign() {
+        agui := Gui("+Owner" this.GuiObj.Hwnd, "Key Atlas - Asignacion Automatica")
+        agui.BackColor := Theme.ToBGR(Theme.BG())
+        agui.SetFont("s9", "Segoe UI")
+
+        txt := Theme.ToBGR(Theme.TXT())
+        surf := Theme.ToBGR(Theme.SURF())
+        acc := Theme.ToBGR(Theme.ACC())
+        surfHex := Format("{:06X}", surf)
+        txtHex := Format("{:06X}", txt)
+        accHex := Format("{:06X}", acc)
+        inputStyle := "w320 Background0x" surfHex " c0x" txtHex
+
+        agui.SetFont("s10 bold c0x" accHex)
+        agui.Add("Text", "xm y+10 w500",
+            "Generar atajos automaticamente a partir de un conjunto de teclas")
+
+        ; Program selector
+        agui.SetFont("s9 c0x" txtHex)
+        agui.Add("Text", "xm y+10 w100", "Programa:")
+        progNames := Database.GetPrograms()
+        progItems := Array()
+        progItems.Push("--- Seleccionar ---")
+        for p in progNames
+            progItems.Push(p)
+        aaProgDDL := agui.Add("DropDownList", "x+10 yp-3 w320 Choose1", progItems)
+
+        agui.Add("Text", "xm y+5 w100", "Categoria:")
+        catNames := Database.GetCategories()
+        catItems := Array()
+        catItems.Push("--- Todas ---")
+        for c in catNames
+            catItems.Push(c)
+        aaCatDDL := agui.Add("DropDownList", "x+10 yp-3 w320 Choose1", catItems)
+
+        ; Key pool
+        agui.Add("Text", "xm y+5 w100", "Teclas disponibles:")
+        aaKeyPool := agui.Add("Edit", "x+10 yp-3 " inputStyle,
+            "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z")
+        agui.SetFont("s8 c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())))
+        agui.Add("Text", "x+10 y+1 w320",
+            "Lista de teclas separadas por coma. Se asignaran en orden.")
+
+        ; Prefix
+        agui.SetFont("s9 c0x" txtHex)
+        agui.Add("Text", "xm y+5 w100", "Prefijo:")
+        aaPrefix := agui.Add("Edit", "x+10 yp-3 " inputStyle,
+            HotkeyManager.FormatForDisplay(HotkeyManager.GetCurrentTrigger()))
+
+        ; Category prefix mapping
+        agui.SetFont("s10 bold c0x" accHex)
+        agui.Add("Text", "xm y+10 w500", "Prefijos por Categoria (opcional)")
+        agui.SetFont("s9 c0x" txtHex)
+        agui.Add("Text", "xm y+2 w100", "Formato:")
+        aaCatPrefix := agui.Add("Edit", "x+10 yp-3 " inputStyle,
+            "f=Buscar, e=Editar, n=Navegar, v=Ver")
+        agui.SetFont("s8 c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())))
+        agui.Add("Text", "x+10 y+1 w320",
+            "letra=nombre_categoria. Se usara como prefijo en las teclas trigger.")
+
+        ; Generate button
+        agui.Add("Text", "xm y+15 w100", "")
+        agui.SetFont("s10 bold c0x" accHex)
+        genBtn := agui.Add("Button", "x+10 yp-3 w180 h32 Background0x" surfHex,
+            "Generar Asignaciones")
+        genBtn.OnEvent("Click", (*) => GenerateAssignments(agui))
+
+        cancelBtn := agui.Add("Button",
+            "x+10 yp w120 h32 Background0x" surfHex .
+            " c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())),
+            "Cancelar")
+        cancelBtn.OnEvent("Click", (*) => agui.Destroy())
+        agui.OnEvent("Escape", (*) => agui.Destroy())
+
+        GenerateAssignments(gui) {
+            prog := aaProgDDL.Text
+            if (prog = "--- Seleccionar ---") {
+                MsgBox("Selecciona un programa.", "Key Atlas", "Icon!")
+                return
+            }
+
+            catFilter := aaCatDDL.Text
+            if (catFilter = "--- Todas ---")
+                catFilter := ""
+
+            ; Parse key pool
+            poolRaw := aaKeyPool.Value
+            pool := Array()
+            for part in StrSplit(poolRaw, ",") {
+                key := Trim(part)
+                if (key != "")
+                    pool.Push(key)
+            }
+
+            if (pool.Length = 0) {
+                MsgBox("Define al menos una tecla disponible.", "Key Atlas", "Icon!")
+                return
+            }
+
+            ; Parse category prefixes
+            catPrefixMap := Map()
+            cpRaw := aaCatPrefix.Value
+            for part in StrSplit(cpRaw, ",") {
+                part := Trim(part)
+                parts := StrSplit(part, "=")
+                if (parts.Length = 2)
+                    catPrefixMap[Trim(parts[1])] := Trim(parts[2])
+            }
+
+            ; Get shortcuts for this program/category
+            candidates := Array()
+            for sc in Database.GetAll() {
+                p := sc.Has("program") ? sc["program"] : ""
+                if (p != prog)
+                    continue
+                if (catFilter != "" && sc.Has("category") && sc["category"] != catFilter)
+                    continue
+                candidates.Push(sc)
+            }
+
+            if (candidates.Length = 0) {
+                MsgBox("No hay atajos para '" prog "' en la base de datos.", "Key Atlas", "Icon!")
+                return
+            }
+
+            ; Assign keys
+            poolIdx := 1
+            assigned := 0
+            for sc in candidates {
+                if (poolIdx > pool.Length)
+                    break
+
+                key := pool[poolIdx]
+                cat := sc.Has("category") ? sc["category"] : "General"
+
+                ; Build trigger: optional category prefix + key
+                catLetter := ""
+                for letter, catName in catPrefixMap {
+                    if (catName = cat) {
+                        catLetter := letter
+                        break
+                    }
+                }
+
+                trigger := catLetter . key
+                sc["triggerKeys"] := trigger
+                Database.Update(sc["id"], sc)
+                poolIdx++
+                assigned++
+            }
+
+            Database.Save()
+            gui.Destroy()
+            this._RefreshView()
+            MsgBox(assigned " atajos asignados para '" prog "'`n" .
+                "Revisa los triggers generados en la lista.", "Key Atlas")
+        }
+
+        agui.Show("AutoSize Center")
     }
 }
