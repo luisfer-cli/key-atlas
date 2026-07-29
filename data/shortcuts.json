@@ -1,0 +1,454 @@
+{
+  "shortcuts": [
+    {
+      "id": "vs-code-palette",
+      "program": "Visual Studio Code",
+      "process": "Code.exe",
+      "category": "General",
+      "description": "Command Palette",
+      "triggerKeys": "Ctrl+Shift+P",
+      "targetKeys": "^+p",
+      "mode": "remap"
+    },
+    {
+      "id": "vs-code-quick-open",
+      "program": "Visual Studio Code",
+      "process": "Code.exe",
+      "category": "General",
+      "description": "Quick Open File",
+      "triggerKeys": "Ctrl+P",
+      "targetKeys": "^p",
+      "mode": "remap"
+    },
+    {
+      "id": "vs-code-settings",
+      "program": "Visual Studio Code",
+      "process": "Code.exe",
+      "category": "General",
+      "description": "Open Settings",
+      "triggerKeys": "Ctrl+,",
+      "targetKeys": "^,",
+      "mode": "remap"
+    },
+    {
+      "id": "vs-code-terminal",
+      "program": "Visual Studio Code",
+      "process": "Code.exe",
+      "category": "View",
+      "description": "Toggle Terminal",
+      "triggerKeys": "Ctrl+`",
+      "targetKeys": "^``",
+      "mode": "remap"
+    },
+    {
+      "id": "vs-code-sidebar",
+      "program": "Visual Studio Code",
+      "process": "Code.exe",
+      "category": "View",
+      "description": "Toggle Sidebar",
+      "triggerKeys": "Ctrl+B",
+      "targetKeys": "^b",
+      "mode": "remap"
+    },
+    {
+      "id": "vs-code-zen",
+      "program": "Visual Studio Code",
+      "process": "Code.exe",
+      "category": "View",
+      "description": "Zen Mode",
+      "triggerKeys": "Ctrl+K Z",
+      "targetKeys": "^kz",
+      "mode": "remap"
+    },
+    {
+      "id": "vs-code-search-file",
+      "program": "Visual Studio Code",
+      "process": "Code.exe",
+      "category": "Search",
+      "description": "Search in Files",
+      "triggerKeys": "Ctrl+Shift+F",
+      "targetKeys": "^+f",
+      "mode": "remap"
+    },
+    {
+      "id": "vs-code-replace",
+      "program": "Visual Studio Code",
+      "process": "Code.exe",
+      "category": "Search",
+      "description": "Search and Replace",
+      "triggerKeys": "Ctrl+H",
+      "targetKeys": "^h",
+      "mode": "remap"
+    },
+    {
+      "id": "vs-code-go-line",
+      "program": "Visual Studio Code",
+      "process": "Code.exe",
+      "category": "Navigation",
+      "description": "Go to Line",
+      "triggerKeys": "Ctrl+G",
+      "targetKeys": "^g",
+      "mode": "remap"
+    },
+    {
+      "id": "vs-code-go-symbol",
+      "program": "Visual Studio Code",
+      "process": "Code.exe",
+      "category": "Navigation",
+      "description": "Go to Symbol",
+      "triggerKeys": "Ctrl+Shift+O",
+      "targetKeys": "^+o",
+      "mode": "remap"
+    },
+    {
+      "id": "vs-code-multi-cursor",
+      "program": "Visual Studio Code",
+      "process": "Code.exe",
+      "category": "Editor",
+      "description": "Add Multi Cursor",
+      "triggerKeys": "Ctrl+Alt+Down",
+      "targetKeys": "^!{Down}",
+      "mode": "remap"
+    },
+    {
+      "id": "vs-code-format",
+      "program": "Visual Studio Code",
+      "process": "Code.exe",
+      "category": "Editor",
+      "description": "Format Document",
+      "triggerKeys": "Shift+Alt+F",
+      "targetKeys": "+!f",
+      "mode": "remap"
+    },
+    {
+      "id": "vs-code-comment",
+      "program": "Visual Studio Code",
+      "process": "Code.exe",
+      "category": "Editor",
+      "description": "Toggle Comment",
+      "triggerKeys": "Ctrl+/",
+      "targetKeys": "^/",
+      "mode": "remap"
+    },
+    {
+      "id": "vs-code-duplicate",
+      "program": "Visual Studio Code",
+      "process": "Code.exe",
+      "category": "Editor",
+      "description": "Duplicate Line",
+      "triggerKeys": "Shift+Alt+Down",
+      "targetKeys": "+!{Down}",
+      "mode": "remap"
+    },
+    {
+      "id": "vs-code-move-line",
+      "program": "Visual Studio Code",
+      "process": "Code.exe",
+      "category": "Editor",
+      "description": "Move Line Down",
+      "triggerKeys": "Alt+Down",
+      "targetKeys": "!{Down}",
+      "mode": "remap"
+    },
+    {
+      "id": "chrome-new-tab",
+      "program": "Google Chrome",
+      "process": "chrome.exe",
+      "category": "Tabs",
+      "description": "New Tab",
+      "triggerKeys": "Ctrl+T",
+      "targetKeys": "^t",
+      "mode": "remap"
+    },
+    {
+      "id": "chrome-close-tab",
+      "program": "Google Chrome",
+      "process": "chrome.exe",
+      "category": "Tabs",
+      "description": "Close Tab",
+      "triggerKeys": "Ctrl+W",
+      "targetKeys": "^w",
+      "mode": "remap"
+    },
+    {
+      "id": "chrome-reopen-tab",
+      "program": "Google Chrome",
+      "process": "chrome.exe",
+      "category": "Tabs",
+      "description": "Reopen Closed Tab",
+      "triggerKeys": "Ctrl+Shift+T",
+      "targetKeys": "^+t",
+      "mode": "remap"
+    },
+    {
+      "id": "chrome-next-tab",
+      "program": "Google Chrome",
+      "process": "chrome.exe",
+      "category": "Tabs",
+      "description": "Next Tab",
+      "triggerKeys": "Ctrl+Tab",
+      "targetKeys": "^{Tab}",
+      "mode": "remap"
+    },
+    {
+      "id": "chrome-dev-tools",
+      "program": "Google Chrome",
+      "process": "chrome.exe",
+      "category": "Tools",
+      "description": "Dev Tools",
+      "triggerKeys": "Ctrl+Shift+I",
+      "targetKeys": "^+i",
+      "mode": "remap"
+    },
+    {
+      "id": "chrome-incognito",
+      "program": "Google Chrome",
+      "process": "chrome.exe",
+      "category": "General",
+      "description": "New Incognito Window",
+      "triggerKeys": "Ctrl+Shift+N",
+      "targetKeys": "^+n",
+      "mode": "remap"
+    },
+    {
+      "id": "chrome-history",
+      "program": "Google Chrome",
+      "process": "chrome.exe",
+      "category": "Navigation",
+      "description": "Open History",
+      "triggerKeys": "Ctrl+H",
+      "targetKeys": "^h",
+      "mode": "remap"
+    },
+    {
+      "id": "chrome-bookmarks",
+      "program": "Google Chrome",
+      "process": "chrome.exe",
+      "category": "Navigation",
+      "description": "Bookmark Manager",
+      "triggerKeys": "Ctrl+Shift+O",
+      "targetKeys": "^+o",
+      "mode": "remap"
+    },
+    {
+      "id": "chrome-zoom-in",
+      "program": "Google Chrome",
+      "process": "chrome.exe",
+      "category": "View",
+      "description": "Zoom In",
+      "triggerKeys": "Ctrl++",
+      "targetKeys": "^{+}",
+      "mode": "remap"
+    },
+    {
+      "id": "chrome-zoom-out",
+      "program": "Google Chrome",
+      "process": "chrome.exe",
+      "category": "View",
+      "description": "Zoom Out",
+      "triggerKeys": "Ctrl+-",
+      "targetKeys": "^{-}",
+      "mode": "remap"
+    },
+    {
+      "id": "explorer-new-folder",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Files",
+      "description": "New Folder",
+      "triggerKeys": "Ctrl+Shift+N",
+      "targetKeys": "^+n",
+      "mode": "remap"
+    },
+    {
+      "id": "explorer-rename",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Files",
+      "description": "Rename File",
+      "triggerKeys": "F2",
+      "targetKeys": "{F2}",
+      "mode": "remap"
+    },
+    {
+      "id": "explorer-properties",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Files",
+      "description": "File Properties",
+      "triggerKeys": "Alt+Enter",
+      "targetKeys": "!{Enter}",
+      "mode": "remap"
+    },
+    {
+      "id": "explorer-address-bar",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Navigation",
+      "description": "Focus Address Bar",
+      "triggerKeys": "Ctrl+L",
+      "targetKeys": "^l",
+      "mode": "remap"
+    },
+    {
+      "id": "explorer-search",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Navigation",
+      "description": "Search Files",
+      "triggerKeys": "Ctrl+F",
+      "targetKeys": "^f",
+      "mode": "remap"
+    },
+    {
+      "id": "explorer-delete",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Files",
+      "description": "Delete File",
+      "triggerKeys": "Delete",
+      "targetKeys": "{Delete}",
+      "mode": "remap"
+    },
+    {
+      "id": "terminal-clear",
+      "program": "Windows Terminal",
+      "process": "WindowsTerminal.exe",
+      "category": "General",
+      "description": "Clear Screen",
+      "triggerKeys": "Ctrl+L",
+      "targetKeys": "^l",
+      "mode": "remap"
+    },
+    {
+      "id": "terminal-new-tab",
+      "program": "Windows Terminal",
+      "process": "WindowsTerminal.exe",
+      "category": "Tabs",
+      "description": "New Tab",
+      "triggerKeys": "Ctrl+Shift+T",
+      "targetKeys": "^+t",
+      "mode": "remap"
+    },
+    {
+      "id": "terminal-split",
+      "program": "Windows Terminal",
+      "process": "WindowsTerminal.exe",
+      "category": "Panes",
+      "description": "Split Pane",
+      "triggerKeys": "Alt+Shift+D",
+      "targetKeys": "!+d",
+      "mode": "remap"
+    },
+    {
+      "id": "terminal-find",
+      "program": "Windows Terminal",
+      "process": "WindowsTerminal.exe",
+      "category": "General",
+      "description": "Find Text",
+      "triggerKeys": "Ctrl+Shift+F",
+      "targetKeys": "^+f",
+      "mode": "remap"
+    },
+    {
+      "id": "notepad-find",
+      "program": "Notepad",
+      "process": "notepad.exe",
+      "category": "Search",
+      "description": "Find Text",
+      "triggerKeys": "Ctrl+F",
+      "targetKeys": "^f",
+      "mode": "remap"
+    },
+    {
+      "id": "notepad-replace",
+      "program": "Notepad",
+      "process": "notepad.exe",
+      "category": "Search",
+      "description": "Replace Text",
+      "triggerKeys": "Ctrl+H",
+      "targetKeys": "^h",
+      "mode": "remap"
+    },
+    {
+      "id": "notepad-save",
+      "program": "Notepad",
+      "process": "notepad.exe",
+      "category": "File",
+      "description": "Save File",
+      "triggerKeys": "Ctrl+S",
+      "targetKeys": "^s",
+      "mode": "remap"
+    },
+    {
+      "id": "notepad-goto",
+      "program": "Notepad",
+      "process": "notepad.exe",
+      "category": "Navigation",
+      "description": "Go To Line",
+      "triggerKeys": "Ctrl+G",
+      "targetKeys": "^g",
+      "mode": "remap"
+    },
+    {
+      "id": "universal-screenshot",
+      "program": "Windows",
+      "process": "",
+      "category": "System",
+      "description": "Snipping Tool",
+      "triggerKeys": "Win+Shift+S",
+      "targetKeys": "#+s",
+      "mode": "remap"
+    },
+    {
+      "id": "universal-task-view",
+      "program": "Windows",
+      "process": "",
+      "category": "System",
+      "description": "Task View",
+      "triggerKeys": "Win+Tab",
+      "targetKeys": "#{Tab}",
+      "mode": "remap"
+    },
+    {
+      "id": "universal-lock",
+      "program": "Windows",
+      "process": "",
+      "category": "System",
+      "description": "Lock Screen",
+      "triggerKeys": "Win+L",
+      "targetKeys": "#l",
+      "mode": "remap"
+    },
+    {
+      "id": "universal-run",
+      "program": "Windows",
+      "process": "",
+      "category": "System",
+      "description": "Run Dialog",
+      "triggerKeys": "Win+R",
+      "targetKeys": "#r",
+      "mode": "remap"
+    },
+    {
+      "id": "universal-clipboard",
+      "program": "Windows",
+      "process": "",
+      "category": "System",
+      "description": "Clipboard History",
+      "triggerKeys": "Win+V",
+      "targetKeys": "#v",
+      "mode": "remap"
+    },
+    {
+      "id": "universal-emoji",
+      "program": "Windows",
+      "process": "",
+      "category": "System",
+      "description": "Emoji Panel",
+      "triggerKeys": "Win+.",
+      "targetKeys": "#.",
+      "mode": "remap"
+    }
+  ]
+}

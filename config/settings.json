@@ -1,0 +1,31 @@
+{
+  "triggerHotkey": "^+Space",
+  "defaultMode": "cheatsheet",
+  "theme": "dark",
+  "cheatsheet": {
+    "maxItems": 12,
+    "overlayOpacity": 220,
+    "autoDetectProgram": true,
+    "showCategories": true,
+    "fontSize": 10
+  },
+  "remap": {
+    "timeout": 2.0,
+    "maxKeys": 6
+  },
+  "colors": {
+    "background": "1E1E2E",
+    "foreground": "CDD6F4",
+    "accent": "89B4FA",
+    "highlight": "45475A",
+    "border": "585B70",
+    "surface": "313244",
+    "overlay": "11111B",
+    "success": "A6E3A1",
+    "warning": "F9E2AF",
+    "error": "F38BA8",
+    "text": "CDD6F4",
+    "textDim": "6C7086",
+    "textBright": "FFFFFF"
+  }
+}
