@@ -3,6 +3,10 @@
 ; ============================================================
 
 class Json {
+    ; Sentinel value to represent JSON null (unset deletes Map entries)
+    class Null {
+    }
+
     ; Parses a JSON string into AHK objects (Map/Array/String/Number)
     static Parse(jsonStr) {
         jsonStr := Trim(jsonStr)
@@ -16,6 +20,8 @@ class Json {
 
     ; Converts AHK objects to a JSON string
     static Stringify(obj, indent := 0, level := 0) {
+        if (obj = Json.Null)
+            return "null"
         if (obj is Array)
             return this._StringifyArray(obj, indent, level)
         else if (obj is Map)
@@ -244,7 +250,7 @@ class Json {
     static _ParseNull(&json, &idx) {
         if (SubStr(json, idx, 4) = "null") {
             idx += 4
-            return unset
+            return Json.Null
         }
         throw Error("JSON parse error: expected null at position " idx)
     }
