@@ -42,6 +42,8 @@ class I18n {
             "toolbar.program",    "Program:",
             "toolbar.search",     "Search:",
             "toolbar.autoassign", "Assign Keys",
+            "toolbar.import",     "Import",
+            "toolbar.export",     "Export",
             "toolbar.settings",   "Settings",
 
             ; GUI: tree panel
@@ -124,6 +126,20 @@ class I18n {
             "msg.assigned1",        " shortcuts assigned for '",
             "msg.assigned2",        "'`nReview the generated triggers in the list.",
 
+            ; Import / Export
+            "msg.export_ok",        "Shortcuts exported successfully.",
+            "msg.export_err",       "Error exporting: ",
+            "msg.import_title",     "Import Shortcuts",
+            "msg.import_merge",     "Merge (add to existing)",
+            "msg.import_replace",   "Replace (clear all first)",
+            "msg.import_cancel",    "Cancel",
+            "msg.imported_merge",   " imported shortcuts added.",
+            "msg.imported_replace", " shortcuts imported (database replaced).",
+            "msg.import_err",       "Error importing: ",
+            "msg.import_no_valid",  "No valid shortcuts found in the file.",
+            "msg.import_found",     " shortcuts found. Choose method:",
+            "msg.export_filter",    "JSON (*.json)",
+
             ; Cheatsheet overlay
             "sheet.header",        "Key Atlas - ",
             "sheet.results",       " results)",
@@ -184,6 +200,8 @@ class I18n {
             "toolbar.program",    "Programa:",
             "toolbar.search",     "Buscar:",
             "toolbar.autoassign", "Asignar Teclas",
+            "toolbar.import",     "Importar",
+            "toolbar.export",     "Exportar",
             "toolbar.settings",   "Ajustes",
 
             "tree.title",         "Categorias por Programa",
@@ -259,6 +277,19 @@ class I18n {
             "msg.in_db",            "' en la base de datos.",
             "msg.assigned1",        " atajos asignados para '",
             "msg.assigned2",        "'`nRevisa los triggers generados en la lista.",
+
+            "msg.export_ok",        "Atajos exportados correctamente.",
+            "msg.export_err",       "Error al exportar: ",
+            "msg.import_title",     "Importar Atajos",
+            "msg.import_merge",     "Combinar (agregar a existentes)",
+            "msg.import_replace",   "Reemplazar (borrar todo primero)",
+            "msg.import_cancel",    "Cancelar",
+            "msg.imported_merge",   " atajos importados agregados.",
+            "msg.imported_replace", " atajos importados (base reemplazada).",
+            "msg.import_err",       "Error al importar: ",
+            "msg.import_no_valid",  "No se encontraron atajos validos en el archivo.",
+            "msg.import_found",     " atajos encontrados. Elige metodo:",
+            "msg.export_filter",    "JSON (*.json)",
 
             "sheet.header",        "Key Atlas - ",
             "sheet.results",       " resultados)",

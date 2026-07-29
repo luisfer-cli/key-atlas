@@ -70,8 +70,18 @@ class GuiManager {
             I18n.t("toolbar.autoassign"))
         autoBtn.OnEvent("Click", (*) => this._ShowAutoAssign())
 
+        importBtn := this.GuiObj.Add("Button",
+            "x+5 yp w70 Background0x" Format("{:06X}", surfBGR),
+            I18n.t("toolbar.import"))
+        importBtn.OnEvent("Click", (*) => this._ImportShortcuts())
+
+        exportBtn := this.GuiObj.Add("Button",
+            "x+2 yp w70 Background0x" Format("{:06X}", surfBGR),
+            I18n.t("toolbar.export"))
+        exportBtn.OnEvent("Click", (*) => this._ExportShortcuts())
+
         configBtn := this.GuiObj.Add("Button",
-            "x+5 yp w80 Background0x" Format("{:06X}", surfBGR),
+            "x+2 yp w70 Background0x" Format("{:06X}", surfBGR),
             I18n.t("toolbar.settings"))
         configBtn.OnEvent("Click", (*) => this._ShowSettingsDialog())
 
@@ -723,5 +733,117 @@ class GuiManager {
         }
 
         agui.Show("AutoSize Center")
+    }
+
+    ; ==========================================================
+    ; Import / Export
+    ; ==========================================================
+
+    static _ExportShortcuts() {
+        savePath := FileSelect("S16", A_Desktop . "\keyatlas_shortcuts.json",
+            I18n.t("msg.export_filter"))
+        if (savePath = "")
+            return
+        try {
+            Json.Save(savePath, Database.ExportAll(), 2)
+            MsgBox(I18n.t("msg.export_ok"), "Key Atlas")
+        } catch as err {
+            MsgBox(I18n.t("msg.export_err") err.Message, "Key Atlas", "IconX")
+        }
+    }
+
+    static _ImportShortcuts() {
+        filePath := FileSelect(1, A_Desktop, I18n.t("msg.import_title"),
+            I18n.t("msg.export_filter"))
+        if (filePath = "")
+            return
+
+        data := ""
+        try {
+            data := Json.Load(filePath)
+        } catch as err {
+            MsgBox(I18n.t("msg.import_err") err.Message, "Key Atlas", "IconX")
+            return
+        }
+
+        imported := Array()
+        if (data is Map && data.Has("shortcuts"))
+            imported := data["shortcuts"]
+        else if (data is Array)
+            imported := data
+        else {
+            MsgBox(I18n.t("msg.import_no_valid"), "Key Atlas", "Icon!")
+            return
+        }
+
+        if (imported.Length = 0) {
+            MsgBox(I18n.t("msg.import_no_valid"), "Key Atlas", "Icon!")
+            return
+        }
+
+        ; Ask merge or replace
+        choiceGui := Gui("+Owner" this.GuiObj.Hwnd, I18n.t("msg.import_title"))
+        choiceGui.BackColor := Theme.ToBGR(Theme.BG())
+        choiceGui.SetFont("s10", "Segoe UI")
+
+        txt := Theme.TXT()
+        acc := Theme.ACC()
+        surfHex := Format("{:06X}", Theme.ToBGR(Theme.SURF()))
+
+        choiceGui.SetFont("s10 c" txt)
+        choiceGui.Add("Text", "xm y+15 w350 Center",
+            imported.Length I18n.t("msg.import_found"))
+
+        choiceGui.SetFont("s10 bold c" acc)
+        mergeBtn := choiceGui.Add("Button",
+            "xm y+15 w150 h35 Background0x" surfHex, I18n.t("msg.import_merge"))
+        replaceBtn := choiceGui.Add("Button",
+            "x+10 yp w150 h35 Background0x" surfHex, I18n.t("msg.import_replace"))
+        cancelBtn := choiceGui.Add("Button",
+            "x+10 yp w100 h35 Background0x" surfHex " c" Theme.TXTDIM(),
+            I18n.t("msg.import_cancel"))
+
+        mergeBtn.OnEvent("Click", (*) => DoImport(choiceGui, false))
+        replaceBtn.OnEvent("Click", (*) => DoImport(choiceGui, true))
+        cancelBtn.OnEvent("Click", (*) => choiceGui.Destroy())
+        choiceGui.OnEvent("Escape", (*) => choiceGui.Destroy())
+
+        DoImport(gui, replace) {
+            if (replace)
+                Database.ImportAll(Map("shortcuts", Array()))
+
+            existing := Database.GetAll()
+            existingKeys := Map()
+            for sc in existing {
+                trig := sc.Has("triggerKeys") ? sc["triggerKeys"] : ""
+                prog := sc.Has("program") ? sc["program"] : ""
+                key := trig "|" prog
+                existingKeys[key] := true
+            }
+
+            count := 0
+            for sc in imported {
+                trig := sc.Has("triggerKeys") ? sc["triggerKeys"] : ""
+                prog := sc.Has("program") ? sc["program"] : ""
+                key := trig "|" prog
+                if (!existingKeys.Has(key)) {
+                    sc["id"] := ""
+                    Database.Add(sc)
+                    existingKeys[key] := true
+                    count++
+                }
+            }
+
+            Database.Save()
+            gui.Destroy()
+            this._RefreshView()
+
+            if (replace)
+                MsgBox(imported.Length I18n.t("msg.imported_replace"), "Key Atlas")
+            else
+                MsgBox(count I18n.t("msg.imported_merge"), "Key Atlas")
+        }
+
+        choiceGui.Show("AutoSize Center")
     }
 }
