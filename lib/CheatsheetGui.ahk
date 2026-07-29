@@ -57,43 +57,42 @@ class CheatsheetGui {
     static _CreateOverlay() {
         this.GuiObj := Gui("+ToolWindow +AlwaysOnTop -Caption +Border -SysMenu +Owner")
 
-        bgColor := Theme.ToBGR(Theme.OVERLAY())
-        this.GuiObj.BackColor := bgColor
+        this.GuiObj.BackColor := Theme.ToBGR(Theme.OVERLAY())
         this.GuiObj.Opt("+LastFound")
         WinSetTransparent(Config.GetCheatsheetOpacity(), this.GuiObj)
 
         this.GuiObj.MarginX := 12
         this.GuiObj.MarginY := 8
 
-        accColor := Format("{:06X}", Theme.ToBGR(Theme.ACC()))
-        brightColor := Format("{:06X}", Theme.ToBGR(Theme.TXTBRIGHT()))
-        dimColor := Format("{:06X}", Theme.ToBGR(Theme.TXTDIM()))
-        surfColor := Format("{:06X}", Theme.ToBGR(Theme.SURF()))
-        bdrColor := Format("{:06X}", Theme.ToBGR(Theme.BDR()))
+        bright := Theme.TXTBRIGHT()
+        dim := Theme.TXTDIM()
+        surfBGR := Theme.ToBGR(Theme.SURF())
+        bdrBGR := Theme.ToBGR(Theme.BDR())
+        surfHex := Format("{:06X}", surfBGR)
+        bdrHex := Format("{:06X}", bdrBGR)
 
         ; Header
-        this.GuiObj.SetFont("s11 bold c0x" brightColor, "Consolas")
+        this.GuiObj.SetFont("s11 bold c" bright, "Consolas")
         processName := this.ActiveProcess
         if (StrLen(processName) > 55)
             processName := SubStr(processName, 1, 52) . "..."
         this.GuiObj.Add("Text", "xm w580", I18n.t("sheet.header") processName)
 
-        ; Status / search info
-        this.GuiObj.SetFont("s9 c0x" dimColor, "Consolas")
+        ; Status
+        this.GuiObj.SetFont("s9 c" dim, "Consolas")
         this.StatusText := this.GuiObj.Add("Text", "xm y+2 w580", "")
 
         ; Separator
-        this.GuiObj.Add("Text", "xm y+4 w580 h1 Background0x" bdrColor)
+        this.GuiObj.Add("Text", "xm y+4 w580 h1 Background0x" bdrHex)
 
         ; Shortcuts ListView
-        this.GuiObj.SetFont("s9 c0x" brightColor, "Consolas")
+        this.GuiObj.SetFont("s9 c" bright, "Consolas")
         this.ShortcutLV := this.GuiObj.Add("ListView",
-            "xm y+4 w580 r14 Grid -Hdr -Multi Background0x" surfColor .
-            " c0x" brightColor,
+            "xm y+4 w580 r14 Grid -Hdr -Multi Background0x" surfHex " c" bright,
             ["Line"])
 
         ; Footer
-        this.GuiObj.SetFont("s8 c0x" dimColor, "Consolas")
+        this.GuiObj.SetFont("s8 c" dim, "Consolas")
         footerText := "[" HotkeyManager.FormatForDisplay(HotkeyManager.GetCurrentTrigger())
             . "]" I18n.t("sheet.footer")
         this.GuiObj.Add("Text", "xm y+6 w580", footerText)

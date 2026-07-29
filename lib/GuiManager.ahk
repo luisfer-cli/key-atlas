@@ -1,6 +1,5 @@
 ; ============================================================
 ; GuiManager.ahk - Main Configuration Window
-; Redesigned: TreeView hierarchy, separate dialogs, auto-assign
 ; ============================================================
 
 class GuiManager {
@@ -34,83 +33,76 @@ class GuiManager {
         this.GuiObj := ""
     }
 
-    ; ==========================================================
-    ; Main GUI Creation
-    ; ==========================================================
-
     static _CreateGui() {
-        bg := Theme.ToBGR(Theme.BG())
-        txt := Theme.ToBGR(Theme.TXT())
-
         this.GuiObj := Gui("+Resize +MinSize720x420", I18n.t("gui.title"))
-        this.GuiObj.BackColor := bg
+        this.GuiObj.BackColor := Theme.ToBGR(Theme.BG())
         this.GuiObj.MarginX := 8
         this.GuiObj.MarginY := 8
         this.GuiObj.OnEvent("Close", (*) => this.Close())
         this.GuiObj.OnEvent("Escape", (*) => this.Close())
-
         this._CreateToolbar()
         this._CreateTreePanel()
         this._CreateShortcutPanel()
     }
 
     static _CreateToolbar() {
-        txt := Theme.ToBGR(Theme.TXT())
-        acc := Theme.ToBGR(Theme.ACC())
-        surf := Theme.ToBGR(Theme.SURF())
+        txt := Theme.TXT()
+        acc := Theme.ACC()
+        surf := Theme.SURF()
+        surfBGR := Theme.ToBGR(Theme.SURF())
+        bdrBGR := Theme.ToBGR(Theme.BDR())
 
-        this.GuiObj.SetFont("s9 c0x" Format("{:06X}", txt), "Segoe UI")
+        this.GuiObj.SetFont("s9 c" txt, "Segoe UI")
 
         this.GuiObj.Add("Text", "xm y+2 w70", I18n.t("toolbar.program"))
         this.ProgramDDL := this.GuiObj.Add("DropDownList",
-            "x+2 yp-2 w200 Background0x" Format("{:06X}", surf) .
-            " c0x" Format("{:06X}", txt))
+            "x+2 yp-2 w200 Background0x" Format("{:06X}", surfBGR) " c" txt)
         this.ProgramDDL.OnEvent("Change", (*) => this._OnProgramChange())
 
         this.GuiObj.Add("Text", "x+15 yp+2 w50", I18n.t("toolbar.search"))
         this.SearchEdit := this.GuiObj.Add("Edit",
-            "x+2 yp-2 w200 Background0x" Format("{:06X}", surf) .
-            " c0x" Format("{:06X}", txt))
+            "x+2 yp-2 w200 Background0x" Format("{:06X}", surfBGR) " c" txt)
         this.SearchEdit.OnEvent("Change", (*) => this._OnSearch())
 
-        this.GuiObj.SetFont("s9 c0x" Format("{:06X}", acc), "Segoe UI")
+        this.GuiObj.SetFont("s9 c" acc, "Segoe UI")
         autoBtn := this.GuiObj.Add("Button",
-            "x+15 yp-2 w130 Background0x" Format("{:06X}", surf),
+            "x+15 yp-2 w130 Background0x" Format("{:06X}", surfBGR),
             I18n.t("toolbar.autoassign"))
         autoBtn.OnEvent("Click", (*) => this._ShowAutoAssign())
 
         configBtn := this.GuiObj.Add("Button",
-            "x+5 yp w80 Background0x" Format("{:06X}", surf),
+            "x+5 yp w80 Background0x" Format("{:06X}", surfBGR),
             I18n.t("toolbar.settings"))
         configBtn.OnEvent("Click", (*) => this._ShowSettingsDialog())
 
         this.GuiObj.Add("Text",
-            "xm y+8 w880 h1 Background0x" Format("{:06X}", Theme.ToBGR(Theme.BDR())))
+            "xm y+8 w880 h1 Background0x" Format("{:06X}", bdrBGR))
     }
 
     static _CreateTreePanel() {
-        surf := Theme.ToBGR(Theme.SURF())
-        txt := Theme.ToBGR(Theme.TXT())
+        surf := Theme.SURF()
+        txt := Theme.TXT()
 
-        this.GuiObj.SetFont("s9 c0x" Format("{:06X}", txt), "Segoe UI")
+        this.GuiObj.SetFont("s9 c" txt, "Segoe UI")
         this.GuiObj.Add("Text", "xm y+8 w190 Section", I18n.t("tree.title"))
         this.TreeView := this.GuiObj.Add("TreeView",
-            "xs y+2 w190 h400 Background0x" Format("{:06X}", surf) .
-            " c0x" Format("{:06X}", txt))
+            "xs y+2 w190 h400 Background0x" Format("{:06X}", Theme.ToBGR(Theme.SURF()))
+            " c" txt)
         this.TreeView.OnEvent("ItemSelect", (*) => this._OnTreeSelect())
     }
 
     static _CreateShortcutPanel() {
-        txt := Theme.ToBGR(Theme.TXT())
-        surf := Theme.ToBGR(Theme.SURF())
-        acc := Theme.ToBGR(Theme.ACC())
+        txt := Theme.TXT()
+        acc := Theme.ACC()
+        surfBGR := Theme.ToBGR(Theme.SURF())
+        errBGR := Theme.ToBGR(Theme.GetColor("error"))
 
-        this.GuiObj.SetFont("s9 c0x" Format("{:06X}", txt), "Segoe UI")
+        this.GuiObj.SetFont("s9 c" txt, "Segoe UI")
 
         this.GuiObj.Add("Text", "xs+210 ys w400 Section", I18n.t("list.title"))
         this.ShortcutLV := this.GuiObj.Add("ListView",
-            "xs y+2 w650 h340 Grid -Multi Background0x" Format("{:06X}", surf) .
-            " c0x" Format("{:06X}", txt),
+            "xs y+2 w650 h340 Grid -Multi Background0x" Format("{:06X}", surfBGR)
+            " c" txt,
             [I18n.t("col.trigger"), I18n.t("col.desc"), I18n.t("col.target"),
              I18n.t("col.process"), I18n.t("col.category"), I18n.t("col.mode")])
         this.ShortcutLV.OnEvent("DoubleClick", (*) => this._EditSelected())
@@ -122,8 +114,8 @@ class GuiManager {
         this.ShortcutLV.ModifyCol(5, 80)
         this.ShortcutLV.ModifyCol(6, 50)
 
-        this.GuiObj.SetFont("s9 c0x" Format("{:06X}", acc), "Segoe UI")
-        btnOpts := "w120 h28 Background0x" Format("{:06X}", surf)
+        this.GuiObj.SetFont("s9 c" acc, "Segoe UI")
+        btnOpts := "w120 h28 Background0x" Format("{:06X}", surfBGR)
 
         addBtn := this.GuiObj.Add("Button", "xs y+5 " btnOpts, I18n.t("btn.new"))
         addBtn.OnEvent("Click", (*) => this._ShowEditor())
@@ -132,11 +124,11 @@ class GuiManager {
         editBtn.OnEvent("Click", (*) => this._EditSelected())
 
         delBtn := this.GuiObj.Add("Button",
-            "x+5 yp " btnOpts " c0x" Format("{:06X}", Theme.ToBGR(Theme.GetColor("error"))),
+            "x+5 yp " btnOpts " c" Theme.GetColor("error"),
             I18n.t("btn.delete"))
         delBtn.OnEvent("Click", (*) => this._DeleteSelected())
 
-        this.GuiObj.SetFont("s8 c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())), "Segoe UI")
+        this.GuiObj.SetFont("s8 c" Theme.TXTDIM(), "Segoe UI")
         this.GuiObj.Add("Text", "xs y+5 w650",
             I18n.t("footer.dblclick") Database.GetAll().Length I18n.t("footer.total"))
     }
@@ -191,11 +183,9 @@ class GuiManager {
             return
         }
 
-        all := Database.GetAll()
         filtered := Array()
-        for sc in all {
-            prog := sc.Has("program") ? sc["program"] : ""
-            if (prog = sel)
+        for sc in Database.GetAll() {
+            if ((sc.Has("program") ? sc["program"] : "") = sel)
                 filtered.Push(sc)
         }
         this._RefreshListView(filtered)
@@ -247,8 +237,7 @@ class GuiManager {
     static _GetShortcutsByProgram(progName) {
         results := Array()
         for sc in Database.GetAll() {
-            p := sc.Has("program") ? sc["program"] : ""
-            if (p = progName)
+            if ((sc.Has("program") ? sc["program"] : "") = progName)
                 results.Push(sc)
         }
         return results
@@ -267,14 +256,8 @@ class GuiManager {
         return results
     }
 
-    static _SelectFirstTreeItem() {
-        firstItem := this.TreeView.GetNext()
-        if (firstItem)
-            this.TreeView.Modify(firstItem, "Select VisFirst")
-    }
-
     ; ==========================================================
-    ; Shortcut Editor Dialog
+    ; Editor Dialog
     ; ==========================================================
 
     static _ShowEditor(shortcutData := "") {
@@ -285,16 +268,14 @@ class GuiManager {
         editGui.BackColor := Theme.ToBGR(Theme.BG())
         editGui.SetFont("s9", "Segoe UI")
 
-        txt := Theme.ToBGR(Theme.TXT())
-        surf := Theme.ToBGR(Theme.SURF())
-        acc := Theme.ToBGR(Theme.ACC())
+        txt := Theme.TXT()
+        surf := Theme.SURF()
+        acc := Theme.ACC()
+        dim := Theme.TXTDIM()
 
-        txtColor := Format("{:06X}", txt)
-        surfColor := Format("{:06X}", surf)
-        accColor := Format("{:06X}", acc)
-        inputStyle := "w350 Background0x" surfColor " c0x" txtColor
-
-        editGui.SetFont("s9 c0x" txtColor)
+        txtHex := Format("{:06X}", Theme.ToBGR(surf))
+        inputStyle := "w350 Background0x" txtHex " c" txt
+        editGui.SetFont("s9 c" txt)
 
         editGui.Add("Text", "xm y+10 w100", I18n.t("editor.program"))
         edProgram := editGui.Add("Edit", "x+10 yp-3 " inputStyle)
@@ -323,10 +304,10 @@ class GuiManager {
         editGui.Add("Text", "xm y+5 w100", I18n.t("editor.trigger"))
         edTrigger := editGui.Add("Edit", "x+10 yp-3 " inputStyle)
         edTrigger.Value := isEditing && shortcutData.Has("triggerKeys") ? shortcutData["triggerKeys"] : ""
-        editGui.SetFont("s8 c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())))
+        editGui.SetFont("s8 c" dim)
         editGui.Add("Text", "x+10 y+1 w350", I18n.t("editor.hint"))
 
-        editGui.SetFont("s9 c0x" txtColor)
+        editGui.SetFont("s9 c" txt)
         editGui.Add("Text", "xm y+5 w100", I18n.t("editor.target"))
         edTarget := editGui.Add("Edit", "x+10 yp-3 " inputStyle)
         edTarget.Value := isEditing && shortcutData.Has("targetKeys") ? shortcutData["targetKeys"] : ""
@@ -338,16 +319,14 @@ class GuiManager {
             cbMode.Choose(2)
 
         editGui.Add("Text", "xm y+15 w100", "")
-        editGui.SetFont("s10 bold c0x" accColor)
+        editGui.SetFont("s10 bold c" acc)
 
         saveBtn := editGui.Add("Button",
-            "x+10 yp-3 w150 h32 Background0x" surfColor, I18n.t("editor.save"))
+            "x+10 yp-3 w150 h32 Background0x" txtHex, I18n.t("editor.save"))
         saveBtn.OnEvent("Click", (*) => SaveShortcut(editGui))
 
         cancelBtn := editGui.Add("Button",
-            "x+10 yp w150 h32 Background0x" surfColor .
-            " c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())),
-            I18n.t("editor.cancel"))
+            "x+10 yp w150 h32 Background0x" txtHex " c" dim, I18n.t("editor.cancel"))
         cancelBtn.OnEvent("Click", (*) => editGui.Destroy())
 
         editGui.OnEvent("Escape", (*) => editGui.Destroy())
@@ -434,24 +413,28 @@ class GuiManager {
         this._OnProgramChange()
     }
 
-    ; Quick shortcut creation from overlays
+    ; ==========================================================
+    ; Quick Add
+    ; ==========================================================
+
     static QuickAdd(program, process, triggerKeys) {
         qGui := Gui("+Owner +ToolWindow", I18n.t("quick.new_title"))
         qGui.BackColor := Theme.ToBGR(Theme.BG())
         qGui.SetFont("s9", "Segoe UI")
 
-        txt := Theme.ToBGR(Theme.TXT())
-        surf := Theme.ToBGR(Theme.SURF())
-        acc := Theme.ToBGR(Theme.ACC())
-        surfHex := Format("{:06X}", surf)
-        txtHex := Format("{:06X}", txt)
-        accHex := Format("{:06X}", acc)
-        inputStyle := "w320 Background0x" surfHex " c0x" txtHex
+        txt := Theme.TXT()
+        surf := Theme.SURF()
+        acc := Theme.ACC()
+        dim := Theme.TXTDIM()
+        surfBGR := Theme.ToBGR(surf)
 
-        qGui.SetFont("s10 bold c0x" accHex)
+        surfHex := Format("{:06X}", surfBGR)
+        inputStyle := "w320 Background0x" surfHex " c" txt
+
+        qGui.SetFont("s10 bold c" acc)
         qGui.Add("Text", "xm y+10 w380", program)
 
-        qGui.SetFont("s9 c0x" txtHex)
+        qGui.SetFont("s9 c" txt)
         qGui.Add("Text", "xm y+5 w380", I18n.t("quick.keys_captured") triggerKeys)
 
         qGui.Add("Text", "xm y+8 w100", I18n.t("editor.desc"))
@@ -461,17 +444,15 @@ class GuiManager {
         edTarget := qGui.Add("Edit", "x+10 yp-3 " inputStyle)
 
         qGui.Add("Text", "xm y+5 w100", I18n.t("editor.category"))
-        edCat := qGui.Add("Edit", "x+10 yp-3 w200 Background0x" surfHex " c0x" txtHex)
+        edCat := qGui.Add("Edit", "x+10 yp-3 w200 Background0x" surfHex " c" txt)
 
         qGui.Add("Text", "xm y+12 w100", "")
-        qGui.SetFont("s10 bold c0x" accHex)
+        qGui.SetFont("s10 bold c" acc)
         saveBtn := qGui.Add("Button", "x+10 yp w120 h30 Background0x" surfHex, I18n.t("editor.save"))
         saveBtn.OnEvent("Click", (*) => SaveQuick(qGui))
 
         cancelBtn := qGui.Add("Button",
-            "x+10 yp w120 h30 Background0x" surfHex .
-            " c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())),
-            I18n.t("quick.cancel"))
+            "x+10 yp w120 h30 Background0x" surfHex " c" dim, I18n.t("quick.cancel"))
         cancelBtn.OnEvent("Click", (*) => qGui.Destroy())
         qGui.OnEvent("Escape", (*) => qGui.Destroy())
 
@@ -507,27 +488,27 @@ class GuiManager {
         setGui.BackColor := Theme.ToBGR(Theme.BG())
         setGui.SetFont("s9", "Segoe UI")
 
-        txt := Theme.ToBGR(Theme.TXT())
-        surf := Theme.ToBGR(Theme.SURF())
-        acc := Theme.ToBGR(Theme.ACC())
-        surfHex := Format("{:06X}", surf)
-        txtHex := Format("{:06X}", txt)
-        accHex := Format("{:06X}", acc)
-        inputStyle := "w280 Background0x" surfHex " c0x" txtHex
+        txt := Theme.TXT()
+        surf := Theme.SURF()
+        acc := Theme.ACC()
+        surfBGR := Theme.ToBGR(surf)
 
-        setGui.SetFont("s10 bold c0x" accHex)
+        surfHex := Format("{:06X}", surfBGR)
+        inputStyle := "w280 Background0x" surfHex " c" txt
+
+        setGui.SetFont("s10 bold c" acc)
         setGui.Add("Text", "xm y+10 w400", I18n.t("settings.hotkey"))
-        setGui.SetFont("s9 c0x" txtHex)
+        setGui.SetFont("s9 c" txt)
         setGui.Add("Text", "xm y+5 w120", I18n.t("settings.combo"))
-        triggerCtrl := setGui.Add("Hotkey", "x+10 yp-3 w280 c0x" txtHex)
+        triggerCtrl := setGui.Add("Hotkey", "x+10 yp-3 w280 c" txt)
         triggerCtrl.Value := HotkeyManager.GetCurrentTrigger()
 
         applyTriggerBtn := setGui.Add("Button", "x+10 yp w100 h23", I18n.t("settings.apply"))
         applyTriggerBtn.OnEvent("Click", (*) => ApplyTrigger(triggerCtrl))
 
-        setGui.SetFont("s10 bold c0x" accHex)
+        setGui.SetFont("s10 bold c" acc)
         setGui.Add("Text", "xm y+15 w400", I18n.t("settings.theme"))
-        setGui.SetFont("s9 c0x" txtHex)
+        setGui.SetFont("s9 c" txt)
         themeNames := Theme.GetPresetNames()
         currentTheme := Config.GetTheme()
         themeIdx := 1
@@ -542,10 +523,9 @@ class GuiManager {
         applyThemeBtn := setGui.Add("Button", "x+10 yp w100 h23", I18n.t("settings.apply"))
         applyThemeBtn.OnEvent("Click", (*) => ApplyTheme(setGui, themeDDL))
 
-        ; Language
-        setGui.SetFont("s10 bold c0x" accHex)
+        setGui.SetFont("s10 bold c" acc)
         setGui.Add("Text", "xm y+15 w400", I18n.t("settings.lang"))
-        setGui.SetFont("s9 c0x" txtHex)
+        setGui.SetFont("s9 c" txt)
         currentLang := Config.Get("lang", "en")
         langInitial := currentLang = "es" ? 2 : 1
         langDDL := setGui.Add("DropDownList", "xm y+5 w280 Choose" langInitial,
@@ -556,7 +536,7 @@ class GuiManager {
 
         setGui.Add("Text", "xm y+15 h40 w420 Background0x" Format("{:06X}", Theme.ToBGR(Theme.BG())))
 
-        setGui.SetFont("s9 c0x" accHex)
+        setGui.SetFont("s9 c" acc)
         closeBtn := setGui.Add("Button", "xm y+15 w120 h30 Background0x" surfHex, I18n.t("settings.close"))
         closeBtn.OnEvent("Click", (*) => setGui.Destroy())
         setGui.OnEvent("Escape", (*) => setGui.Destroy())
@@ -597,7 +577,7 @@ class GuiManager {
     }
 
     ; ==========================================================
-    ; Auto-Assign Keys Dialog
+    ; Auto-Assign Dialog
     ; ==========================================================
 
     static _ShowAutoAssign() {
@@ -605,18 +585,19 @@ class GuiManager {
         agui.BackColor := Theme.ToBGR(Theme.BG())
         agui.SetFont("s9", "Segoe UI")
 
-        txt := Theme.ToBGR(Theme.TXT())
-        surf := Theme.ToBGR(Theme.SURF())
-        acc := Theme.ToBGR(Theme.ACC())
-        surfHex := Format("{:06X}", surf)
-        txtHex := Format("{:06X}", txt)
-        accHex := Format("{:06X}", acc)
-        inputStyle := "w320 Background0x" surfHex " c0x" txtHex
+        txt := Theme.TXT()
+        surf := Theme.SURF()
+        acc := Theme.ACC()
+        dim := Theme.TXTDIM()
+        surfBGR := Theme.ToBGR(surf)
 
-        agui.SetFont("s10 bold c0x" accHex)
+        surfHex := Format("{:06X}", surfBGR)
+        inputStyle := "w320 Background0x" surfHex " c" txt
+
+        agui.SetFont("s10 bold c" acc)
         agui.Add("Text", "xm y+10 w500", I18n.t("auto.desc"))
 
-        agui.SetFont("s9 c0x" txtHex)
+        agui.SetFont("s9 c" txt)
         agui.Add("Text", "xm y+10 w100", I18n.t("auto.program"))
         progNames := Database.GetPrograms()
         progItems := Array()
@@ -636,33 +617,31 @@ class GuiManager {
         agui.Add("Text", "xm y+5 w100", I18n.t("auto.keys"))
         aaKeyPool := agui.Add("Edit", "x+10 yp-3 " inputStyle,
             "a,b,c,d,e,f,g,h,i,j,k,l,m,n,o,p,q,r,s,t,u,v,w,x,y,z")
-        agui.SetFont("s8 c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())))
+        agui.SetFont("s8 c" dim)
         agui.Add("Text", "x+10 y+1 w320", I18n.t("auto.keys_hint"))
 
-        agui.SetFont("s9 c0x" txtHex)
+        agui.SetFont("s9 c" txt)
         agui.Add("Text", "xm y+5 w100", I18n.t("auto.prefix"))
         aaPrefix := agui.Add("Edit", "x+10 yp-3 " inputStyle,
             HotkeyManager.FormatForDisplay(HotkeyManager.GetCurrentTrigger()))
 
-        agui.SetFont("s10 bold c0x" accHex)
+        agui.SetFont("s10 bold c" acc)
         agui.Add("Text", "xm y+10 w500", I18n.t("auto.cat_prefix"))
-        agui.SetFont("s9 c0x" txtHex)
+        agui.SetFont("s9 c" txt)
         agui.Add("Text", "xm y+2 w100", "Format:")
         aaCatPrefix := agui.Add("Edit", "x+10 yp-3 " inputStyle,
             "f=Search, e=Edit, n=Navigate, v=View")
-        agui.SetFont("s8 c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())))
+        agui.SetFont("s8 c" dim)
         agui.Add("Text", "x+10 y+1 w320", I18n.t("auto.cat_prefix_hint"))
 
         agui.Add("Text", "xm y+15 w100", "")
-        agui.SetFont("s10 bold c0x" accHex)
+        agui.SetFont("s10 bold c" acc)
         genBtn := agui.Add("Button", "x+10 yp-3 w180 h32 Background0x" surfHex,
             I18n.t("auto.generate"))
         genBtn.OnEvent("Click", (*) => GenerateAssignments(agui))
 
         cancelBtn := agui.Add("Button",
-            "x+10 yp w120 h32 Background0x" surfHex .
-            " c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())),
-            I18n.t("editor.cancel"))
+            "x+10 yp w120 h32 Background0x" surfHex " c" dim, I18n.t("editor.cancel"))
         cancelBtn.OnEvent("Click", (*) => agui.Destroy())
         agui.OnEvent("Escape", (*) => agui.Destroy())
 

@@ -51,29 +51,30 @@ class InputProcessor {
         this.GuiObj.MarginX := 16
         this.GuiObj.MarginY := 12
 
-        accColor := Format("{:06X}", Theme.ToBGR(Theme.ACC()))
-        txtColor := Format("{:06X}", Theme.ToBGR(Theme.TXTBRIGHT()))
-        dimColor := Format("{:06X}", Theme.ToBGR(Theme.TXTDIM()))
+        acc := Theme.ACC()
+        txt := Theme.TXTBRIGHT()
+        dim := Theme.TXTDIM()
+        bdrBGR := Theme.ToBGR(Theme.BDR())
 
-        this.GuiObj.SetFont("s12 bold c0x" accColor, "Segoe UI")
+        this.GuiObj.SetFont("s12 bold c" acc, "Segoe UI")
         this.GuiObj.Add("Text", "xm w400 Center", I18n.t("remap.title"))
 
-        this.GuiObj.SetFont("s10 c0x" txtColor, "Consolas")
+        this.GuiObj.SetFont("s10 c" txt, "Consolas")
 
         activeProcess := WinGetProcessName("A")
         if (StrLen(activeProcess) > 40)
             activeProcess := SubStr(activeProcess, 1, 37) . "..."
         this.GuiObj.Add("Text", "xm y+2 w400 Center", activeProcess)
 
-        this.GuiObj.Add("Text", "xm y+10 h2 w400 Background0x" Format("{:06X}", Theme.ToBGR(Theme.BDR())))
+        this.GuiObj.Add("Text", "xm y+10 h2 w400 Background0x" Format("{:06X}", bdrBGR))
 
-        this.GuiObj.SetFont("s18 bold c0x" txtColor, "Consolas")
+        this.GuiObj.SetFont("s18 bold c" txt, "Consolas")
         this.KeysDisplay := this.GuiObj.Add("Text", "xm y+8 w400 Center", I18n.t("remap.waiting"))
 
-        this.GuiObj.SetFont("s9 c0x" dimColor, "Segoe UI")
+        this.GuiObj.SetFont("s9 c" dim, "Segoe UI")
         this.StatusDisplay := this.GuiObj.Add("Text", "xm y+4 w400 Center", I18n.t("remap.hint"))
 
-        this.GuiObj.SetFont("s8 c0x" dimColor, "Segoe UI")
+        this.GuiObj.SetFont("s8 c" dim, "Segoe UI")
         this.GuiObj.Add("Text", "xm y+10 w400 Center",
             I18n.t("remap.footer"))
 
