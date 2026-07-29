@@ -139,11 +139,8 @@ class CheatsheetGui {
 
                 desc := shortcut.Has("description") ? shortcut["description"] : "(--)"
                 trigger := shortcut.Has("triggerKeys") ? shortcut["triggerKeys"] : ""
-                mode := shortcut.Has("mode") ? shortcut["mode"] : "remap"
-                modeIndicator := mode = "remap" ? "[R]" : "[C]"
 
-                displayText := Format("{1:-6} {2:-35} {3}",
-                    modeIndicator, desc, trigger)
+                displayText := Format("{1:-35} {2}", desc, trigger)
 
                 ctrl := this.GuiObj.Add("Text", "xm y+2 w600" . bgOpt, displayText)
                 this.RowControls.Push(ctrl)
@@ -206,19 +203,23 @@ class CheatsheetGui {
     static _OnChar(ih, char) {
         this.SearchQuery .= char
         this.SelectedIndex := 1
+        this._ApplyFilter()
+    }
 
+    static _ApplyFilter() {
         query := StrLower(this.SearchQuery)
-        filtered := Array()
-        activeShortcuts := Database.GetForActiveWindow()
-
-        for shortcut in activeShortcuts {
-            desc := StrLower(shortcut.Has("description") ? shortcut["description"] : "")
-            trig := StrLower(shortcut.Has("triggerKeys") ? shortcut["triggerKeys"] : "")
-            if (InStr(desc, query) || InStr(trig, query) = 1)
-                filtered.Push(shortcut)
+        if (query = "") {
+            this.Shortcuts := Database.GetForActiveWindow()
+        } else {
+            filtered := Array()
+            for shortcut in Database.GetForActiveWindow() {
+                desc := StrLower(shortcut.Has("description") ? shortcut["description"] : "")
+                trig := StrLower(shortcut.Has("triggerKeys") ? shortcut["triggerKeys"] : "")
+                if (InStr(desc, query) || InStr(trig, query) = 1)
+                    filtered.Push(shortcut)
+            }
+            this.Shortcuts := filtered
         }
-
-        this.Shortcuts := filtered
         this.Groups := Database.GroupByCategory(this.Shortcuts)
         this._Render()
     }
@@ -247,21 +248,7 @@ class CheatsheetGui {
             if (StrLen(this.SearchQuery) > 0) {
                 this.SearchQuery := SubStr(this.SearchQuery, 1, -1)
                 this.SelectedIndex := 1
-
-                query := StrLower(this.SearchQuery)
-                filtered := Array()
-                activeShortcuts := Database.GetForActiveWindow()
-
-                for shortcut in activeShortcuts {
-                    desc := StrLower(shortcut.Has("description") ? shortcut["description"] : "")
-                    trig := StrLower(shortcut.Has("triggerKeys") ? shortcut["triggerKeys"] : "")
-                    if (InStr(desc, query) || InStr(trig, query) = 1)
-                        filtered.Push(shortcut)
-                }
-
-                this.Shortcuts := filtered
-                this.Groups := Database.GroupByCategory(this.Shortcuts)
-                this._Render()
+                this._ApplyFilter()
             }
         }
     }
