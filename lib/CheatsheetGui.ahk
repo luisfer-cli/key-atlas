@@ -277,7 +277,7 @@ class CheatsheetGui {
 
     static _ExecuteSelected() {
         selectedShortcut := this._GetSelectedShortcut()
-        if (selectedShortcut = unset)
+        if (selectedShortcut = "")
             return
 
         this._SendShortcut(selectedShortcut)
@@ -292,7 +292,7 @@ class CheatsheetGui {
                     return shortcut
             }
         }
-        return unset
+        return ""
     }
 
     static _SendShortcut(shortcut) {

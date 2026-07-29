@@ -41,7 +41,7 @@ class Database {
             if (shortcut.Has("id") && shortcut["id"] = id)
                 return shortcut
         }
-        return unset
+        return ""
     }
 
     ; Search shortcuts by program name (exact or partial match)

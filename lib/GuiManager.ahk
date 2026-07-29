@@ -380,7 +380,7 @@ class GuiManager {
 
         id := this.ShortcutLV.GetText(row, 1)
         shortcut := Database.GetById(id)
-        if (shortcut = unset)
+        if (shortcut = "")
             return
 
         this.EdId.Value := id
