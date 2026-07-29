@@ -24,9 +24,6 @@ class Theme {
     }
 
     static GetCurrent() {
-        themeName := Config.GetTheme()
-        if (this.Presets.Has(themeName))
-            return this.Presets[themeName]
         return Config.GetColors()
     }
 

@@ -134,7 +134,7 @@ class GuiManager {
         this.GuiObj.SetFont("s9 c0x" Format("{:06X}", acc), "Segoe UI")
         btnOpts := "w120 h28 Background0x" Format("{:06X}", surf)
 
-        addBtn := this.GuiObj.Add("Button", "xm y+5 " btnOpts, "Nuevo Atajo")
+        addBtn := this.GuiObj.Add("Button", "xs y+5 " btnOpts, "Nuevo Atajo")
         addBtn.OnEvent("Click", (*) => this._ShowEditor())
 
         editBtn := this.GuiObj.Add("Button", "x+5 yp " btnOpts, "Editar")
@@ -147,7 +147,7 @@ class GuiManager {
 
         ; Quick info at bottom
         this.GuiObj.SetFont("s8 c0x" Format("{:06X}", Theme.ToBGR(Theme.TXTDIM())), "Segoe UI")
-        this.GuiObj.Add("Text", "xm y+5 w860",
+        this.GuiObj.Add("Text", "xs y+5 w650",
             "Doble click para editar | " .
             Database.GetAll().Length " atajos en total")
     }
@@ -489,7 +489,8 @@ class GuiManager {
         setGui.Add("Text", "xm y+10 w400", "Hotkey de Activacion")
         setGui.SetFont("s9 c0x" txtHex)
         setGui.Add("Text", "xm y+5 w120", "Combinacion:")
-        triggerCtrl := setGui.Add("Hotkey", "x+10 yp-3 " inputStyle)
+        inputStyleNoBg := "w280 c0x" txtHex
+        triggerCtrl := setGui.Add("Hotkey", "x+10 yp-3 " inputStyleNoBg)
         triggerCtrl.Value := HotkeyManager.GetCurrentTrigger()
 
         applyTriggerBtn := setGui.Add("Button", "x+10 yp w100 h23", "Aplicar")
