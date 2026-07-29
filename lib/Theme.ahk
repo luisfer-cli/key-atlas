@@ -11,6 +11,11 @@ class Theme {
     }
 
     static Apply(themeName) {
+        if (themeName = "system") {
+            Config.SetTheme("system")
+            Config.Save()
+            return true
+        }
         if (!this.Presets.Has(themeName))
             return false
 
@@ -24,10 +29,14 @@ class Theme {
     }
 
     static GetCurrent() {
+        if (Config.GetTheme() = "system")
+            return this._ReadSystemColors()
         return Config.GetColors()
     }
 
     static GetPreset(name) {
+        if (name = "system")
+            return this._ReadSystemColors()
         if (this.Presets.Has(name))
             return this.Presets[name]
         return Map()
@@ -35,6 +44,7 @@ class Theme {
 
     static GetPresetNames() {
         names := Array()
+        names.Push("system")
         for name in this.Presets
             names.Push(name)
         return names
@@ -66,8 +76,62 @@ class Theme {
         return 0x000000
     }
 
+    ; ==========================================================
+    ; System color detection (reads live Windows colors)
+    ; ==========================================================
+
+    static _ReadSystemColors() {
+        ; OS color indices via SysGet:
+        ;  5 = COLOR_WINDOW          (window background)
+        ;  8 = COLOR_WINDOWTEXT      (window text)
+        ; 13 = COLOR_HIGHLIGHT       (selected item bg)
+        ; 14 = COLOR_HIGHLIGHTTEXT   (selected item text)
+        ; 15 = COLOR_3DFACE          (button face / dialog bg)
+        ; 16 = COLOR_3DSHADOW        (shadow / border)
+        ; 17 = COLOR_GRAYTEXT        (dimmed text)
+
+        bg := Format("{:06X}", SysGet(15))        ; button face = dialog bg
+        fg := Format("{:06X}", SysGet(8))         ; window text
+        hl := Format("{:06X}", SysGet(13))        ; highlight
+        hlText := Format("{:06X}", SysGet(14))    ; highlight text
+        shadow := Format("{:06X}", SysGet(16))    ; border/shadow
+        window := Format("{:06X}", SysGet(5))     ; window bg (whiter)
+        dim := Format("{:06X}", SysGet(17))       ; gray text
+
+        ; Detect dark mode from registry for accent choice
+        isLight := true
+        try {
+            appsLight := RegRead(
+                "HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize",
+                "AppsUseLightTheme")
+            isLight := appsLight != 0
+        }
+
+        accent := isLight ? "005FB8" : "60CDFF"
+        overlay := bg  ; overlay matches dialog bg
+
+        return Map(
+            "background",  bg,
+            "foreground",  fg,
+            "accent",      accent,
+            "highlight",   hl,
+            "border",      shadow,
+            "surface",     window,
+            "overlay",     overlay,
+            "success",     isLight ? "0F7B0F" : "3BDA3B",
+            "warning",     isLight ? "D83B01" : "FF9100",
+            "error",       isLight ? "C50500" : "FF5252",
+            "text",        fg,
+            "textDim",     dim,
+            "textBright",  hlText
+        )
+    }
+
+    ; ==========================================================
+    ; Presets
+    ; ==========================================================
+
     static _RegisterPresets() {
-        ; ----- Catppuccin Mocha -----
         this.Presets["dark"] := Map(
             "background", "1E1E2E",
             "foreground", "CDD6F4",
@@ -84,7 +148,6 @@ class Theme {
             "textBright", "FFFFFF"
         )
 
-        ; ----- Nord -----
         this.Presets["nord"] := Map(
             "background", "2E3440",
             "foreground", "D8DEE9",
@@ -101,7 +164,6 @@ class Theme {
             "textBright", "ECEFF4"
         )
 
-        ; ----- Catppuccin Latte -----
         this.Presets["light"] := Map(
             "background", "EFF1F5",
             "foreground", "4C4F69",
@@ -116,23 +178,6 @@ class Theme {
             "text", "4C4F69",
             "textDim", "6C6F85",
             "textBright", "1E1E2E"
-        )
-
-        ; ----- Windows System -----
-        this.Presets["system"] := Map(
-            "background", "F0F0F0",
-            "foreground", "000000",
-            "accent", "005FB8",
-            "highlight", "0078D4",
-            "border", "B0B0B0",
-            "surface", "FFFFFF",
-            "overlay", "F0F0F0",
-            "success", "0F7B0F",
-            "warning", "D83B01",
-            "error", "C50500",
-            "text", "000000",
-            "textDim", "6B6B6B",
-            "textBright", "000000"
         )
     }
 }
