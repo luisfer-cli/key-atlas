@@ -235,7 +235,7 @@ class Database {
             while (j <= arrLen - i) {
                 a := arr[j]
                 b := arr[j + 1]
-                if (StrLower(String(a)) > StrLower(String(b))) {
+                if (StrCompare(StrLower(String(a)), StrLower(String(b))) > 0) {
                     arr[j] := b
                     arr[j + 1] := a
                     swapped := true
