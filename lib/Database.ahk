@@ -228,19 +228,23 @@ class Database {
         arrLen := arr.Length
         if (arrLen <= 1)
             return
-        Loop arrLen - 1 {
-            outerIdx := A_Index
+        i := 1
+        while (i < arrLen) {
             swapped := false
-            Loop arrLen - outerIdx {
-                if (StrLower(arr[A_Index]) > StrLower(arr[A_Index + 1])) {
-                    temp := arr[A_Index]
-                    arr[A_Index] := arr[A_Index + 1]
-                    arr[A_Index + 1] := temp
+            j := 1
+            while (j <= arrLen - i) {
+                a := arr[j]
+                b := arr[j + 1]
+                if (StrLower(String(a)) > StrLower(String(b))) {
+                    arr[j] := b
+                    arr[j + 1] := a
                     swapped := true
                 }
+                j++
             }
             if (!swapped)
                 break
+            i++
         }
     }
 }
