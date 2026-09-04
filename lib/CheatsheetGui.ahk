@@ -158,9 +158,8 @@ class CheatsheetGui {
     ; ==========================================================
 
     static _StartInput() {
-        this.InputHk := InputHook("L20 T10")
-        this.InputHk.KeyOpt("{Esc}", "E")
-        this.InputHk.KeyOpt("{Enter}", "E")
+        this.InputHk := InputHook("L20 T10", "{Esc}{Enter}")
+        this.InputHk.KeyOpt("{Esc}{Enter}", "E -N")
         this.InputHk.KeyOpt("{Up}{Down}{Left}{Right}", "N V")
         this.InputHk.KeyOpt("{Backspace}", "N")
         this.InputHk.NotifyNonText := true
@@ -229,9 +228,10 @@ class CheatsheetGui {
 
     static _OnEnd(ih) {
         if (ih.EndReason = "EndKey") {
-            if (ih.EndKey = "Escape") {
+            endKey := StrLower(ih.EndKey)
+            if (endKey = "escape" || endKey = "esc") {
                 this.Hide()
-            } else if (ih.EndKey = "Enter") {
+            } else if (endKey = "enter") {
                 this._ExecuteSelected()
                 this.Hide()
             }
