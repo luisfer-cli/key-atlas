@@ -155,8 +155,9 @@ class CheatsheetGui {
             this.SearchText.Text := "  " I18n.t("sheet.search") this.SearchQuery
         else
             this.SearchText.Text := "  " I18n.t("sheet.search_empty")
-        this.StatusText.Text := this.DisplayedCount " " I18n.t("sheet.showing") " "
-            this.Shortcuts.Length
+        shortcutCount := this.Shortcuts is Array ? this.Shortcuts.Length : 0
+        this.StatusText.Text := this.DisplayedCount . " " . I18n.t("sheet.showing")
+            . " " . shortcutCount
     }
 
     ; ==========================================================
