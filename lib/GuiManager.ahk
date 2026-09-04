@@ -941,6 +941,7 @@ class GuiManager {
             if (keysChanged || (newMode = "remap" && !RemapManager.HasAssignments()))
                 RemapManager.AssignAll(remapKeys)
             I18n.Init()
+            Database.Reload()
             HotkeyManager.UpdateTrigger()
             try SetupTray()
             gui.Destroy()

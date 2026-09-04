@@ -7,7 +7,7 @@ class Database {
     static Data := Map()
 
     static Init() {
-        this.FilePath := A_ScriptDir . "\data\shortcuts.json"
+        this.FilePath := this._GetLocalizedFilePath()
         if (FileExist(this.FilePath)) {
             try {
                 this.Data := Json.Load(this.FilePath)
@@ -223,6 +223,18 @@ class Database {
     static ImportAll(data) {
         this.Data := data
         this.Save()
+    }
+
+    static _GetLocalizedFilePath() {
+        lang := Config.Get("lang", "en")
+        if (lang != "en" && lang != "es")
+            lang := "en"
+
+        localizedPath := A_ScriptDir . "\data\shortcuts." . lang . ".json"
+        if (FileExist(localizedPath))
+            return localizedPath
+
+        return A_ScriptDir . "\data\shortcuts.json"
     }
 
     static _GenerateId() {
