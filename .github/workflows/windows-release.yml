@@ -51,6 +51,10 @@ jobs:
           if ($LASTEXITCODE -is [int] -and $LASTEXITCODE -ne 0) {
             throw "Ahk2Exe failed with exit code $LASTEXITCODE."
           }
+          $deadline = (Get-Date).AddSeconds(30)
+          while (-not (Test-Path $exePath) -and (Get-Date) -lt $deadline) {
+            Start-Sleep -Milliseconds 500
+          }
           if (-not (Test-Path $exePath)) {
             throw "Ahk2Exe did not create $exePath."
           }
