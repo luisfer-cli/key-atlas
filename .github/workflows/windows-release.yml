@@ -29,7 +29,12 @@ jobs:
           $ErrorActionPreference = "Stop"
           $compiler = Get-ChildItem "$env:ProgramFiles\AutoHotkey" -Filter Ahk2Exe.exe -Recurse |
             Select-Object -First 1
-          $base = Get-ChildItem "$env:ProgramFiles\AutoHotkey" -Filter AutoHotkey64.exe -Recurse |
+          $base = @("AutoHotkey64.exe", "AutoHotkey.exe") |
+            ForEach-Object {
+              Get-ChildItem "$env:ProgramFiles\AutoHotkey" -Filter $_ -Recurse |
+                Select-Object -First 1
+            } |
+            Where-Object { $_ } |
             Select-Object -First 1
           if (-not $compiler -or -not $base) {
             throw "AutoHotkey compiler or v2 base executable was not installed."
