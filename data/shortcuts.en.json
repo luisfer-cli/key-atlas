@@ -1,0 +1,3114 @@
+{
+  "shortcuts": [
+    {
+      "id": "ae-undo",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Edit",
+      "description": "Undo",
+      "triggerKeys": "Ctrl+Z",
+      "targetKeys": "^z",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-redo",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Edit",
+      "description": "Redo",
+      "triggerKeys": "Shift+Ctrl+Z",
+      "targetKeys": "+^z",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-duplicate",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Layers",
+      "description": "Duplicate Layer",
+      "triggerKeys": "Ctrl+D",
+      "targetKeys": "^d",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-split",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Layers",
+      "description": "Split Layer",
+      "triggerKeys": "Shift+Ctrl+D",
+      "targetKeys": "+^d",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-position",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Properties",
+      "description": "Show Position",
+      "triggerKeys": "P",
+      "targetKeys": "p",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-scale",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Properties",
+      "description": "Show Scale",
+      "triggerKeys": "S",
+      "targetKeys": "s",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-rotation",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Properties",
+      "description": "Show Rotation",
+      "triggerKeys": "R",
+      "targetKeys": "r",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-opacity",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Properties",
+      "description": "Show Opacity",
+      "triggerKeys": "T",
+      "targetKeys": "t",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-anchor",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Properties",
+      "description": "Show Anchor Point",
+      "triggerKeys": "A",
+      "targetKeys": "a",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-mask-prop",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Properties",
+      "description": "Show Mask Properties",
+      "triggerKeys": "M",
+      "targetKeys": "m",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-mask-feather",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Properties",
+      "description": "Show Mask Feather",
+      "triggerKeys": "F",
+      "targetKeys": "f",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-effects",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Properties",
+      "description": "Show Effects",
+      "triggerKeys": "E",
+      "targetKeys": "e",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-keyframes",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Properties",
+      "description": "Show Keyframes",
+      "triggerKeys": "U",
+      "targetKeys": "u",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-all-modified",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Properties",
+      "description": "All Modified Properties",
+      "triggerKeys": "UU",
+      "targetKeys": "uu",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-render-queue",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Render",
+      "description": "Add to Render Queue",
+      "triggerKeys": "Ctrl+Shift+/",
+      "targetKeys": "^+/",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-work-start",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Timeline",
+      "description": "Set Work Area Start",
+      "triggerKeys": "B",
+      "targetKeys": "b",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-work-end",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Timeline",
+      "description": "Set Work Area End",
+      "triggerKeys": "N",
+      "targetKeys": "n",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-trim-work",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Timeline",
+      "description": "Trim Comp to Work Area",
+      "triggerKeys": "Shift+Ctrl+X",
+      "targetKeys": "+^x",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-prev-frame",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Timeline",
+      "description": "Previous Frame",
+      "triggerKeys": "PageUp",
+      "targetKeys": "{PgUp}",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-next-frame",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Timeline",
+      "description": "Next Frame",
+      "triggerKeys": "PageDown",
+      "targetKeys": "{PgDn}",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-prev-keyframe",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Keyframes",
+      "description": "Go to Previous Keyframe",
+      "triggerKeys": "J",
+      "targetKeys": "j",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-next-keyframe",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Keyframes",
+      "description": "Go to Next Keyframe",
+      "triggerKeys": "K",
+      "targetKeys": "k",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-layer-in",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Timeline",
+      "description": "Go to Layer In Point",
+      "triggerKeys": "I",
+      "targetKeys": "i",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-layer-out",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Timeline",
+      "description": "Go to Layer Out Point",
+      "triggerKeys": "O",
+      "targetKeys": "o",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-play",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Preview",
+      "description": "Play / Pause",
+      "triggerKeys": "Space",
+      "targetKeys": "{Space}",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-ram-preview",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Preview",
+      "description": "RAM Preview",
+      "triggerKeys": "Numpad0",
+      "targetKeys": "{Numpad0}",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-comp-settings",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Composition",
+      "description": "Composition Settings",
+      "triggerKeys": "Ctrl+K",
+      "targetKeys": "^k",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-precompose",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Composition",
+      "description": "Pre-compose",
+      "triggerKeys": "Shift+Ctrl+C",
+      "targetKeys": "+^c",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-new-solid",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Layer",
+      "description": "New Solid",
+      "triggerKeys": "Ctrl+Y",
+      "targetKeys": "^y",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-new-null",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Layer",
+      "description": "New Null Object",
+      "triggerKeys": "Alt+Shift+Ctrl+Y",
+      "targetKeys": "!+^y",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-new-text",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Layer",
+      "description": "New Text Layer",
+      "triggerKeys": "Shift+Ctrl+Alt+T",
+      "targetKeys": "+^!t",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-selection",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Tools",
+      "description": "Selection Tool",
+      "triggerKeys": "V",
+      "targetKeys": "v",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-hand",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Tools",
+      "description": "Hand Tool",
+      "triggerKeys": "H",
+      "targetKeys": "h",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-zoom",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Tools",
+      "description": "Zoom Tool",
+      "triggerKeys": "Z",
+      "targetKeys": "z",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-pen",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Tools",
+      "description": "Pen Tool",
+      "triggerKeys": "G",
+      "targetKeys": "g",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-type",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Tools",
+      "description": "Type Tool",
+      "triggerKeys": "Ctrl+T",
+      "targetKeys": "^t",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-fit",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "View",
+      "description": "Fit to Comp",
+      "triggerKeys": "Alt+Ctrl+F",
+      "targetKeys": "!^f",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-effect-ctrl",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Interface",
+      "description": "Effect Controls Panel",
+      "triggerKeys": "F3",
+      "targetKeys": "{F3}",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-trim-in",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Timeline",
+      "description": "Trim Layer In Point to CTI",
+      "triggerKeys": "Alt+[",
+      "targetKeys": "![",
+      "mode": "remap"
+    },
+    {
+      "id": "ae-trim-out",
+      "program": "Adobe After Effects",
+      "process": "AfterFX.exe",
+      "category": "Timeline",
+      "description": "Trim Layer Out Point to CTI",
+      "triggerKeys": "Alt+]",
+      "targetKeys": "!]",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-edit-mode",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Modes",
+      "description": "Toggle Edit Mode",
+      "triggerKeys": "Tab",
+      "targetKeys": "{Tab}",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-obj-mode",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Modes",
+      "description": "Object Mode",
+      "triggerKeys": "Ctrl+Tab 1",
+      "targetKeys": "^{Tab}1",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-sculpt-mode",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Modes",
+      "description": "Sculpt Mode",
+      "triggerKeys": "Ctrl+Tab 2",
+      "targetKeys": "^{Tab}2",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-vertex-mode",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Modes",
+      "description": "Vertex Select Mode",
+      "triggerKeys": "1",
+      "targetKeys": "1",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-edge-mode",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Modes",
+      "description": "Edge Select Mode",
+      "triggerKeys": "2",
+      "targetKeys": "2",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-face-mode",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Modes",
+      "description": "Face Select Mode",
+      "triggerKeys": "3",
+      "targetKeys": "3",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-move",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Transform",
+      "description": "Grab / Move",
+      "triggerKeys": "G",
+      "targetKeys": "g",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-rotate",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Transform",
+      "description": "Rotate",
+      "triggerKeys": "R",
+      "targetKeys": "r",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-scale",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Transform",
+      "description": "Scale",
+      "triggerKeys": "S",
+      "targetKeys": "s",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-extrude",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Mesh",
+      "description": "Extrude",
+      "triggerKeys": "E",
+      "targetKeys": "e",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-bevel",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Mesh",
+      "description": "Bevel",
+      "triggerKeys": "Ctrl+B",
+      "targetKeys": "^b",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-loopcut",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Mesh",
+      "description": "Loop Cut",
+      "triggerKeys": "Ctrl+R",
+      "targetKeys": "^r",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-inset",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Mesh",
+      "description": "Inset Faces",
+      "triggerKeys": "I",
+      "targetKeys": "i",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-knife",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Mesh",
+      "description": "Knife Tool",
+      "triggerKeys": "K",
+      "targetKeys": "k",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-duplicate",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Objects",
+      "description": "Duplicate",
+      "triggerKeys": "Shift+D",
+      "targetKeys": "+d",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-dup-linked",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Objects",
+      "description": "Linked Duplicate",
+      "triggerKeys": "Alt+D",
+      "targetKeys": "!d",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-join",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Objects",
+      "description": "Join Objects",
+      "triggerKeys": "Ctrl+J",
+      "targetKeys": "^j",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-separate",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Objects",
+      "description": "Separate",
+      "triggerKeys": "P",
+      "targetKeys": "p",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-delete",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Edit",
+      "description": "Delete",
+      "triggerKeys": "X",
+      "targetKeys": "x",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-undo",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Edit",
+      "description": "Undo",
+      "triggerKeys": "Ctrl+Z",
+      "targetKeys": "^z",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-redo",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Edit",
+      "description": "Redo",
+      "triggerKeys": "Shift+Ctrl+Z",
+      "targetKeys": "+^z",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-select-all",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Selection",
+      "description": "Select All",
+      "triggerKeys": "A",
+      "targetKeys": "a",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-deselect-all",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Selection",
+      "description": "Deselect All",
+      "triggerKeys": "Alt+A",
+      "targetKeys": "!a",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-box-select",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Selection",
+      "description": "Box Select",
+      "triggerKeys": "B",
+      "targetKeys": "b",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-circle-select",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Selection",
+      "description": "Circle Select",
+      "triggerKeys": "C",
+      "targetKeys": "c",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-invert-select",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Selection",
+      "description": "Invert Selection",
+      "triggerKeys": "Ctrl+I",
+      "targetKeys": "^i",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-hide",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Visibility",
+      "description": "Hide Selected",
+      "triggerKeys": "H",
+      "targetKeys": "h",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-unhide",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Visibility",
+      "description": "Unhide All",
+      "triggerKeys": "Alt+H",
+      "targetKeys": "!h",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-shade-smooth",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Shading",
+      "description": "Shade Smooth",
+      "triggerKeys": "RightClick Shade Smooth",
+      "targetKeys": "{AppsKey}",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-wireframe",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Display",
+      "description": "Wireframe Toggle",
+      "triggerKeys": "Shift+Z",
+      "targetKeys": "+z",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-render",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Render",
+      "description": "Render Image",
+      "triggerKeys": "F12",
+      "targetKeys": "{F12}",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-render-anim",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Render",
+      "description": "Render Animation",
+      "triggerKeys": "Ctrl+F12",
+      "targetKeys": "^{F12}",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-camera-view",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "View",
+      "description": "Camera View",
+      "triggerKeys": "0",
+      "targetKeys": "{Numpad0}",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-frame-all",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "View",
+      "description": "Frame All",
+      "triggerKeys": "Home",
+      "targetKeys": "{Home}",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-frame-selected",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "View",
+      "description": "Frame Selected",
+      "triggerKeys": "NumpadDot",
+      "targetKeys": "{NumpadDot}",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-properties",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Interface",
+      "description": "Toggle Properties Panel",
+      "triggerKeys": "N",
+      "targetKeys": "n",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-toolbar",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Interface",
+      "description": "Toggle Toolbar",
+      "triggerKeys": "T",
+      "targetKeys": "t",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-search",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Interface",
+      "description": "Search Menu",
+      "triggerKeys": "F3",
+      "targetKeys": "{F3}",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-add-menu",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Objects",
+      "description": "Add Menu",
+      "triggerKeys": "Shift+A",
+      "targetKeys": "+a",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-collection",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Objects",
+      "description": "Move to Collection",
+      "triggerKeys": "M",
+      "targetKeys": "m",
+      "mode": "remap"
+    },
+    {
+      "id": "bl-maximize",
+      "program": "Blender",
+      "process": "blender.exe",
+      "category": "Interface",
+      "description": "Maximize Area",
+      "triggerKeys": "Ctrl+Space",
+      "targetKeys": "^{Space}",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-cut-page",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Pages",
+      "description": "Cut Page",
+      "triggerKeys": "Shift+2",
+      "targetKeys": "+2",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-edit-page",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Pages",
+      "description": "Edit Page",
+      "triggerKeys": "Shift+4",
+      "targetKeys": "+4",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-fusion",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Pages",
+      "description": "Fusion Page",
+      "triggerKeys": "Shift+5",
+      "targetKeys": "+5",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-color",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Pages",
+      "description": "Color Page",
+      "triggerKeys": "Shift+6",
+      "targetKeys": "+6",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-fairlight",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Pages",
+      "description": "Fairlight Page",
+      "triggerKeys": "Shift+7",
+      "targetKeys": "+7",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-deliver",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Pages",
+      "description": "Deliver Page",
+      "triggerKeys": "Shift+8",
+      "targetKeys": "+8",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-blade",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Tools",
+      "description": "Blade Edit Mode",
+      "triggerKeys": "B",
+      "targetKeys": "b",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-selection",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Tools",
+      "description": "Selection Mode",
+      "triggerKeys": "A",
+      "targetKeys": "a",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-trim",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Tools",
+      "description": "Trim Edit Mode",
+      "triggerKeys": "T",
+      "targetKeys": "t",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-undo",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Edit",
+      "description": "Undo",
+      "triggerKeys": "Ctrl+Z",
+      "targetKeys": "^z",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-redo",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Edit",
+      "description": "Redo",
+      "triggerKeys": "Shift+Ctrl+Z",
+      "targetKeys": "+^z",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-add-edit",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Timeline",
+      "description": "Add Edit (Split)",
+      "triggerKeys": "Ctrl+\\",
+      "targetKeys": "^\\",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-ripple-delete",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Timeline",
+      "description": "Ripple Delete",
+      "triggerKeys": "Shift+Backspace",
+      "targetKeys": "+{Backspace}",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-lift",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Timeline",
+      "description": "Lift",
+      "triggerKeys": "Delete",
+      "targetKeys": "{Delete}",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-mark-in",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Markers",
+      "description": "Mark In",
+      "triggerKeys": "I",
+      "targetKeys": "i",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-mark-out",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Markers",
+      "description": "Mark Out",
+      "triggerKeys": "O",
+      "targetKeys": "o",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-clear-markers",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Markers",
+      "description": "Clear In/Out",
+      "triggerKeys": "Alt+X",
+      "targetKeys": "!x",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-play",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Playback",
+      "description": "Play / Pause",
+      "triggerKeys": "Space",
+      "targetKeys": "{Space}",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-reverse",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Playback",
+      "description": "Reverse Play",
+      "triggerKeys": "J",
+      "targetKeys": "j",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-stop",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Playback",
+      "description": "Stop",
+      "triggerKeys": "K",
+      "targetKeys": "k",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-forward",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Playback",
+      "description": "Play Forward",
+      "triggerKeys": "L",
+      "targetKeys": "l",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-prev-frame",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Timeline",
+      "description": "Previous Frame",
+      "triggerKeys": "Left",
+      "targetKeys": "{Left}",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-next-frame",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Timeline",
+      "description": "Next Frame",
+      "triggerKeys": "Right",
+      "targetKeys": "{Right}",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-snapping",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Timeline",
+      "description": "Toggle Snapping",
+      "triggerKeys": "N",
+      "targetKeys": "n",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-transition",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Timeline",
+      "description": "Add Default Transition",
+      "triggerKeys": "Ctrl+T",
+      "targetKeys": "^t",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-retime",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Clip",
+      "description": "Retime Controls",
+      "triggerKeys": "Ctrl+R",
+      "targetKeys": "^r",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-linked-sel",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Timeline",
+      "description": "Linked Selection Toggle",
+      "triggerKeys": "Shift+Ctrl+L",
+      "targetKeys": "+^l",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-fit-fill",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "View",
+      "description": "Fit to Fill",
+      "triggerKeys": "Alt+Ctrl+F",
+      "targetKeys": "!^f",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-fullscreen",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "View",
+      "description": "Full Screen Viewer",
+      "triggerKeys": "Ctrl+F",
+      "targetKeys": "^f",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-clone-color",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Color",
+      "description": "Grab Still",
+      "triggerKeys": "Ctrl+Alt+G",
+      "targetKeys": "!^g",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-nodes",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Fusion",
+      "description": "Add Tool (Search)",
+      "triggerKeys": "Shift+Space",
+      "targetKeys": "+{Space}",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-save",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "File",
+      "description": "Save Project",
+      "triggerKeys": "Ctrl+S",
+      "targetKeys": "^s",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-inspector",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Interface",
+      "description": "Toggle Inspector",
+      "triggerKeys": "Alt+Ctrl+I",
+      "targetKeys": "!^i",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-move-up",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Timeline",
+      "description": "Move Clip Up One Track",
+      "triggerKeys": "Alt+Up",
+      "targetKeys": "!{Up}",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-move-down",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Timeline",
+      "description": "Move Clip Down One Track",
+      "triggerKeys": "Alt+Down",
+      "targetKeys": "!{Down}",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-nudge-left",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Timeline",
+      "description": "Nudge Clip Left",
+      "triggerKeys": ",",
+      "targetKeys": ",",
+      "mode": "remap"
+    },
+    {
+      "id": "dr-nudge-right",
+      "program": "DaVinci Resolve",
+      "process": "Resolve.exe",
+      "category": "Timeline",
+      "description": "Nudge Clip Right",
+      "triggerKeys": ".",
+      "targetKeys": ".",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-move",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Tools",
+      "description": "Move / Select",
+      "triggerKeys": "V",
+      "targetKeys": "v",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-scale",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Tools",
+      "description": "Scale Tool",
+      "triggerKeys": "K",
+      "targetKeys": "k",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-frame",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Tools",
+      "description": "Frame Tool",
+      "triggerKeys": "F",
+      "targetKeys": "f",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-pen",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Tools",
+      "description": "Pen Tool",
+      "triggerKeys": "P",
+      "targetKeys": "p",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-pencil",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Tools",
+      "description": "Pencil Tool",
+      "triggerKeys": "Shift+P",
+      "targetKeys": "+p",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-text",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Tools",
+      "description": "Text Tool",
+      "triggerKeys": "T",
+      "targetKeys": "t",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-rectangle",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Tools",
+      "description": "Rectangle",
+      "triggerKeys": "R",
+      "targetKeys": "r",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-ellipse",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Tools",
+      "description": "Ellipse",
+      "triggerKeys": "O",
+      "targetKeys": "o",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-line",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Tools",
+      "description": "Line",
+      "triggerKeys": "L",
+      "targetKeys": "l",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-eyedropper",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Tools",
+      "description": "Eyedropper",
+      "triggerKeys": "I",
+      "targetKeys": "i",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-hand",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "View",
+      "description": "Hand Tool (Pan)",
+      "triggerKeys": "Space",
+      "targetKeys": "{Space}",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-undo",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Edit",
+      "description": "Undo",
+      "triggerKeys": "Ctrl+Z",
+      "targetKeys": "^z",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-redo",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Edit",
+      "description": "Redo",
+      "triggerKeys": "Shift+Ctrl+Z",
+      "targetKeys": "+^z",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-group",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Objects",
+      "description": "Group Selection",
+      "triggerKeys": "Ctrl+G",
+      "targetKeys": "^g",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-ungroup",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Objects",
+      "description": "Ungroup",
+      "triggerKeys": "Shift+Ctrl+G",
+      "targetKeys": "+^g",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-frame-sel",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Objects",
+      "description": "Frame Selection",
+      "triggerKeys": "Alt+Ctrl+G",
+      "targetKeys": "!^g",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-component",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Objects",
+      "description": "Create Component",
+      "triggerKeys": "Alt+Ctrl+K",
+      "targetKeys": "!^k",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-duplicate",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Edit",
+      "description": "Duplicate",
+      "triggerKeys": "Ctrl+D",
+      "targetKeys": "^d",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-copy-props",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Edit",
+      "description": "Copy Properties",
+      "triggerKeys": "Alt+Ctrl+C",
+      "targetKeys": "!^c",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-paste-props",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Edit",
+      "description": "Paste Properties",
+      "triggerKeys": "Alt+Ctrl+V",
+      "targetKeys": "!^v",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-paste-replace",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Edit",
+      "description": "Paste to Replace",
+      "triggerKeys": "Shift+Ctrl+R",
+      "targetKeys": "+^r",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-commands",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Interface",
+      "description": "Quick Actions / Commands",
+      "triggerKeys": "Ctrl+/",
+      "targetKeys": "^/",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-shortcuts",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Interface",
+      "description": "Keyboard Shortcuts Panel",
+      "triggerKeys": "Shift+Ctrl+?",
+      "targetKeys": "+^?",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-zoom-fit",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "View",
+      "description": "Zoom to Fit",
+      "triggerKeys": "Shift+1",
+      "targetKeys": "+1",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-zoom-sel",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "View",
+      "description": "Zoom to Selection",
+      "triggerKeys": "Shift+2",
+      "targetKeys": "+2",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-zoom-100",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "View",
+      "description": "Zoom to 100%",
+      "triggerKeys": "Shift+0",
+      "targetKeys": "+0",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-ui-toggle",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Interface",
+      "description": "Show/Hide UI",
+      "triggerKeys": "Ctrl+\\",
+      "targetKeys": "^\\",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-rulers",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Interface",
+      "description": "Toggle Rulers",
+      "triggerKeys": "Shift+R",
+      "targetKeys": "+r",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-outlines",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "View",
+      "description": "Show/Hide Outlines",
+      "triggerKeys": "Shift+Ctrl+H",
+      "targetKeys": "+^h",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-mask",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Objects",
+      "description": "Use as Mask",
+      "triggerKeys": "Shift+Ctrl+3",
+      "targetKeys": "+^3",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-bold",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Text",
+      "description": "Bold",
+      "triggerKeys": "Ctrl+B",
+      "targetKeys": "^b",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-italic",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Text",
+      "description": "Italic",
+      "triggerKeys": "Ctrl+I",
+      "targetKeys": "^i",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-underline",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Text",
+      "description": "Underline",
+      "triggerKeys": "Ctrl+U",
+      "targetKeys": "^u",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-align-left",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Text",
+      "description": "Align Left",
+      "triggerKeys": "Alt+Ctrl+L",
+      "targetKeys": "!^l",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-align-center",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Text",
+      "description": "Align Center",
+      "triggerKeys": "Alt+Ctrl+T",
+      "targetKeys": "!^t",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-align-right",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Text",
+      "description": "Align Right",
+      "triggerKeys": "Alt+Ctrl+R",
+      "targetKeys": "!^r",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-select-child",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Selection",
+      "description": "Select Child",
+      "triggerKeys": "Enter",
+      "targetKeys": "{Enter}",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-select-parent",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Selection",
+      "description": "Select Parent",
+      "triggerKeys": "Shift+Enter",
+      "targetKeys": "+{Enter}",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-opacity",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "Properties",
+      "description": "Set Opacity (1=10% 0=100%)",
+      "triggerKeys": "1",
+      "targetKeys": "1",
+      "mode": "remap"
+    },
+    {
+      "id": "fig-measure",
+      "program": "Figma",
+      "process": "Figma.exe",
+      "category": "View",
+      "description": "Measure Distances",
+      "triggerKeys": "Alt",
+      "targetKeys": "!",
+      "mode": "cheatsheet"
+    },
+    {
+      "id": "ai-selection",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Tools",
+      "description": "Selection Tool",
+      "triggerKeys": "V",
+      "targetKeys": "v",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-direct-select",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Tools",
+      "description": "Direct Selection Tool",
+      "triggerKeys": "A",
+      "targetKeys": "a",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-pen",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Tools",
+      "description": "Pen Tool",
+      "triggerKeys": "P",
+      "targetKeys": "p",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-type",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Tools",
+      "description": "Type Tool",
+      "triggerKeys": "T",
+      "targetKeys": "t",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-rectangle",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Tools",
+      "description": "Rectangle Tool",
+      "triggerKeys": "M",
+      "targetKeys": "m",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-ellipse",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Tools",
+      "description": "Ellipse Tool",
+      "triggerKeys": "L",
+      "targetKeys": "l",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-hand",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Tools",
+      "description": "Hand Tool",
+      "triggerKeys": "H",
+      "targetKeys": "h",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-zoom",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Tools",
+      "description": "Zoom Tool",
+      "triggerKeys": "Z",
+      "targetKeys": "z",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-eyedropper",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Tools",
+      "description": "Eyedropper",
+      "triggerKeys": "I",
+      "targetKeys": "i",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-undo",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Edit",
+      "description": "Undo",
+      "triggerKeys": "Ctrl+Z",
+      "targetKeys": "^z",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-redo",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Edit",
+      "description": "Redo",
+      "triggerKeys": "Shift+Ctrl+Z",
+      "targetKeys": "+^z",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-group",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Objects",
+      "description": "Group",
+      "triggerKeys": "Ctrl+G",
+      "targetKeys": "^g",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-ungroup",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Objects",
+      "description": "Ungroup",
+      "triggerKeys": "Shift+Ctrl+G",
+      "targetKeys": "+^g",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-lock",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Objects",
+      "description": "Lock Selection",
+      "triggerKeys": "Ctrl+2",
+      "targetKeys": "^2",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-unlock",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Objects",
+      "description": "Unlock All",
+      "triggerKeys": "Alt+Ctrl+2",
+      "targetKeys": "!^2",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-hide",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Objects",
+      "description": "Hide Selection",
+      "triggerKeys": "Ctrl+3",
+      "targetKeys": "^3",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-show-all",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Objects",
+      "description": "Show All",
+      "triggerKeys": "Alt+Ctrl+3",
+      "targetKeys": "!^3",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-outlines",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Text",
+      "description": "Create Outlines",
+      "triggerKeys": "Shift+Ctrl+O",
+      "targetKeys": "+^o",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-compound-path",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Paths",
+      "description": "Make Compound Path",
+      "triggerKeys": "Ctrl+8",
+      "targetKeys": "^8",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-pathfinder",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Paths",
+      "description": "Pathfinder Panel",
+      "triggerKeys": "Shift+Ctrl+F9",
+      "targetKeys": "+^{F9}",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-paste-front",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Edit",
+      "description": "Paste in Front",
+      "triggerKeys": "Ctrl+F",
+      "targetKeys": "^f",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-paste-back",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Edit",
+      "description": "Paste in Back",
+      "triggerKeys": "Ctrl+B",
+      "targetKeys": "^b",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-paste-place",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Edit",
+      "description": "Paste in Place",
+      "triggerKeys": "Shift+Ctrl+V",
+      "targetKeys": "+^v",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-join",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Paths",
+      "description": "Join",
+      "triggerKeys": "Ctrl+J",
+      "targetKeys": "^j",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-average-join",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Paths",
+      "description": "Average and Join",
+      "triggerKeys": "Shift+Ctrl+Alt+J",
+      "targetKeys": "+^!j",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-swap-fill",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Colors",
+      "description": "Swap Fill / Stroke",
+      "triggerKeys": "Shift+X",
+      "targetKeys": "+x",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-default-colors",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Colors",
+      "description": "Default Fill / Stroke",
+      "triggerKeys": "D",
+      "targetKeys": "d",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-no-fill",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Colors",
+      "description": "Remove Fill / Stroke",
+      "triggerKeys": "/",
+      "targetKeys": "/",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-toggle-focus",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Colors",
+      "description": "Toggle Fill / Stroke Focus",
+      "triggerKeys": "X",
+      "targetKeys": "x",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-outline-view",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "View",
+      "description": "Outline / Preview Toggle",
+      "triggerKeys": "Ctrl+Y",
+      "targetKeys": "^y",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-transparency",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "View",
+      "description": "Show Transparency Grid",
+      "triggerKeys": "Shift+Ctrl+D",
+      "targetKeys": "+^d",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-rulers",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "View",
+      "description": "Toggle Rulers",
+      "triggerKeys": "Ctrl+R",
+      "targetKeys": "^r",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-guides",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "View",
+      "description": "Show/Hide Guides",
+      "triggerKeys": "Ctrl+;",
+      "targetKeys": "^;",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-lock-guides",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "View",
+      "description": "Lock Guides",
+      "triggerKeys": "Alt+Ctrl+;",
+      "targetKeys": "!^;",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-fit-all",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "View",
+      "description": "Fit All in Window",
+      "triggerKeys": "Ctrl+0",
+      "targetKeys": "^0",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-actual-size",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "View",
+      "description": "100% Zoom",
+      "triggerKeys": "Ctrl+1",
+      "targetKeys": "^1",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-image-size",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Edit",
+      "description": "Image Size",
+      "triggerKeys": "Alt+Ctrl+I",
+      "targetKeys": "!^i",
+      "mode": "remap"
+    },
+    {
+      "id": "ai-canvas-size",
+      "program": "Adobe Illustrator",
+      "process": "Illustrator.exe",
+      "category": "Edit",
+      "description": "Canvas Size",
+      "triggerKeys": "Alt+Ctrl+C",
+      "targetKeys": "!^c",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-new",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "File",
+      "description": "New Document",
+      "triggerKeys": "Ctrl+N",
+      "targetKeys": "^n",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-open",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "File",
+      "description": "Open",
+      "triggerKeys": "Ctrl+O",
+      "targetKeys": "^o",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-save",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "File",
+      "description": "Save",
+      "triggerKeys": "Ctrl+S",
+      "targetKeys": "^s",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-save-as",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "File",
+      "description": "Save As",
+      "triggerKeys": "Shift+Ctrl+S",
+      "targetKeys": "+^s",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-save-web",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "File",
+      "description": "Save for Web",
+      "triggerKeys": "Alt+Shift+Ctrl+S",
+      "targetKeys": "!+^s",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-undo",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Edit",
+      "description": "Undo",
+      "triggerKeys": "Ctrl+Z",
+      "targetKeys": "^z",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-step-back",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Edit",
+      "description": "Step Backward",
+      "triggerKeys": "Alt+Ctrl+Z",
+      "targetKeys": "!^z",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-transform",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Edit",
+      "description": "Free Transform",
+      "triggerKeys": "Ctrl+T",
+      "targetKeys": "^t",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-duplicate",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Layers",
+      "description": "Duplicate Layer",
+      "triggerKeys": "Ctrl+J",
+      "targetKeys": "^j",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-new-layer",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Layers",
+      "description": "New Layer",
+      "triggerKeys": "Shift+Ctrl+N",
+      "targetKeys": "+^n",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-group",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Layers",
+      "description": "Group Layers",
+      "triggerKeys": "Ctrl+G",
+      "targetKeys": "^g",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-ungroup",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Layers",
+      "description": "Ungroup Layers",
+      "triggerKeys": "Shift+Ctrl+G",
+      "targetKeys": "+^g",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-merge",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Layers",
+      "description": "Merge Layers",
+      "triggerKeys": "Ctrl+E",
+      "targetKeys": "^e",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-merge-visible",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Layers",
+      "description": "Merge Visible",
+      "triggerKeys": "Shift+Ctrl+E",
+      "targetKeys": "+^e",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-move",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Tools",
+      "description": "Move Tool",
+      "triggerKeys": "V",
+      "targetKeys": "v",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-marquee",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Tools",
+      "description": "Rectangular Marquee",
+      "triggerKeys": "M",
+      "targetKeys": "m",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-lasso",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Tools",
+      "description": "Lasso Tool",
+      "triggerKeys": "L",
+      "targetKeys": "l",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-quick-select",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Tools",
+      "description": "Quick Selection / Magic Wand",
+      "triggerKeys": "W",
+      "targetKeys": "w",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-crop",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Tools",
+      "description": "Crop Tool",
+      "triggerKeys": "C",
+      "targetKeys": "c",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-eyedropper",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Tools",
+      "description": "Eyedropper",
+      "triggerKeys": "I",
+      "targetKeys": "i",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-healing",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Tools",
+      "description": "Spot Healing Brush",
+      "triggerKeys": "J",
+      "targetKeys": "j",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-brush",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Tools",
+      "description": "Brush Tool",
+      "triggerKeys": "B",
+      "targetKeys": "b",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-clone",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Tools",
+      "description": "Clone Stamp",
+      "triggerKeys": "S",
+      "targetKeys": "s",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-eraser",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Tools",
+      "description": "Eraser",
+      "triggerKeys": "E",
+      "targetKeys": "e",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-gradient",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Tools",
+      "description": "Gradient / Paint Bucket",
+      "triggerKeys": "G",
+      "targetKeys": "g",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-pen",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Tools",
+      "description": "Pen Tool",
+      "triggerKeys": "P",
+      "targetKeys": "p",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-type",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Tools",
+      "description": "Type Tool",
+      "triggerKeys": "T",
+      "targetKeys": "t",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-shape",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Tools",
+      "description": "Shape Tools",
+      "triggerKeys": "U",
+      "targetKeys": "u",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-hand",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Tools",
+      "description": "Hand Tool",
+      "triggerKeys": "H",
+      "targetKeys": "h",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-zoom",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Tools",
+      "description": "Zoom Tool",
+      "triggerKeys": "Z",
+      "targetKeys": "z",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-default-colors",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Colors",
+      "description": "Default Colors (B/W)",
+      "triggerKeys": "D",
+      "targetKeys": "d",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-swap-colors",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Colors",
+      "description": "Swap Foreground/Background",
+      "triggerKeys": "X",
+      "targetKeys": "x",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-brush-smaller",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Brushes",
+      "description": "Decrease Brush Size",
+      "triggerKeys": "[",
+      "targetKeys": "[",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-brush-bigger",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Brushes",
+      "description": "Increase Brush Size",
+      "triggerKeys": "]",
+      "targetKeys": "]",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-brush-hardness",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Brushes",
+      "description": "Decrease Brush Hardness",
+      "triggerKeys": "Shift+[",
+      "targetKeys": "+[",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-brush-softness",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Brushes",
+      "description": "Increase Brush Hardness",
+      "triggerKeys": "Shift+]",
+      "targetKeys": "+]",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-levels",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Adjustments",
+      "description": "Levels",
+      "triggerKeys": "Ctrl+L",
+      "targetKeys": "^l",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-curves",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Adjustments",
+      "description": "Curves",
+      "triggerKeys": "Ctrl+M",
+      "targetKeys": "^m",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-hue-sat",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Adjustments",
+      "description": "Hue / Saturation",
+      "triggerKeys": "Ctrl+U",
+      "targetKeys": "^u",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-desaturate",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Adjustments",
+      "description": "Desaturate",
+      "triggerKeys": "Shift+Ctrl+U",
+      "targetKeys": "+^u",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-invert",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Adjustments",
+      "description": "Invert",
+      "triggerKeys": "Ctrl+I",
+      "targetKeys": "^i",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-deselect",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Selection",
+      "description": "Deselect",
+      "triggerKeys": "Ctrl+D",
+      "targetKeys": "^d",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-inverse",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Selection",
+      "description": "Inverse Selection",
+      "triggerKeys": "Shift+Ctrl+I",
+      "targetKeys": "+^i",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-fit-screen",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "View",
+      "description": "Fit to Screen",
+      "triggerKeys": "Ctrl+0",
+      "targetKeys": "^0",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-actual-pixels",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "View",
+      "description": "100% Zoom",
+      "triggerKeys": "Ctrl+1",
+      "targetKeys": "^1",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-rulers",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "View",
+      "description": "Toggle Rulers",
+      "triggerKeys": "Ctrl+R",
+      "targetKeys": "^r",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-extras",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "View",
+      "description": "Toggle Extras",
+      "triggerKeys": "Ctrl+H",
+      "targetKeys": "^h",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-screen-mode",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Interface",
+      "description": "Screen Mode Toggle",
+      "triggerKeys": "F",
+      "targetKeys": "f",
+      "mode": "remap"
+    },
+    {
+      "id": "ps-panels",
+      "program": "Adobe Photoshop",
+      "process": "Photoshop.exe",
+      "category": "Interface",
+      "description": "Hide/Show Panels",
+      "triggerKeys": "Tab",
+      "targetKeys": "{Tab}",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-selection",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Tools",
+      "description": "Selection Tool",
+      "triggerKeys": "V",
+      "targetKeys": "v",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-razor",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Tools",
+      "description": "Razor Tool",
+      "triggerKeys": "C",
+      "targetKeys": "c",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-ripple",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Tools",
+      "description": "Ripple Edit Tool",
+      "triggerKeys": "B",
+      "targetKeys": "b",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-rolling",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Tools",
+      "description": "Rolling Edit Tool",
+      "triggerKeys": "N",
+      "targetKeys": "n",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-slip",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Tools",
+      "description": "Slip Tool",
+      "triggerKeys": "Y",
+      "targetKeys": "y",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-pen",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Tools",
+      "description": "Pen Tool",
+      "triggerKeys": "P",
+      "targetKeys": "p",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-hand",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Tools",
+      "description": "Hand Tool",
+      "triggerKeys": "H",
+      "targetKeys": "h",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-type",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Tools",
+      "description": "Type Tool",
+      "triggerKeys": "T",
+      "targetKeys": "t",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-undo",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Edit",
+      "description": "Undo",
+      "triggerKeys": "Ctrl+Z",
+      "targetKeys": "^z",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-redo",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Edit",
+      "description": "Redo",
+      "triggerKeys": "Shift+Ctrl+Z",
+      "targetKeys": "+^z",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-cut",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Timeline",
+      "description": "Add Edit (Cut)",
+      "triggerKeys": "Ctrl+K",
+      "targetKeys": "^k",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-cut-all",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Timeline",
+      "description": "Add Edit All Tracks",
+      "triggerKeys": "Shift+Ctrl+K",
+      "targetKeys": "+^k",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-ripple-trim-prev",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Timeline",
+      "description": "Ripple Trim Previous",
+      "triggerKeys": "Q",
+      "targetKeys": "q",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-ripple-trim-next",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Timeline",
+      "description": "Ripple Trim Next",
+      "triggerKeys": "W",
+      "targetKeys": "w",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-export-frame",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "File",
+      "description": "Export Frame",
+      "triggerKeys": "Shift+Ctrl+E",
+      "targetKeys": "+^e",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-export-media",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "File",
+      "description": "Export Media",
+      "triggerKeys": "Ctrl+M",
+      "targetKeys": "^m",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-import",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "File",
+      "description": "Import",
+      "triggerKeys": "Ctrl+I",
+      "targetKeys": "^i",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-save",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "File",
+      "description": "Save",
+      "triggerKeys": "Ctrl+S",
+      "targetKeys": "^s",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-play",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Playback",
+      "description": "Play / Pause",
+      "triggerKeys": "Space",
+      "targetKeys": "{Space}",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-reverse",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Playback",
+      "description": "Reverse Play",
+      "triggerKeys": "J",
+      "targetKeys": "j",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-stop",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Playback",
+      "description": "Stop",
+      "triggerKeys": "K",
+      "targetKeys": "k",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-forward",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Playback",
+      "description": "Play Forward",
+      "triggerKeys": "L",
+      "targetKeys": "l",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-prev-frame",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Timeline",
+      "description": "Previous Frame",
+      "triggerKeys": "Left",
+      "targetKeys": "{Left}",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-next-frame",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Timeline",
+      "description": "Next Frame",
+      "triggerKeys": "Right",
+      "targetKeys": "{Right}",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-mark-in",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Markers",
+      "description": "Mark In",
+      "triggerKeys": "I",
+      "targetKeys": "i",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-mark-out",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Markers",
+      "description": "Mark Out",
+      "triggerKeys": "O",
+      "targetKeys": "o",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-mark-clip",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Markers",
+      "description": "Mark Clip",
+      "triggerKeys": "X",
+      "targetKeys": "x",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-clear-markers",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Markers",
+      "description": "Clear In/Out",
+      "triggerKeys": "Shift+Ctrl+X",
+      "targetKeys": "+^x",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-insert",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Timeline",
+      "description": "Insert Edit",
+      "triggerKeys": ",",
+      "targetKeys": ",",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-overwrite",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Timeline",
+      "description": "Overwrite Edit",
+      "triggerKeys": ".",
+      "targetKeys": ".",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-speed",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Clip",
+      "description": "Speed / Duration",
+      "triggerKeys": "Ctrl+R",
+      "targetKeys": "^r",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-link",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Clip",
+      "description": "Link / Unlink",
+      "triggerKeys": "Ctrl+L",
+      "targetKeys": "^l",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-group",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Clip",
+      "description": "Group",
+      "triggerKeys": "Ctrl+G",
+      "targetKeys": "^g",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-ungroup",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Clip",
+      "description": "Ungroup",
+      "triggerKeys": "Shift+Ctrl+G",
+      "targetKeys": "+^g",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-nest",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Clip",
+      "description": "Nest",
+      "triggerKeys": "Shift+Ctrl+N",
+      "targetKeys": "+^n",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-transition",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Timeline",
+      "description": "Apply Default Transition",
+      "triggerKeys": "Ctrl+D",
+      "targetKeys": "^d",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-audio-transition",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Timeline",
+      "description": "Apply Audio Transition",
+      "triggerKeys": "Shift+Ctrl+D",
+      "targetKeys": "+^d",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-max-panel",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Interface",
+      "description": "Maximize Panel",
+      "triggerKeys": "`",
+      "targetKeys": "``",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-delete",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Timeline",
+      "description": "Ripple Delete",
+      "triggerKeys": "Shift+Delete",
+      "targetKeys": "+{Delete}",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-goto-start",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Timeline",
+      "description": "Go to Beginning",
+      "triggerKeys": "Home",
+      "targetKeys": "{Home}",
+      "mode": "remap"
+    },
+    {
+      "id": "pr-goto-end",
+      "program": "Adobe Premiere Pro",
+      "process": "Premiere.exe",
+      "category": "Timeline",
+      "description": "Go to End",
+      "triggerKeys": "End",
+      "targetKeys": "{End}",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-new-folder",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Files",
+      "description": "New Folder",
+      "triggerKeys": "Ctrl+Shift+N",
+      "targetKeys": "^+n",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-rename",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Files",
+      "description": "Rename",
+      "triggerKeys": "F2",
+      "targetKeys": "{F2}",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-delete",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Files",
+      "description": "Delete",
+      "triggerKeys": "Delete",
+      "targetKeys": "{Delete}",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-perm-delete",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Files",
+      "description": "Permanent Delete",
+      "triggerKeys": "Shift+Delete",
+      "targetKeys": "+{Delete}",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-properties",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Files",
+      "description": "Properties",
+      "triggerKeys": "Alt+Enter",
+      "targetKeys": "!{Enter}",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-copy",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Edit",
+      "description": "Copy",
+      "triggerKeys": "Ctrl+C",
+      "targetKeys": "^c",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-cut",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Edit",
+      "description": "Cut",
+      "triggerKeys": "Ctrl+X",
+      "targetKeys": "^x",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-paste",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Edit",
+      "description": "Paste",
+      "triggerKeys": "Ctrl+V",
+      "targetKeys": "^v",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-undo",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Edit",
+      "description": "Undo",
+      "triggerKeys": "Ctrl+Z",
+      "targetKeys": "^z",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-select-all",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Edit",
+      "description": "Select All",
+      "triggerKeys": "Ctrl+A",
+      "targetKeys": "^a",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-address-bar",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Navigation",
+      "description": "Focus Address Bar",
+      "triggerKeys": "Ctrl+L",
+      "targetKeys": "^l",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-search",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Navigation",
+      "description": "Search",
+      "triggerKeys": "Ctrl+F",
+      "targetKeys": "^f",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-back",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Navigation",
+      "description": "Go Back",
+      "triggerKeys": "Alt+Left",
+      "targetKeys": "!{Left}",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-forward",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Navigation",
+      "description": "Go Forward",
+      "triggerKeys": "Alt+Right",
+      "targetKeys": "!{Right}",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-up",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Navigation",
+      "description": "Go Up One Level",
+      "triggerKeys": "Alt+Up",
+      "targetKeys": "!{Up}",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-refresh",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "View",
+      "description": "Refresh",
+      "triggerKeys": "F5",
+      "targetKeys": "{F5}",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-preview",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "View",
+      "description": "Toggle Preview Pane",
+      "triggerKeys": "Alt+P",
+      "targetKeys": "!p",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-details",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "View",
+      "description": "Toggle Details Pane",
+      "triggerKeys": "Alt+Shift+P",
+      "targetKeys": "!+p",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-tree",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "View",
+      "description": "Toggle Navigation Pane",
+      "triggerKeys": "Alt+Shift+N",
+      "targetKeys": "!+n",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-new-window",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Window",
+      "description": "New Window",
+      "triggerKeys": "Ctrl+N",
+      "targetKeys": "^n",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-close",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Window",
+      "description": "Close Window",
+      "triggerKeys": "Ctrl+W",
+      "targetKeys": "^w",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-hidden",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "View",
+      "description": "Toggle Hidden Items",
+      "triggerKeys": "Alt+V H H",
+      "targetKeys": "!vhh",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-extensions",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "View",
+      "description": "Toggle File Extensions",
+      "triggerKeys": "Alt+V H F",
+      "targetKeys": "!vhf",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-open",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Files",
+      "description": "Open / Enter Folder",
+      "triggerKeys": "Enter",
+      "targetKeys": "{Enter}",
+      "mode": "remap"
+    },
+    {
+      "id": "fe-parent",
+      "program": "File Explorer",
+      "process": "explorer.exe",
+      "category": "Navigation",
+      "description": "Open Parent Folder",
+      "triggerKeys": "Ctrl+Up",
+      "targetKeys": "^{Up}",
+      "mode": "remap"
+    }
+  ]
+}

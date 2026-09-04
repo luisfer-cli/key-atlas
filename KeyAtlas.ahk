@@ -26,6 +26,9 @@ Init()
 ; ---- System Tray Menu ----
 SetupTray()
 
+if (ShouldOpenConfigOnStart())
+    SetTimer((*) => OpenConfig(), -100)
+
 ; ---- Main Loop (keeps script alive) ----
 Persistent()
 
@@ -35,6 +38,7 @@ Persistent()
 
 Init() {
     Config.Init()
+    ApplyInstallLanguageArgument()
     Database.Init()
     I18n.Init()
     Theme.Init()
@@ -107,6 +111,46 @@ OnTriggerActivated(*) {
 
 OpenConfig() {
     GuiManager.Show()
+}
+
+ShouldOpenConfigOnStart() {
+    for arg in A_Args {
+        if (arg = "--open-config" || arg = "/open-config")
+            return true
+    }
+    return false
+}
+
+ApplyInstallLanguageArgument() {
+    for arg in A_Args {
+        lang := ""
+        if (SubStr(arg, 1, 15) = "--install-lang=")
+            lang := SubStr(arg, 16)
+        else if (SubStr(arg, 1, 14) = "/install-lang=")
+            lang := SubStr(arg, 15)
+
+        if (lang = "")
+            continue
+
+        lang := NormalizeInstallLanguage(lang)
+        if (lang = "")
+            return
+
+        if (Config.Get("lang", "en") != lang) {
+            Config.Set("lang", lang)
+            Config.Save()
+        }
+        return
+    }
+}
+
+NormalizeInstallLanguage(lang) {
+    lang := StrLower(lang)
+    if (lang = "spanish" || lang = "es" || lang = "es-es")
+        return "es"
+    if (lang = "english" || lang = "en" || lang = "en-us")
+        return "en"
+    return ""
 }
 
 SwitchAppMode(mode) {
