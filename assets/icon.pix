@@ -1,0 +1,29 @@
+canvas 32 32
+background WHITE
+strict_palette true
+
+palette {
+    WHITE #FFFFFF
+    BLACK #050505
+    EDGE #1A1A1A
+    SHADOW #D9D9D9
+}
+
+group keycap at 2 2 {
+    rect 3 4 24 22 SHADOW
+    rect 1 1 24 22 EDGE
+    rect 2 2 22 20 WHITE
+}
+
+group letter_k at 9 7 {
+    rect 0 0 4 18 BLACK
+    rect 4 7 4 4 BLACK
+
+    rect 8 0 4 3 BLACK
+    rect 6 3 4 3 BLACK
+    rect 4 5 4 3 BLACK
+
+    rect 4 10 4 3 BLACK
+    rect 6 13 4 3 BLACK
+    rect 8 15 4 3 BLACK
+}

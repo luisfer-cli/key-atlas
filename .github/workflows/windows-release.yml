@@ -46,8 +46,16 @@ jobs:
           $packageRoot = Join-Path $env:GITHUB_WORKSPACE "dist\KeyAtlas"
           New-Item -ItemType Directory -Force $packageRoot | Out-Null
           $exePath = Join-Path $packageRoot "KeyAtlas.exe"
-          & $env:AHK2EXE /in "$env:GITHUB_WORKSPACE\KeyAtlas.ahk" `
-            /out $exePath /base $env:AHK64
+          $iconPath = Join-Path $env:GITHUB_WORKSPACE "assets\icon.ico"
+          $compileArgs = @(
+            "/in", "$env:GITHUB_WORKSPACE\KeyAtlas.ahk",
+            "/out", $exePath,
+            "/base", $env:AHK64
+          )
+          if (Test-Path $iconPath) {
+            $compileArgs += @("/icon", $iconPath)
+          }
+          & $env:AHK2EXE @compileArgs
           if ($LASTEXITCODE -is [int] -and $LASTEXITCODE -ne 0) {
             throw "Ahk2Exe failed with exit code $LASTEXITCODE."
           }
