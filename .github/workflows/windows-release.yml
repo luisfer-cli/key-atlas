@@ -75,15 +75,21 @@ jobs:
           foreach ($invalidChar in [IO.Path]::GetInvalidFileNameChars()) {
             $version = $version.Replace($invalidChar, "-")
           }
+          $releaseExePath = Join-Path $env:GITHUB_WORKSPACE "dist\KeyAtlas-$version-windows-x64.exe"
+          Copy-Item $exePath $releaseExePath
+
           $packagePath = Join-Path $env:GITHUB_WORKSPACE "dist\KeyAtlas-$version-windows-x64.zip"
           Compress-Archive -Path "$packageRoot\*" -DestinationPath $packagePath
           "path=$packagePath" >> $env:GITHUB_OUTPUT
+          "exe_path=$releaseExePath" >> $env:GITHUB_OUTPUT
 
       - name: Upload Windows package
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: key-atlas-windows-x64
-          path: ${{ steps.package.outputs.path }}
+          path: |
+            ${{ steps.package.outputs.path }}
+            ${{ steps.package.outputs.exe_path }}
           if-no-files-found: error
           retention-days: 30
 
@@ -108,12 +114,13 @@ jobs:
           TAG: ${{ github.ref_name }}
           REPO: ${{ github.repository }}
         run: |
-          $packagePath = Get-ChildItem "dist" -Filter "*.zip" | Select-Object -First 1
-          if (-not $packagePath) {
-            throw "Windows release package was not found."
+          $releaseAssets = Get-ChildItem "dist" -File -Include "*.zip", "*.exe" -Recurse
+          if (-not $releaseAssets) {
+            throw "Windows release assets were not found."
           }
+          $assetPaths = $releaseAssets | ForEach-Object { $_.FullName }
           if (gh release view $env:TAG --repo $env:REPO 2>$null) {
-            gh release upload $env:TAG $packagePath.FullName --repo $env:REPO --clobber
+            gh release upload $env:TAG @assetPaths --repo $env:REPO --clobber
           } else {
-            gh release create $env:TAG $packagePath.FullName --repo $env:REPO --title "Key Atlas $env:TAG" --generate-notes
+            gh release create $env:TAG @assetPaths --repo $env:REPO --title "Key Atlas $env:TAG" --generate-notes
           }
