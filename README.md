@@ -17,8 +17,9 @@ Key Atlas is a minimal Windows keyboard shortcut assistant built with AutoHotkey
 
 Go to the latest release and choose one of the Windows assets:
 
+- `KeyAtlas-Setup-*-windows-x64.exe` — recommended Windows installer. Open it and follow the wizard.
 - `KeyAtlas-portable-*-windows-x64.exe` — run directly. From the tray menu, choose **Install / start with Windows** if you want it to launch after sign-in.
-- `KeyAtlas-installer-*-windows-x64.zip` — full package with installer, uninstaller, default config, and shortcut data.
+- `KeyAtlas-installer-*-windows-x64.zip` — advanced/manual package with installer scripts, uninstaller, default config, and shortcut data.
 
 ## Install from the zip package
 
