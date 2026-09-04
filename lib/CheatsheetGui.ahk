@@ -21,9 +21,38 @@ class CheatsheetGui {
         if (this.IsVisible)
             return
 
-        this.ActiveProcess := WinGetProcessName("A")
-        this.ActiveProgram := WinGetTitle("A")
-        this.Shortcuts := Database.GetForActiveWindow()
+        activeHwnd := WinExist("A")
+        if (!activeHwnd) {
+            TrayTip(I18n.t("sheet.no_active_window"), "Key Atlas", "Iconi")
+            return
+        }
+        activeClass := ""
+        try activeClass := WinGetClass(activeHwnd)
+        if (activeClass = "Progman" || activeClass = "WorkerW"
+            || activeClass = "Shell_TrayWnd") {
+            TrayTip(I18n.t("sheet.no_active_window"), "Key Atlas", "Iconi")
+            return
+        }
+
+        try this.ActiveProcess := WinGetProcessName(activeHwnd)
+        catch {
+            TrayTip(I18n.t("sheet.no_active_window"), "Key Atlas", "Iconi")
+            return
+        }
+        if (this.ActiveProcess = "") {
+            TrayTip(I18n.t("sheet.no_active_window"), "Key Atlas", "Iconi")
+            return
+        }
+        if (!Database.IsProcessRegistered(this.ActiveProcess)) {
+            TrayTip(I18n.t("sheet.software_unregistered") this.ActiveProcess,
+                "Key Atlas", "Iconi")
+            return
+        }
+
+        try this.ActiveProgram := WinGetTitle(activeHwnd)
+        catch
+            this.ActiveProgram := this.ActiveProcess
+        this.Shortcuts := Database.GetByProgram(this.ActiveProcess)
         this.Groups := Database.GroupByCategory(this.Shortcuts)
         this.SelectedIndex := 1
         this.SearchQuery := ""

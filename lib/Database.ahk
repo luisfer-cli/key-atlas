@@ -56,6 +56,19 @@ class Database {
         return results
     }
 
+    static IsProcessRegistered(processName) {
+        processName := StrLower(Trim(processName))
+        if (processName = "")
+            return false
+
+        for shortcut in this.GetAll() {
+            proc := StrLower(Trim(shortcut.Has("process") ? shortcut["process"] : ""))
+            if (proc != "" && (InStr(processName, proc) || InStr(proc, processName)))
+                return true
+        }
+        return false
+    }
+
     ; Get shortcuts for the current active window
     static GetForActiveWindow() {
         activeProcess := WinGetProcessName("A")
