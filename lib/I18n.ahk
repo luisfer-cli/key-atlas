@@ -19,7 +19,7 @@ class I18n {
             "tray.mode",     "Mode: ",
 
             ; Tray menu
-            "menu.open",     "Open Settings",
+            "menu.open",     "Open Shortcut Library",
             "menu.cheatsheet", "Cheatsheet Mode",
             "menu.remap",    "Remap Mode",
             "menu.reload_db","Reload Database",
@@ -38,16 +38,20 @@ class I18n {
             "about.body",    "Key Atlas v1.0.0`n`nUniversal keyboard shortcut assistant.`n`nFeatures:`n- Cheatsheet (which-key style)`n- Remap mode for direct execution`n- JSON configurable database`n- Multiple color themes`n- Auto-detect active program",
 
             ; GUI: toolbar
-            "gui.title",          "Key Atlas - Settings",
+            "gui.title",          "Key Atlas - Shortcut Library",
+            "gui.library",        "Shortcut Library",
+            "gui.subtitle",       "Find, organize and launch every command from one place.",
             "toolbar.program",    "Program:",
             "toolbar.search",     "Search:",
+            "toolbar.search_hint","Search shortcuts...",
             "toolbar.autoassign", "Assign Keys",
             "toolbar.import",     "Import",
             "toolbar.export",     "Export",
+            "toolbar.more",       "More actions",
             "toolbar.settings",   "Settings",
 
             ; GUI: tree panel
-            "tree.title",         "Categories by Program",
+            "tree.title",         "LIBRARY",
 
             ; GUI: shortcut list
             "list.title",         "Shortcuts",
@@ -62,10 +66,18 @@ class I18n {
             "btn.delete",         "Delete",
             "footer.dblclick",    "Double-click to edit | ",
             "footer.total",       " shortcuts total",
+            "footer.visible",     "visible",
+            "footer.total_short", "total",
+            "footer.hint",        "Double-click a shortcut to edit",
 
             ; GUI: editor dialog
             "editor.title_new",   "Key Atlas - New Shortcut",
             "editor.title_edit",  "Key Atlas - Edit Shortcut",
+            "editor.heading_new", "Create a shortcut",
+            "editor.heading_edit","Edit shortcut",
+            "editor.subtitle",    "Define where it is available, how it is triggered and what it does.",
+            "editor.section_app", "APPLICATION",
+            "editor.section_shortcut", "SHORTCUT DETAILS",
             "editor.program",     "Program:",
             "editor.process",     "Process (.exe):",
             "editor.detect",      "Detect Active Window",
@@ -82,6 +94,11 @@ class I18n {
 
             ; GUI: settings dialog
             "settings.title",           "Key Atlas - Settings",
+            "settings.heading",         "Preferences",
+            "settings.subtitle",        "Customize how Key Atlas opens, looks and responds.",
+            "settings.section_behavior","BEHAVIOR",
+            "settings.section_appearance", "APPEARANCE",
+            "settings.section_overlay", "OVERLAY",
             "settings.hotkey",          "Activation Hotkey",
             "settings.combo",           "Combination:",
             "settings.apply",           "Apply",
@@ -93,6 +110,10 @@ class I18n {
             "settings.lang_en",         "English",
             "settings.lang_es",         "Spanish",
             "settings.close",           "Close",
+            "settings.save",            "Save changes",
+            "settings.max_items",       "Visible shortcuts:",
+            "settings.opacity",         "Overlay opacity:",
+            "settings.timeout",         "Remap timeout (sec):",
 
             ; GUI: auto-assign dialog
             "auto.title",              "Key Atlas - Auto-Assign",
@@ -111,6 +132,8 @@ class I18n {
             ; GUI: validation messages
             "msg.desc_required",    "Description is required.",
             "msg.trigger_required", "Trigger keys are required.",
+            "msg.target_required",  "Target keys are required for executable shortcuts.",
+            "msg.timeout_range",    "Remap timeout must be between 0.5 and 10 seconds.",
             "msg.select_edit",      "Select a shortcut to edit.",
             "msg.select_delete",    "Select a shortcut to delete.",
             "msg.confirm_delete",   "Delete '",
@@ -142,6 +165,12 @@ class I18n {
 
             ; Cheatsheet overlay
             "sheet.header",        "Key Atlas - ",
+            "sheet.title",         "Command palette",
+            "sheet.context",       "Shortcuts available for ",
+            "sheet.search_empty",  "Type to filter shortcuts...",
+            "sheet.showing",       "shown of",
+            "sheet.reference",     "reference",
+            "sheet.reference_notice", "This shortcut is for reference only.",
             "sheet.results",       " results)",
             "sheet.available",     " shortcuts available | Type to filter | Esc to close",
             "sheet.search",        "Search: ",
@@ -180,7 +209,7 @@ class I18n {
             "tray.trigger",  "Trigger: ",
             "tray.mode",     "Modo: ",
 
-            "menu.open",     "Abrir Configuracion",
+            "menu.open",     "Abrir Biblioteca de Atajos",
             "menu.cheatsheet", "Modo Cheatsheet",
             "menu.remap",    "Modo Remap",
             "menu.reload_db","Recargar Base de Datos",
@@ -196,15 +225,19 @@ class I18n {
             "about.title",   "Key Atlas - Acerca de",
             "about.body",    "Key Atlas v1.0.0`n`nAsistente de atajos de teclado universal.`n`nFuncionalidades:`n- Cheatsheet estilo which-key`n- Modo remap para ejecutar atajos`n- Base de datos JSON configurable`n- Multiples temas de color`n- Deteccion automatica de programa activo",
 
-            "gui.title",          "Key Atlas - Configuracion",
+            "gui.title",          "Key Atlas - Biblioteca de Atajos",
+            "gui.library",        "Biblioteca de atajos",
+            "gui.subtitle",       "Encuentra, organiza y ejecuta todos tus comandos desde un solo lugar.",
             "toolbar.program",    "Programa:",
             "toolbar.search",     "Buscar:",
+            "toolbar.search_hint","Buscar atajos...",
             "toolbar.autoassign", "Asignar Teclas",
             "toolbar.import",     "Importar",
             "toolbar.export",     "Exportar",
+            "toolbar.more",       "Mas acciones",
             "toolbar.settings",   "Ajustes",
 
-            "tree.title",         "Categorias por Programa",
+            "tree.title",         "BIBLIOTECA",
 
             "list.title",         "Atajos",
             "col.trigger",        "Trigger",
@@ -218,9 +251,17 @@ class I18n {
             "btn.delete",         "Eliminar",
             "footer.dblclick",    "Doble click para editar | ",
             "footer.total",       " atajos en total",
+            "footer.visible",     "visibles",
+            "footer.total_short", "total",
+            "footer.hint",        "Doble clic para editar un atajo",
 
             "editor.title_new",   "Key Atlas - Nuevo Atajo",
             "editor.title_edit",  "Key Atlas - Editar Atajo",
+            "editor.heading_new", "Crear un atajo",
+            "editor.heading_edit","Editar atajo",
+            "editor.subtitle",    "Define donde esta disponible, como se activa y que accion realiza.",
+            "editor.section_app", "APLICACION",
+            "editor.section_shortcut", "DETALLES DEL ATAJO",
             "editor.program",     "Programa:",
             "editor.process",     "Proceso (.exe):",
             "editor.detect",      "Detectar Ventana Activa",
@@ -236,6 +277,11 @@ class I18n {
             "editor.hint",        "Combinacional: Ctrl+S | Secuencial: g d | AHK: ^s +!f",
 
             "settings.title",           "Key Atlas - Ajustes",
+            "settings.heading",         "Preferencias",
+            "settings.subtitle",        "Personaliza como se abre, se ve y responde Key Atlas.",
+            "settings.section_behavior","COMPORTAMIENTO",
+            "settings.section_appearance", "APARIENCIA",
+            "settings.section_overlay", "OVERLAY",
             "settings.hotkey",          "Hotkey de Activacion",
             "settings.combo",           "Combinacion:",
             "settings.apply",           "Aplicar",
@@ -247,6 +293,10 @@ class I18n {
             "settings.lang_en",         "Ingles",
             "settings.lang_es",         "Espanol",
             "settings.close",           "Cerrar",
+            "settings.save",            "Guardar cambios",
+            "settings.max_items",       "Atajos visibles:",
+            "settings.opacity",         "Opacidad del overlay:",
+            "settings.timeout",         "Espera remap (seg):",
 
             "auto.title",              "Key Atlas - Asignacion Automatica",
             "auto.desc",               "Generar atajos automaticamente a partir de un conjunto de teclas",
@@ -263,6 +313,8 @@ class I18n {
 
             "msg.desc_required",    "La descripcion es obligatoria.",
             "msg.trigger_required", "Las teclas trigger son obligatorias.",
+            "msg.target_required",  "Las teclas destino son obligatorias para atajos ejecutables.",
+            "msg.timeout_range",    "La espera de remap debe estar entre 0.5 y 10 segundos.",
             "msg.select_edit",      "Selecciona un atajo para editar.",
             "msg.select_delete",    "Selecciona un atajo para eliminar.",
             "msg.confirm_delete",   "Eliminar '",
@@ -292,6 +344,12 @@ class I18n {
             "msg.export_filter",    "JSON (*.json)",
 
             "sheet.header",        "Key Atlas - ",
+            "sheet.title",         "Paleta de comandos",
+            "sheet.context",       "Atajos disponibles para ",
+            "sheet.search_empty",  "Escribe para filtrar atajos...",
+            "sheet.showing",       "mostrados de",
+            "sheet.reference",     "referencia",
+            "sheet.reference_notice", "Este atajo es solo de referencia.",
             "sheet.results",       " resultados)",
             "sheet.available",     " atajos disponibles | Escribe para filtrar | Esc para cerrar",
             "sheet.search",        "Buscar: ",

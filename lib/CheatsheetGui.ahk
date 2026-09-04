@@ -12,6 +12,8 @@ class CheatsheetGui {
     static InputHk := ""
     static ShortcutLV := ""
     static StatusText := ""
+    static SearchText := ""
+    static DisplayedCount := 0
     static ActiveProgram := ""
     static ActiveProcess := ""
 
@@ -61,8 +63,8 @@ class CheatsheetGui {
         this.GuiObj.Opt("+LastFound")
         WinSetTransparent(Config.GetCheatsheetOpacity(), this.GuiObj)
 
-        this.GuiObj.MarginX := 12
-        this.GuiObj.MarginY := 8
+        this.GuiObj.MarginX := 18
+        this.GuiObj.MarginY := 14
 
         bright := Theme.TXTBRIGHT()
         dim := Theme.TXTDIM()
@@ -72,30 +74,34 @@ class CheatsheetGui {
         bdrHex := Format("{:06X}", bdrBGR)
 
         ; Header
-        this.GuiObj.SetFont("s11 bold c" bright, "Consolas")
+        this.GuiObj.SetFont("s17 bold c" bright, "Segoe UI")
+        this.GuiObj.Add("Text", "xm w704 h30", I18n.t("sheet.title"))
+        this.GuiObj.SetFont("s9 c" dim, "Segoe UI")
         processName := this.ActiveProcess
         if (StrLen(processName) > 55)
             processName := SubStr(processName, 1, 52) . "..."
-        this.GuiObj.Add("Text", "xm w580", I18n.t("sheet.header") processName)
+        this.GuiObj.Add("Text", "xm y+1 w704 h20", I18n.t("sheet.context") processName)
 
-        ; Status
-        this.GuiObj.SetFont("s9 c" dim, "Consolas")
-        this.StatusText := this.GuiObj.Add("Text", "xm y+2 w580", "")
+        ; Visible search affordance
+        this.GuiObj.SetFont("s10 c" bright, "Segoe UI")
+        this.SearchText := this.GuiObj.Add("Text", "xm y+12 w704 h30 Background0x" surfHex,
+            "  " I18n.t("sheet.search_empty"))
+        this.GuiObj.SetFont("s9 c" dim, "Segoe UI")
+        this.StatusText := this.GuiObj.Add("Text", "xm y+7 w704 h20", "")
 
         ; Separator
-        this.GuiObj.Add("Text", "xm y+4 w580 h1 Background0x" bdrHex)
+        this.GuiObj.Add("Text", "xm y+3 w704 h1 Background0x" bdrHex)
 
         ; Shortcuts ListView
-        this.GuiObj.SetFont("s9 c" bright, "Consolas")
+        this.GuiObj.SetFont("s10 c" bright, "Segoe UI")
         this.ShortcutLV := this.GuiObj.Add("ListView",
-            "xm y+4 w580 r14 Grid -Hdr -Multi Background0x" surfHex " c" bright,
-            ["Line"])
+            "xm y+5 w704 r14 Grid -Multi Background0x" surfHex " c" bright,
+            [I18n.t("col.trigger"), I18n.t("col.desc"), I18n.t("col.category")])
+        this.ShortcutLV.OnEvent("DoubleClick", (_, row) => this._ExecuteAndClose(row))
 
         ; Footer
-        this.GuiObj.SetFont("s8 c" dim, "Consolas")
-        footerText := "[" HotkeyManager.FormatForDisplay(HotkeyManager.GetCurrentTrigger())
-            . "]" I18n.t("sheet.footer")
-        this.GuiObj.Add("Text", "xm y+6 w580", footerText)
+        this.GuiObj.SetFont("s9 c" dim, "Segoe UI")
+        this.GuiObj.Add("Text", "xm y+8 w704 Center", I18n.t("sheet.footer"))
 
         this.GuiObj.Show("AutoSize NoActivate")
     }
@@ -106,7 +112,6 @@ class CheatsheetGui {
 
     static _RenderList() {
         this.ShortcutLV.Delete()
-        itemIdx := 0
         total := 0
         maxItems := Config.GetCheatsheetMaxItems()
 
@@ -118,23 +123,21 @@ class CheatsheetGui {
                 total++
                 desc := shortcut.Has("description") ? shortcut["description"] : "(--)"
                 trigger := shortcut.Has("triggerKeys") ? shortcut["triggerKeys"] : ""
-                catTag := "[" catName "]"
-
-                if (StrLen(desc) > 30)
-                    desc := SubStr(desc, 1, 27) . "..."
-
-                displayText := Format("     {1:-8} {2:-30} {3}",
-                    catTag, desc, trigger)
-                this.ShortcutLV.Add(, displayText)
+                mode := shortcut.Has("mode") ? shortcut["mode"] : "remap"
+                category := catName
+                if (mode = "cheatsheet")
+                    category .= "  -  " I18n.t("sheet.reference")
+                this.ShortcutLV.Add(, trigger, desc, category)
             }
             if (total >= maxItems)
                 break
         }
 
         if (total = 0) {
-            this.ShortcutLV.Add(, "  " I18n.t("sheet.no_shortcuts"))
-            this.ShortcutLV.Add(, "  " I18n.t("sheet.hint"))
+            this.ShortcutLV.Add(, "", I18n.t("sheet.no_shortcuts"), "")
+            this.ShortcutLV.Add(, "Ctrl+N", I18n.t("sheet.hint"), "")
         }
+        this.DisplayedCount := total
 
         ; Select current index
         if (this.SelectedIndex > total)
@@ -142,15 +145,18 @@ class CheatsheetGui {
         if (total > 0)
             this.ShortcutLV.Modify(this.SelectedIndex, "Select Vis")
 
-        this.ShortcutLV.ModifyCol(1, 570)
+        this.ShortcutLV.ModifyCol(1, 115)
+        this.ShortcutLV.ModifyCol(2, 375)
+        this.ShortcutLV.ModifyCol(3, 195)
     }
 
     static _UpdateStatus() {
         if (this.SearchQuery != "")
-            this.StatusText.Text := I18n.t("sheet.search") this.SearchQuery
-                . " (" this.Shortcuts.Length ")"
+            this.SearchText.Text := "  " I18n.t("sheet.search") this.SearchQuery
         else
-            this.StatusText.Text := this.Shortcuts.Length I18n.t("sheet.available")
+            this.SearchText.Text := "  " I18n.t("sheet.search_empty")
+        this.StatusText.Text := this.DisplayedCount " " I18n.t("sheet.showing") " "
+            this.Shortcuts.Length
     }
 
     ; ==========================================================
@@ -159,9 +165,8 @@ class CheatsheetGui {
 
     static _StartInput() {
         this.InputHk := InputHook("L20 T10", "{Esc}{Enter}")
-        this.InputHk.KeyOpt("{Esc}{Enter}", "E -N")
-        this.InputHk.KeyOpt("{Up}{Down}{Left}{Right}", "N V")
-        this.InputHk.KeyOpt("{Backspace}", "N")
+        this.InputHk.KeyOpt("{Esc}{Enter}", "-N")
+        this.InputHk.KeyOpt("{Up}{Down}{Left}{Right}{Backspace}", "N S")
         this.InputHk.NotifyNonText := true
         this.InputHk.OnChar := this._OnChar.Bind(this)
         this.InputHk.OnKeyDown := this._OnKeyDown.Bind(this)
@@ -204,7 +209,11 @@ class CheatsheetGui {
 
         ; Ctrl+N: quick-add shortcut
         if (keyName = "n" && GetKeyState("Ctrl", "P")) {
-            GuiManager.QuickAdd(this.ActiveProgram, this.ActiveProcess, this.SearchQuery)
+            program := this.ActiveProgram
+            process := this.ActiveProcess
+            trigger := this.SearchQuery
+            this.Hide()
+            GuiManager.QuickAdd(program, process, trigger)
             return
         }
 
@@ -247,7 +256,20 @@ class CheatsheetGui {
         if (selectedShortcut = "")
             return
 
+        if (selectedShortcut.Has("mode") && selectedShortcut["mode"] = "cheatsheet") {
+            TrayTip(I18n.t("sheet.reference_notice"), "Key Atlas", "Iconi")
+            return
+        }
+
         this._SendShortcut(selectedShortcut)
+    }
+
+    static _ExecuteAndClose(row) {
+        if (row = 0)
+            return
+        this.SelectedIndex := row
+        this._ExecuteSelected()
+        this.Hide()
     }
 
     static _GetSelectedShortcut() {
