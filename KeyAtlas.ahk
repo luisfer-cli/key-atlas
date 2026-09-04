@@ -26,6 +26,9 @@ Init()
 ; ---- System Tray Menu ----
 SetupTray()
 
+if (ShouldOpenConfigOnStart())
+    SetTimer((*) => OpenConfig(), -100)
+
 ; ---- Main Loop (keeps script alive) ----
 Persistent()
 
@@ -107,6 +110,14 @@ OnTriggerActivated(*) {
 
 OpenConfig() {
     GuiManager.Show()
+}
+
+ShouldOpenConfigOnStart() {
+    for arg in A_Args {
+        if (arg = "--open-config" || arg = "/open-config")
+            return true
+    }
+    return false
 }
 
 SwitchAppMode(mode) {
