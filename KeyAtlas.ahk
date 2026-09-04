@@ -140,15 +140,10 @@ ReloadConfig() {
 }
 
 ShowAbout() {
-    aboutMsg := "
-    (
-        " I18n.t("about.body") "
-
-        " I18n.t("tray.trigger") HotkeyManager.FormatForDisplay(HotkeyManager.GetCurrentTrigger()) "
-        " I18n.t("tray.mode") HotkeyManager.GetCurrentMode() "
-
-        AutoHotkey v2.0
-    )"
+    aboutMsg := I18n.t("about.body") . "`n`n"
+        . I18n.t("tray.trigger") . HotkeyManager.FormatForDisplay(HotkeyManager.GetCurrentTrigger()) . "`n"
+        . I18n.t("tray.mode") . HotkeyManager.GetCurrentMode() . "`n`n"
+        . "AutoHotkey v2.0"
 
     MsgBox(aboutMsg, I18n.t("about.title"))
 }

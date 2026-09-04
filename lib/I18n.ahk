@@ -36,7 +36,7 @@ class I18n {
 
             ; About
             "about.title",   "Key Atlas - About",
-            "about.body",    "Key Atlas v1.0.0`n`nUniversal keyboard shortcut assistant.`n`nFeatures:`n- Cheatsheet (which-key style)`n- Remap mode for direct execution`n- JSON configurable database`n- Multiple color themes`n- Auto-detect active program",
+            "about.body",    "Key Atlas`n`nUniversal keyboard shortcut assistant.`n`nFeatures:`n- Cheatsheet (which-key style)`n- Remap mode for direct execution`n- JSON configurable database`n- Multiple color themes`n- Auto-detect active program",
 
             ; GUI: toolbar
             "gui.title",          "Key Atlas - Shortcut Library",
@@ -278,7 +278,7 @@ class I18n {
             "msg.cfg_reloaded",    "Configuracion recargada.",
 
             "about.title",   "Key Atlas - Acerca de",
-            "about.body",    "Key Atlas v1.0.0`n`nAsistente de atajos de teclado universal.`n`nFuncionalidades:`n- Cheatsheet estilo which-key`n- Modo remap para ejecutar atajos`n- Base de datos JSON configurable`n- Multiples temas de color`n- Deteccion automatica de programa activo",
+            "about.body",    "Key Atlas`n`nAsistente de atajos de teclado universal.`n`nFuncionalidades:`n- Cheatsheet estilo which-key`n- Modo remap para ejecutar atajos`n- Base de datos JSON configurable`n- Multiples temas de color`n- Deteccion automatica de programa activo",
 
             "gui.title",          "Key Atlas - Biblioteca de Atajos",
             "gui.library",        "Biblioteca de atajos",
