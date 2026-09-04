@@ -38,4 +38,4 @@ Name: "{group}\Key Atlas"; Filename: "{app}\{#MyAppExeName}"
 Name: "{userstartup}\Key Atlas"; Filename: "{app}\{#MyAppExeName}"; Tasks: startup
 
 [Run]
-Filename: "{app}\{#MyAppExeName}"; Parameters: "--open-config"; Description: "Iniciar Key Atlas y abrir configuración"; Flags: nowait postinstall skipifsilent
+Filename: "{app}\{#MyAppExeName}"; Parameters: "--open-config --install-lang={language}"; Description: "Iniciar Key Atlas y abrir configuración"; Flags: nowait postinstall skipifsilent
