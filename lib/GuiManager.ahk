@@ -657,7 +657,7 @@ class GuiManager {
         setupGui.SetFont("s11 norm c" txt, "Consolas")
         currentKeys := RemapManager.FormatSequence(Config.GetRemapKeys())
         if (currentKeys = "")
-            currentKeys := "a s d f j k l ;"
+            currentKeys := "a,s,d,f,j,k,l"
         keysEdit := setupGui.Add("Edit", "xm y+5 w520 h34 Background0x" surfHex " c" txt,
             currentKeys)
         setupGui.SetFont("s9 norm c" dim, "Segoe UI")
