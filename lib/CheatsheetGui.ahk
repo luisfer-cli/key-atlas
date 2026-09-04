@@ -127,6 +127,7 @@ class CheatsheetGui {
             "xm y+5 w704 r14 Grid -Multi Background0x" surfHex " c" bright,
             [I18n.t("col.trigger"), I18n.t("col.desc"), I18n.t("col.category")])
         this.ShortcutLV.OnEvent("DoubleClick", (_, row) => this._ExecuteAndClose(row))
+        this.GuiObj.OnEvent("Escape", (*) => this.Hide())
 
         ; Footer
         this.GuiObj.SetFont("s9 c" dim, "Segoe UI")
@@ -194,7 +195,7 @@ class CheatsheetGui {
     ; ==========================================================
 
     static _StartInput() {
-        this.InputHk := InputHook("L20 T10", "{Esc}{Enter}")
+        this.InputHk := InputHook("", "{Esc}{Enter}")
         this.InputHk.KeyOpt("{Esc}{Enter}", "-N")
         this.InputHk.KeyOpt("{Up}{Down}{Left}{Right}{Backspace}", "N S")
         this.InputHk.NotifyNonText := true
@@ -274,6 +275,8 @@ class CheatsheetGui {
                 this._ExecuteSelected()
                 this.Hide()
             }
+        } else if (ih.EndReason = "Max" && this.IsVisible) {
+            this._StartInput()
         }
     }
 

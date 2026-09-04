@@ -16,25 +16,45 @@ class HotkeyManager {
 
     ; Re-register the trigger hotkey (e.g., after user changes it in settings)
     static UpdateTrigger() {
-        newHotkey := Config.GetTriggerHotkey()
+        newHotkey := Trim(Config.GetTriggerHotkey())
         newMode := Config.GetDefaultMode()
 
         if (newHotkey = "")
             newHotkey := "^+Space"
 
-        if (newHotkey != this.CurrentHotkey || newMode != this.CurrentMode) {
+        if (newHotkey != this.CurrentHotkey) {
+            oldHotkey := this.CurrentHotkey
+            if (oldHotkey != "") {
+                try {
+                    Hotkey(oldHotkey, "Off")
+                } catch as err {
+                    Config.SetTriggerHotkey(oldHotkey)
+                    Config.Save()
+                    MsgBox("Error registrando hotkey '" newHotkey "': " err.Message,
+                        "Key Atlas - Error", "Icon!")
+                    return false
+                }
+            }
             try {
-                if (this.CurrentHotkey != "")
-                    Hotkey(this.CurrentHotkey, "Off")
-
                 Hotkey(newHotkey, this.OnTriggerCallback, "On")
-                this.CurrentHotkey := newHotkey
-                this.CurrentMode := newMode
             } catch as err {
+                fallbackHotkey := oldHotkey != "" ? oldHotkey : "^+Space"
+                try {
+                    Hotkey(fallbackHotkey, this.OnTriggerCallback, "On")
+                    this.CurrentHotkey := fallbackHotkey
+                } catch {
+                    this.CurrentHotkey := ""
+                }
+                Config.SetTriggerHotkey(fallbackHotkey)
+                Config.Save()
                 MsgBox("Error registrando hotkey '" newHotkey "': " err.Message,
                     "Key Atlas - Error", "Icon!")
+                return false
             }
+            this.CurrentHotkey := newHotkey
         }
+        this.CurrentMode := newMode
+        return true
     }
 
     ; Get all possible trigger keys for display
@@ -46,20 +66,28 @@ class HotkeyManager {
 
     ; Format hotkey for display (^ = Ctrl, + = Shift, ! = Alt, # = Win)
     static FormatForDisplay(hotkeyStr) {
-        result := hotkeyStr
-        result := StrReplace(result, "^", "Ctrl+")
-        result := StrReplace(result, "+", "Shift+")
-        result := StrReplace(result, "!", "Alt+")
-        result := StrReplace(result, "#", "Win+")
-        result := RegExReplace(result, ">\^", "RCtrl+")
-        result := RegExReplace(result, "<\^", "LCtrl+")
-        result := RegExReplace(result, ">\+", "RShift+")
-        result := RegExReplace(result, "<\+", "LShift+")
-        result := RegExReplace(result, ">!", "RAlt+")
-        result := RegExReplace(result, "<!", "LAlt+")
-        result := RegExReplace(result, ">#", "RWin+")
-        result := RegExReplace(result, "<#", "LWin+")
-        return result
+        display := ""
+        index := 1
+        while (index <= StrLen(hotkeyStr)) {
+            symbol := SubStr(hotkeyStr, index, 1)
+            side := ""
+            if ((symbol = "<" || symbol = ">") && index < StrLen(hotkeyStr)) {
+                side := symbol = "<" ? "L" : "R"
+                index++
+                symbol := SubStr(hotkeyStr, index, 1)
+            }
+            switch symbol {
+                case "^": display .= side "Ctrl+"
+                case "+": display .= side "Shift+"
+                case "!": display .= side "Alt+"
+                case "#": display .= side "Win+"
+                case "*", "~", "$":
+                default:
+                    return display . SubStr(hotkeyStr, index - (side != "" ? 1 : 0))
+            }
+            index++
+        }
+        return display
     }
 
     ; Get current mode name

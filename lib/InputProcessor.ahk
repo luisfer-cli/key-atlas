@@ -139,6 +139,7 @@ class InputProcessor {
         this.ShortcutLV.ModifyCol(1, 130)
         this.ShortcutLV.ModifyCol(2, 370)
         this.ShortcutLV.ModifyCol(3, 185)
+        this.GuiObj.OnEvent("Escape", (*) => this.Hide())
 
         this.GuiObj.SetFont("s9 norm c" dim, "Segoe UI")
         this.GuiObj.Add("Text", "xm y+8 w704 Center", I18n.t("remap.vim_footer"))

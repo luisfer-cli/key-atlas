@@ -343,6 +343,7 @@ class GuiManager {
 
         txtHex := Format("{:06X}", Theme.ToBGR(surf))
         inputStyle := "w360 h28 Background0x" txtHex " c" txt
+        captureInputStyle := "w242 h28 Background0x" txtHex " c" txt
 
         editGui.SetFont("s18 bold c" Theme.TXTBRIGHT(), "Segoe UI")
         editGui.Add("Text", "xm ym w560 h32", isEditing ? I18n.t("editor.heading_edit") : I18n.t("editor.heading_new"))
@@ -390,23 +391,29 @@ class GuiManager {
             ? shortcutData["category"] : this.CurrentCategory
 
         editGui.Add("Text", "xm y+10 w150", I18n.t("editor.trigger"))
-        edTrigger := editGui.Add("Edit", "x+10 yp-3 " inputStyle)
+        edTrigger := editGui.Add("Edit", "x+10 yp-3 " captureInputStyle)
         edTrigger.Value := isEditing && shortcutData.Has("triggerKeys") ? shortcutData["triggerKeys"] : ""
+        captureTriggerBtn := editGui.Add("Button", "x+8 yp w110 h28", I18n.t("capture.button"))
+        captureTriggerBtn.OnEvent("Click", (*) => CaptureTrigger())
         editGui.SetFont("s8 c" dim)
         editGui.Add("Text", "x184 y+3 w360", I18n.t("editor.hint"))
 
         editGui.SetFont("s9 c" txt)
         editGui.Add("Text", "xm y+12 w150", I18n.t("editor.remap"))
-        edRemap := editGui.Add("Edit", "x+10 yp-3 " inputStyle)
+        edRemap := editGui.Add("Edit", "x+10 yp-3 " captureInputStyle)
         edRemap.Value := isEditing && shortcutData.Has("remapKeys")
             ? RemapManager.FormatSequence(shortcutData["remapKeys"]) : ""
+        captureRemapBtn := editGui.Add("Button", "x+8 yp w110 h28", I18n.t("capture.button"))
+        captureRemapBtn.OnEvent("Click", (*) => CaptureRemap())
         editGui.SetFont("s8 c" dim)
         editGui.Add("Text", "x184 y+3 w360", I18n.t("editor.remap_hint"))
 
         editGui.SetFont("s9 c" txt)
         editGui.Add("Text", "xm y+12 w150", I18n.t("editor.target"))
-        edTarget := editGui.Add("Edit", "x+10 yp-3 " inputStyle)
+        edTarget := editGui.Add("Edit", "x+10 yp-3 " captureInputStyle)
         edTarget.Value := isEditing && shortcutData.Has("targetKeys") ? shortcutData["targetKeys"] : ""
+        captureTargetBtn := editGui.Add("Button", "x+8 yp w110 h28", I18n.t("capture.button"))
+        captureTargetBtn.OnEvent("Click", (*) => CaptureTarget())
 
         editGui.Add("Text", "xm y+10 w150", I18n.t("editor.mode"))
         cbMode := editGui.Add("DropDownList", "x+10 yp-3 w360 Choose1",
@@ -425,6 +432,31 @@ class GuiManager {
 
         editGui.OnEvent("Escape", (*) => editGui.Destroy())
         editGui.OnEvent("Close", (*) => editGui.Destroy())
+
+        CaptureTrigger() {
+            KeyCaptureGui.Show("trigger", SetTrigger, "", "", editGui)
+        }
+
+        SetTrigger(result) {
+            edTrigger.Value := result["display"]
+        }
+
+        CaptureRemap() {
+            KeyCaptureGui.Show("sequence", SetRemap, edRemap.Value,
+                Config.GetRemapKeys(), editGui)
+        }
+
+        SetRemap(keys) {
+            edRemap.Value := RemapManager.FormatSequence(keys)
+        }
+
+        CaptureTarget() {
+            KeyCaptureGui.Show("send", SetTarget, "", "", editGui)
+        }
+
+        SetTarget(result) {
+            edTarget.Value := result["send"]
+        }
 
         SaveShortcut(gui) {
             needsRebalance := false
@@ -568,7 +600,9 @@ class GuiManager {
         edDesc := qGui.Add("Edit", "x+10 yp-3 " inputStyle)
 
         qGui.Add("Text", "xm y+5 w100", I18n.t("quick.target_prompt"))
-        edTarget := qGui.Add("Edit", "x+10 yp-3 " inputStyle)
+        edTarget := qGui.Add("Edit", "x+10 yp-3 w202 Background0x" surfHex " c" txt)
+        captureTargetBtn := qGui.Add("Button", "x+8 yp w110 h24", I18n.t("capture.button"))
+        captureTargetBtn.OnEvent("Click", (*) => CaptureTarget())
 
         qGui.Add("Text", "xm y+5 w100", I18n.t("editor.category"))
         edCat := qGui.Add("Edit", "x+10 yp-3 w200 Background0x" surfHex " c" txt)
@@ -583,6 +617,14 @@ class GuiManager {
         cancelBtn.OnEvent("Click", (*) => qGui.Destroy())
         qGui.OnEvent("Escape", (*) => qGui.Destroy())
         qGui.OnEvent("Close", (*) => qGui.Destroy())
+
+        CaptureTarget() {
+            KeyCaptureGui.Show("send", SetTarget, "", "", qGui)
+        }
+
+        SetTarget(result) {
+            edTarget.Value := result["send"]
+        }
 
         SaveQuick(gui) {
             if (edDesc.Value = "") {
@@ -653,13 +695,24 @@ class GuiManager {
         setupGui.SetFont("s9 norm c" dim)
         setupGui.Add("Text", "xm y+4 w520 h52", I18n.t("remap.setup_desc"))
         setupGui.SetFont("s10 bold c" accent)
-        setupGui.Add("Text", "xm y+16 w520 h24", I18n.t("remap.setup_keys"))
+        setupGui.Add("Text", "xm y+14 w520 h24", I18n.t("remap.setup_master"))
+        setupGui.SetFont("s10 norm c" txt, "Segoe UI")
+        masterHotkeyValue := HotkeyManager.GetCurrentTrigger()
+        masterCtrl := setupGui.Add("Edit", "xm y+5 w360 h30 ReadOnly Background0x" surfHex " c" txt,
+            HotkeyManager.FormatForDisplay(masterHotkeyValue))
+        captureMasterBtn := setupGui.Add("Button", "x+8 yp w150 h30", I18n.t("capture.button"))
+        captureMasterBtn.OnEvent("Click", (*) => CaptureMaster())
+
+        setupGui.SetFont("s10 bold c" accent)
+        setupGui.Add("Text", "xm y+18 w520 h24", I18n.t("remap.setup_keys"))
         setupGui.SetFont("s11 norm c" txt, "Consolas")
         currentKeys := RemapManager.FormatSequence(Config.GetRemapKeys())
         if (currentKeys = "")
             currentKeys := "a,s,d,f,j,k,l"
-        keysEdit := setupGui.Add("Edit", "xm y+5 w520 h34 Background0x" surfHex " c" txt,
+        keysEdit := setupGui.Add("Edit", "xm y+5 w360 h34 ReadOnly Background0x" surfHex " c" txt,
             currentKeys)
+        captureKeysBtn := setupGui.Add("Button", "x+8 yp w150 h34", I18n.t("capture.button_keys"))
+        captureKeysBtn.OnEvent("Click", (*) => CaptureKeys())
         setupGui.SetFont("s9 norm c" dim, "Segoe UI")
         setupGui.Add("Text", "xm y+6 w520 h42", I18n.t("remap.setup_hint"))
 
@@ -673,7 +726,28 @@ class GuiManager {
         setupGui.OnEvent("Escape", (*) => this._CloseRemapSetup())
         setupGui.OnEvent("Close", (*) => this._CloseRemapSetup())
 
+        CaptureMaster() {
+            KeyCaptureGui.Show("master", SetMaster, masterCtrl.Value, "", setupGui)
+        }
+
+        SetMaster(result) {
+            masterHotkeyValue := result["hotkey"]
+            masterCtrl.Value := result["display"]
+        }
+
+        CaptureKeys() {
+            KeyCaptureGui.Show("pool", SetKeys, keysEdit.Value, "", setupGui)
+        }
+
+        SetKeys(keys) {
+            keysEdit.Value := RemapManager.FormatSequence(keys)
+        }
+
         SaveSetup() {
+            if (masterHotkeyValue = "") {
+                MsgBox(I18n.t("msg.press_valid"), "Key Atlas", "Icon!")
+                return
+            }
             keys := RemapManager.ParseKeyPool(keysEdit.Value)
             if (keys.Length < 2) {
                 MsgBox(I18n.t("msg.remap_pool_required"), "Key Atlas", "Icon!")
@@ -683,6 +757,7 @@ class GuiManager {
                 MsgBox(I18n.t("msg.remap_pool_capacity"), "Key Atlas", "Icon!")
                 return
             }
+            Config.SetTriggerHotkey(masterHotkeyValue)
             Config.SetRemapKeys(keys)
             Config.SetDefaultMode("remap")
             Config.Save()
@@ -695,7 +770,7 @@ class GuiManager {
             TrayTip(assigned . I18n.t("remap.setup_done"), "Key Atlas", "Iconi")
         }
 
-        setupGui.Show("w570 h350 Center")
+        setupGui.Show("w570 h420 Center")
     }
 
     static _CloseRemapSetup() {
@@ -723,10 +798,16 @@ class GuiManager {
         setGui.SetFont("s10 bold c" acc)
         setGui.Add("Text", "xm y+15 w540 h24", I18n.t("settings.section_behavior"))
         setGui.SetFont("s9 norm c" txt)
-        setGui.Add("Text", "xm y+6 w170", I18n.t("settings.combo"))
-        triggerCtrl := setGui.Add("Hotkey", "x+10 yp-4 w330 h28 c" txt)
-        triggerCtrl.Value := HotkeyManager.GetCurrentTrigger()
+        setGui.Add("Text", "xm y+6 w170", I18n.t("settings.master_hotkey"))
+        masterHotkeyValue := HotkeyManager.GetCurrentTrigger()
+        triggerCtrl := setGui.Add("Edit", "x+10 yp-4 w218 h28 ReadOnly Background0x" surfHex " c" txt,
+            HotkeyManager.FormatForDisplay(masterHotkeyValue))
+        captureMasterBtn := setGui.Add("Button", "x+8 yp w104 h28", I18n.t("capture.button"))
+        captureMasterBtn.OnEvent("Click", (*) => CaptureMaster())
+        setGui.SetFont("s8 norm c" dim)
+        setGui.Add("Text", "x204 y+4 w330 h20", I18n.t("settings.master_hint"))
 
+        setGui.SetFont("s9 norm c" txt)
         setGui.Add("Text", "xm y+12 w170", I18n.t("settings.default_mode"))
         modeInitial := Config.GetDefaultMode() = "remap" ? 2 : 1
         modeDDL := setGui.Add("DropDownList", "x+10 yp-4 w330 Choose" modeInitial,
@@ -736,8 +817,10 @@ class GuiManager {
         setGui.Add("Text", "xm y+20 w540 h24", I18n.t("settings.section_remap"))
         setGui.SetFont("s9 norm c" txt)
         setGui.Add("Text", "xm y+6 w170", I18n.t("settings.remap_keys"))
-        remapKeysEdit := setGui.Add("Edit", "x+10 yp-4 w330 h28 Background0x" surfHex " c" txt,
+        remapKeysEdit := setGui.Add("Edit", "x+10 yp-4 w218 h28 ReadOnly Background0x" surfHex " c" txt,
             RemapManager.FormatSequence(Config.GetRemapKeys()))
+        captureKeysBtn := setGui.Add("Button", "x+8 yp w104 h28", I18n.t("capture.button_keys"))
+        captureKeysBtn.OnEvent("Click", (*) => CaptureKeys())
         setGui.SetFont("s8 norm c" dim)
         setGui.Add("Text", "x204 y+4 w330 h34", I18n.t("settings.remap_keys_hint"))
 
@@ -788,6 +871,23 @@ class GuiManager {
         setGui.OnEvent("Escape", (*) => setGui.Destroy())
         setGui.OnEvent("Close", (*) => setGui.Destroy())
 
+        CaptureMaster() {
+            KeyCaptureGui.Show("master", SetMaster, triggerCtrl.Value, "", setGui)
+        }
+
+        SetMaster(result) {
+            masterHotkeyValue := result["hotkey"]
+            triggerCtrl.Value := result["display"]
+        }
+
+        CaptureKeys() {
+            KeyCaptureGui.Show("pool", SetKeys, remapKeysEdit.Value, "", setGui)
+        }
+
+        SetKeys(keys) {
+            remapKeysEdit.Value := RemapManager.FormatSequence(keys)
+        }
+
         ValidateNumber(ctrl, minimum, maximum) {
             if (ctrl.Value = "")
                 return
@@ -799,7 +899,7 @@ class GuiManager {
         }
 
         SaveSettings(gui) {
-            if (triggerCtrl.Value = "") {
+            if (masterHotkeyValue = "") {
                 MsgBox(I18n.t("msg.press_valid"), "Key Atlas", "Icon!")
                 return
             }
@@ -828,7 +928,7 @@ class GuiManager {
             }
             keysChanged := RemapManager.SequenceKey(oldKeys) != RemapManager.SequenceKey(remapKeys)
 
-            Config.SetTriggerHotkey(triggerCtrl.Value)
+            Config.SetTriggerHotkey(masterHotkeyValue)
             Config.SetDefaultMode(newMode)
             Config.SetRemapKeys(remapKeys)
             Config.Set("cheatsheet.maxItems", Integer(maxItemsEdit.Value))
@@ -848,7 +948,7 @@ class GuiManager {
             this.Show()
         }
 
-        setGui.Show("w590 h720 Center")
+        setGui.Show("w590 h740 Center")
     }
 
     ; ==========================================================

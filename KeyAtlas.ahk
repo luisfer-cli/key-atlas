@@ -14,6 +14,7 @@
 #Include "lib\Theme.ahk"
 #Include "lib\Database.ahk"
 #Include "lib\RemapManager.ahk"
+#Include "lib\KeyCaptureGui.ahk"
 #Include "lib\HotkeyManager.ahk"
 #Include "lib\CheatsheetGui.ahk"
 #Include "lib\InputProcessor.ahk"
@@ -80,6 +81,9 @@ SetupTray() {
     TrayMenu.Add()
     TrayMenu.Add(I18n.t("menu.about"), (*) => ShowAbout())
     TrayMenu.Add(I18n.t("menu.exit"), (*) => ExitApp())
+
+    A_IconTip := I18n.t("tray.title") . "`n"
+        . I18n.t("tray.trigger") . HotkeyManager.FormatForDisplay(HotkeyManager.GetCurrentTrigger())
 }
 
 ; ============================================================
@@ -131,6 +135,7 @@ ReloadDatabase() {
 ReloadConfig() {
     Config.Reload()
     HotkeyManager.UpdateTrigger()
+    SetupTray()
     TrayTip(I18n.t("msg.cfg_reloaded"), "Key Atlas")
 }
 
