@@ -106,13 +106,14 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ github.ref_name }}
+          REPO: ${{ github.repository }}
         run: |
           $packagePath = Get-ChildItem "dist" -Filter "*.zip" | Select-Object -First 1
           if (-not $packagePath) {
             throw "Windows release package was not found."
           }
-          if (gh release view $env:TAG 2>$null) {
-            gh release upload $env:TAG $packagePath.FullName --clobber
+          if (gh release view $env:TAG --repo $env:REPO 2>$null) {
+            gh release upload $env:TAG $packagePath.FullName --repo $env:REPO --clobber
           } else {
-            gh release create $env:TAG $packagePath.FullName --title "Key Atlas $env:TAG" --generate-notes
+            gh release create $env:TAG $packagePath.FullName --repo $env:REPO --title "Key Atlas $env:TAG" --generate-notes
           }
