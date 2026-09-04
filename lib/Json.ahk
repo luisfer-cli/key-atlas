@@ -375,7 +375,11 @@ class Json {
     ; Converts an AHK object to JSON and writes to a file
     static Save(filePath, obj, indent := 2) {
         jsonStr := this.Stringify(obj, indent)
-        FileDelete(filePath)
+        SplitPath(filePath, , &dir)
+        if (dir != "" && !DirExist(dir))
+            DirCreate(dir)
+        if (FileExist(filePath))
+            FileDelete(filePath)
         FileAppend(jsonStr, filePath, "UTF-8")
     }
 }
