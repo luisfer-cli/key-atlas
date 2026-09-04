@@ -63,7 +63,7 @@ class Database {
 
         for shortcut in this.GetAll() {
             proc := StrLower(Trim(shortcut.Has("process") ? shortcut["process"] : ""))
-            if (proc != "" && (InStr(processName, proc) || InStr(proc, processName)))
+            if (proc != "" && proc = processName)
                 return true
         }
         return false

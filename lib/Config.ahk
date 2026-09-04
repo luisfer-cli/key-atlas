@@ -82,11 +82,12 @@ class Config {
     }
 
     static GetDefaultMode() {
-        return this.Get("defaultMode", "cheatsheet")
+        mode := this.Get("defaultMode", "cheatsheet")
+        return mode = "remap" ? "remap" : "cheatsheet"
     }
 
     static SetDefaultMode(mode) {
-        this.Set("defaultMode", mode)
+        this.Set("defaultMode", mode = "remap" ? "remap" : "cheatsheet")
     }
 
     static GetTheme() {
@@ -105,6 +106,23 @@ class Config {
         return this.Get("cheatsheet.overlayOpacity", 220)
     }
 
+    static GetRemapKeys() {
+        keys := this.Get("remap.availableKeys", Array())
+        return RemapManager.ParseKeyPool(keys)
+    }
+
+    static SetRemapKeys(keys) {
+        this.Set("remap.availableKeys", RemapManager.ParseKeyPool(keys))
+    }
+
+    static GetRemapTimeout() {
+        return this.Get("remap.timeout", 2.0)
+    }
+
+    static GetRemapMaxKeys() {
+        return this.Get("remap.maxKeys", 6)
+    }
+
     static _CreateDefault() {
         this.Data := Map()
         this.Data["lang"] := "en"
@@ -120,7 +138,8 @@ class Config {
         )
         this.Data["remap"] := Map(
             "timeout", 2.0,
-            "maxKeys", 6
+            "maxKeys", 6,
+            "availableKeys", Array()
         )
         this.Data["colors"] := Map(
             "background", "1E1E2E",

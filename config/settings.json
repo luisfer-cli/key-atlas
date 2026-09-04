@@ -11,7 +11,8 @@
   },
   "remap": {
     "timeout": 2.0,
-    "maxKeys": 6
+    "maxKeys": 6,
+    "availableKeys": []
   },
   "colors": {
     "background": "1E1E2E",

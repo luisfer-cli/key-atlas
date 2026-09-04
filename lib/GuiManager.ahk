@@ -23,6 +23,7 @@ class GuiManager {
     static ExportBtn := ""
     static SettingsBtn := ""
     static MoreBtn := ""
+    static RemapSetupGui := ""
     static RowIds := Array()
     static CurrentProgram := ""
     static CurrentCategory := ""
@@ -117,7 +118,7 @@ class GuiManager {
         this.DeleteBtn := this.GuiObj.Add("Button", "x506 y135 w82 " btnOpts, I18n.t("btn.delete"))
         this.DeleteBtn.OnEvent("Click", (*) => this._DeleteSelected())
         this.AutoBtn := this.GuiObj.Add("Button", "x600 y135 w120 " btnOpts, I18n.t("toolbar.autoassign"))
-        this.AutoBtn.OnEvent("Click", (*) => this._ShowAutoAssign())
+        this.AutoBtn.OnEvent("Click", (*) => this.ShowRemapSetup())
         this.ImportBtn := this.GuiObj.Add("Button", "x726 y135 w82 " btnOpts, I18n.t("toolbar.import"))
         this.ImportBtn.OnEvent("Click", (*) => this._ImportShortcuts())
         this.ExportBtn := this.GuiObj.Add("Button", "x814 y135 w82 " btnOpts, I18n.t("toolbar.export"))
@@ -131,8 +132,8 @@ class GuiManager {
         this.ShortcutLV := this.GuiObj.Add("ListView",
             "x284 y176 w786 h456 Grid -Multi Background0x" Format("{:06X}", surfBGR)
             " c" txt,
-            [I18n.t("col.trigger"), I18n.t("col.desc"), I18n.t("col.category"),
-             I18n.t("col.process"), I18n.t("col.mode")])
+            [I18n.t("col.remap"), I18n.t("col.trigger"), I18n.t("col.desc"),
+             I18n.t("col.category"), I18n.t("col.process"), I18n.t("col.mode")])
         this.ShortcutLV.OnEvent("DoubleClick", (*) => this._EditSelected())
         this.ShortcutLV.OnEvent("ItemSelect", (*) => this._UpdateSelectionState())
 
@@ -164,17 +165,18 @@ class GuiManager {
         this.MoreBtn.Visible := !showTransferActions
         this.MoreBtn.Move(width - 266)
 
-        descWidth := Max(180, contentWidth - 470)
-        this.ShortcutLV.ModifyCol(1, 110)
-        this.ShortcutLV.ModifyCol(2, descWidth)
-        this.ShortcutLV.ModifyCol(3, 120)
-        this.ShortcutLV.ModifyCol(4, 130)
-        this.ShortcutLV.ModifyCol(5, 90)
+        descWidth := Max(170, contentWidth - 570)
+        this.ShortcutLV.ModifyCol(1, 100)
+        this.ShortcutLV.ModifyCol(2, 110)
+        this.ShortcutLV.ModifyCol(3, descWidth)
+        this.ShortcutLV.ModifyCol(4, 110)
+        this.ShortcutLV.ModifyCol(5, 120)
+        this.ShortcutLV.ModifyCol(6, 80)
     }
 
     static _ShowMoreMenu() {
         moreMenu := Menu()
-        moreMenu.Add(I18n.t("toolbar.autoassign"), (*) => this._ShowAutoAssign())
+        moreMenu.Add(I18n.t("toolbar.autoassign"), (*) => this.ShowRemapSetup())
         moreMenu.Add(I18n.t("toolbar.import"), (*) => this._ImportShortcuts())
         moreMenu.Add(I18n.t("toolbar.export"), (*) => this._ExportShortcuts())
         moreMenu.Show()
@@ -269,6 +271,7 @@ class GuiManager {
                 haystack := StrLower(program " " category " "
                     (sc.Has("description") ? sc["description"] : "") " "
                     (sc.Has("triggerKeys") ? sc["triggerKeys"] : "") " "
+                    (sc.Has("remapKeys") ? RemapManager.FormatSequence(sc["remapKeys"]) : "") " "
                     (sc.Has("process") ? sc["process"] : ""))
                 if (!InStr(haystack, query))
                     continue
@@ -283,11 +286,12 @@ class GuiManager {
         this.RowIds := Array()
         for sc in shortcuts {
             trig := sc.Has("triggerKeys") ? sc["triggerKeys"] : ""
+            remap := sc.Has("remapKeys") ? RemapManager.FormatSequence(sc["remapKeys"]) : "-"
             desc := sc.Has("description") ? sc["description"] : ""
             proc := sc.Has("process") ? sc["process"] : ""
             cat  := sc.Has("category") ? sc["category"] : ""
             mode := sc.Has("mode") ? sc["mode"] : "remap"
-            this.ShortcutLV.Add(, trig, desc, cat, proc, mode)
+            this.ShortcutLV.Add(, remap, trig, desc, cat, proc, mode)
             this.RowIds.Push(sc.Has("id") ? sc["id"] : "")
         }
         this.StatusText.Text := shortcuts.Length " " I18n.t("footer.visible") "  /  "
@@ -326,7 +330,7 @@ class GuiManager {
         capturedTitle := this.LastActiveTitle
         capturedProcess := this.LastActiveProcess
 
-        editGui := Gui("+Owner" this.GuiObj.Hwnd " +MinSize640x600",
+        editGui := Gui("+Owner" this.GuiObj.Hwnd " +MinSize640x660",
             isEditing ? I18n.t("editor.title_edit") : I18n.t("editor.title_new"))
         editGui.BackColor := Theme.ToBGR(Theme.BG())
         editGui.MarginX := 24
@@ -392,6 +396,14 @@ class GuiManager {
         editGui.Add("Text", "x184 y+3 w360", I18n.t("editor.hint"))
 
         editGui.SetFont("s9 c" txt)
+        editGui.Add("Text", "xm y+12 w150", I18n.t("editor.remap"))
+        edRemap := editGui.Add("Edit", "x+10 yp-3 " inputStyle)
+        edRemap.Value := isEditing && shortcutData.Has("remapKeys")
+            ? RemapManager.FormatSequence(shortcutData["remapKeys"]) : ""
+        editGui.SetFont("s8 c" dim)
+        editGui.Add("Text", "x184 y+3 w360", I18n.t("editor.remap_hint"))
+
+        editGui.SetFont("s9 c" txt)
         editGui.Add("Text", "xm y+12 w150", I18n.t("editor.target"))
         edTarget := editGui.Add("Edit", "x+10 yp-3 " inputStyle)
         edTarget.Value := isEditing && shortcutData.Has("targetKeys") ? shortcutData["targetKeys"] : ""
@@ -415,12 +427,14 @@ class GuiManager {
         editGui.OnEvent("Close", (*) => editGui.Destroy())
 
         SaveShortcut(gui) {
+            needsRebalance := false
             data := Map()
             data["program"] := edProgram.Value
             data["process"] := edProcess.Value
             data["category"] := edCategory.Value
             data["description"] := edDesc.Value
             data["triggerKeys"] := edTrigger.Value
+            data["remapKeys"] := RemapManager.ParseSequence(edRemap.Value)
             data["targetKeys"] := edTarget.Value
             data["mode"] := cbMode.Value = 2 ? "cheatsheet" : "remap"
 
@@ -432,9 +446,49 @@ class GuiManager {
                 MsgBox(I18n.t("msg.trigger_required"), "Key Atlas", "Icon!")
                 return
             }
+            if (data["mode"] = "remap" && Trim(data["process"]) = "") {
+                MsgBox(I18n.t("msg.process_required"), "Key Atlas", "Icon!")
+                return
+            }
             if (data["mode"] = "remap" && data["targetKeys"] = "") {
                 MsgBox(I18n.t("msg.target_required"), "Key Atlas", "Icon!")
                 return
+            }
+            if (data["mode"] = "remap" && data["remapKeys"].Length = 0
+                && Config.GetDefaultMode() = "remap") {
+                data["remapKeys"] := RemapManager.FindAvailableSequence(
+                    data["process"], Config.GetRemapKeys())
+                if (data["remapKeys"].Length = 0) {
+                    existingIsSameRemap := isEditing
+                        && (!shortcutData.Has("mode") || shortcutData["mode"] = "remap")
+                        && shortcutData.Has("process")
+                        && StrLower(Trim(shortcutData["process"])) = StrLower(Trim(data["process"]))
+                    additionalCount := existingIsSameRemap ? 0 : 1
+                    if (!RemapManager.CanAssignProcess(data["process"],
+                        Config.GetRemapKeys(), additionalCount)) {
+                        MsgBox(I18n.t("msg.remap_no_sequence_available"), "Key Atlas", "Icon!")
+                        return
+                    }
+                    needsRebalance := true
+                }
+            }
+            if (data["remapKeys"].Length > 0) {
+                keyPool := Config.GetRemapKeys()
+                if (keyPool.Length < 2 || !RemapManager.IsSequenceAllowed(data["remapKeys"], keyPool)) {
+                    MsgBox(I18n.t("msg.remap_keys_invalid"), "Key Atlas", "Icon!")
+                    return
+                }
+                if (data["remapKeys"].Length > Config.GetRemapMaxKeys()) {
+                    MsgBox(I18n.t("msg.remap_sequence_too_long"), "Key Atlas", "Icon!")
+                    return
+                }
+                excludeId := isEditing && shortcutData.Has("id") ? shortcutData["id"] : ""
+                conflict := RemapManager.FindConflict(data["process"], data["remapKeys"], excludeId)
+                if (conflict != "") {
+                    conflictDesc := conflict.Has("description") ? conflict["description"] : ""
+                    MsgBox(I18n.t("msg.remap_conflict") conflictDesc, "Key Atlas", "Icon!")
+                    return
+                }
             }
 
             if (isEditing && shortcutData.Has("id"))
@@ -442,6 +496,11 @@ class GuiManager {
             else {
                 data["id"] := ""
                 Database.Add(data)
+            }
+            if (needsRebalance
+                && RemapManager.AssignProcess(data["process"], Config.GetRemapKeys()) < 0) {
+                MsgBox(I18n.t("msg.remap_no_sequence_available"), "Key Atlas", "Icon!")
+                return
             }
 
             gui.Destroy()
@@ -543,7 +602,20 @@ class GuiManager {
             data["triggerKeys"] := triggerKeys
             data["targetKeys"] := edTarget.Value
             data["mode"] := "remap"
+            suggestedRemap := RemapManager.FindAvailableSequence(process, Config.GetRemapKeys())
+            needsRebalance := false
+            if (suggestedRemap.Length > 0) {
+                data["remapKeys"] := suggestedRemap
+            } else if (Config.GetDefaultMode() = "remap") {
+                if (!RemapManager.CanAssignProcess(process, Config.GetRemapKeys(), 1)) {
+                    MsgBox(I18n.t("msg.remap_no_sequence_available"), "Key Atlas", "Icon!")
+                    return
+                }
+                needsRebalance := true
+            }
             Database.Add(data)
+            if (needsRebalance)
+                RemapManager.AssignProcess(process, Config.GetRemapKeys())
             gui.Destroy()
             if (this.IsVisible)
                 this._RefreshView()
@@ -555,6 +627,82 @@ class GuiManager {
     ; ==========================================================
     ; Settings Dialog
     ; ==========================================================
+
+    static ShowRemapSetup() {
+        if (this.RemapSetupGui != "") {
+            try {
+                this.RemapSetupGui.Show()
+                WinActivate(this.RemapSetupGui.Hwnd)
+                return
+            }
+            this.RemapSetupGui := ""
+        }
+        ownerOptions := this.IsVisible ? "+Owner" this.GuiObj.Hwnd : "+AlwaysOnTop"
+        setupGui := Gui(ownerOptions, I18n.t("remap.setup_title"))
+        this.RemapSetupGui := setupGui
+        setupGui.BackColor := Theme.ToBGR(Theme.BG())
+        setupGui.MarginX := 24
+        setupGui.MarginY := 20
+        txt := Theme.TXT()
+        dim := Theme.TXTDIM()
+        accent := Theme.ACC()
+        surfHex := Format("{:06X}", Theme.ToBGR(Theme.SURF()))
+
+        setupGui.SetFont("s18 bold c" Theme.TXTBRIGHT(), "Segoe UI")
+        setupGui.Add("Text", "xm ym w520 h32", I18n.t("remap.setup_heading"))
+        setupGui.SetFont("s9 norm c" dim)
+        setupGui.Add("Text", "xm y+4 w520 h52", I18n.t("remap.setup_desc"))
+        setupGui.SetFont("s10 bold c" accent)
+        setupGui.Add("Text", "xm y+16 w520 h24", I18n.t("remap.setup_keys"))
+        setupGui.SetFont("s11 norm c" txt, "Consolas")
+        currentKeys := RemapManager.FormatSequence(Config.GetRemapKeys())
+        if (currentKeys = "")
+            currentKeys := "a s d f j k l ;"
+        keysEdit := setupGui.Add("Edit", "xm y+5 w520 h34 Background0x" surfHex " c" txt,
+            currentKeys)
+        setupGui.SetFont("s9 norm c" dim, "Segoe UI")
+        setupGui.Add("Text", "xm y+6 w520 h42", I18n.t("remap.setup_hint"))
+
+        setupGui.SetFont("s10 bold c" accent)
+        saveBtn := setupGui.Add("Button", "xm y+18 w190 h38 Default Background0x" surfHex,
+            I18n.t("remap.setup_generate"))
+        saveBtn.OnEvent("Click", (*) => SaveSetup())
+        cancelBtn := setupGui.Add("Button", "x+10 yp w120 h38 Background0x" surfHex " c" dim,
+            I18n.t("editor.cancel"))
+        cancelBtn.OnEvent("Click", (*) => this._CloseRemapSetup())
+        setupGui.OnEvent("Escape", (*) => this._CloseRemapSetup())
+        setupGui.OnEvent("Close", (*) => this._CloseRemapSetup())
+
+        SaveSetup() {
+            keys := RemapManager.ParseKeyPool(keysEdit.Value)
+            if (keys.Length < 2) {
+                MsgBox(I18n.t("msg.remap_pool_required"), "Key Atlas", "Icon!")
+                return
+            }
+            if (!RemapManager.CanAssignAll(keys)) {
+                MsgBox(I18n.t("msg.remap_pool_capacity"), "Key Atlas", "Icon!")
+                return
+            }
+            Config.SetRemapKeys(keys)
+            Config.SetDefaultMode("remap")
+            Config.Save()
+            assigned := RemapManager.AssignAll(keys)
+            HotkeyManager.UpdateTrigger()
+            try SetupTray()
+            this._CloseRemapSetup()
+            if (this.IsVisible)
+                this._RefreshView()
+            TrayTip(assigned . I18n.t("remap.setup_done"), "Key Atlas", "Iconi")
+        }
+
+        setupGui.Show("w570 h350 Center")
+    }
+
+    static _CloseRemapSetup() {
+        if (this.RemapSetupGui != "")
+            try this.RemapSetupGui.Destroy()
+        this.RemapSetupGui := ""
+    }
 
     static _ShowSettingsDialog() {
         setGui := Gui("+Owner" this.GuiObj.Hwnd, I18n.t("settings.title"))
@@ -578,6 +726,20 @@ class GuiManager {
         setGui.Add("Text", "xm y+6 w170", I18n.t("settings.combo"))
         triggerCtrl := setGui.Add("Hotkey", "x+10 yp-4 w330 h28 c" txt)
         triggerCtrl.Value := HotkeyManager.GetCurrentTrigger()
+
+        setGui.Add("Text", "xm y+12 w170", I18n.t("settings.default_mode"))
+        modeInitial := Config.GetDefaultMode() = "remap" ? 2 : 1
+        modeDDL := setGui.Add("DropDownList", "x+10 yp-4 w330 Choose" modeInitial,
+            [I18n.t("settings.mode_cheatsheet"), I18n.t("settings.mode_remap")])
+
+        setGui.SetFont("s10 bold c" acc)
+        setGui.Add("Text", "xm y+20 w540 h24", I18n.t("settings.section_remap"))
+        setGui.SetFont("s9 norm c" txt)
+        setGui.Add("Text", "xm y+6 w170", I18n.t("settings.remap_keys"))
+        remapKeysEdit := setGui.Add("Edit", "x+10 yp-4 w330 h28 Background0x" surfHex " c" txt,
+            RemapManager.FormatSequence(Config.GetRemapKeys()))
+        setGui.SetFont("s8 norm c" dim)
+        setGui.Add("Text", "x204 y+4 w330 h34", I18n.t("settings.remap_keys_hint"))
 
         setGui.SetFont("s10 bold c" acc)
         setGui.Add("Text", "xm y+20 w540 h24", I18n.t("settings.section_appearance"))
@@ -653,7 +815,22 @@ class GuiManager {
                 return
             }
 
+            newMode := modeDDL.Value = 2 ? "remap" : "cheatsheet"
+            oldKeys := Config.GetRemapKeys()
+            remapKeys := RemapManager.ParseKeyPool(remapKeysEdit.Value)
+            if (newMode = "remap" && remapKeys.Length < 2) {
+                MsgBox(I18n.t("msg.remap_pool_required"), "Key Atlas", "Icon!")
+                return
+            }
+            if (remapKeys.Length >= 2 && !RemapManager.CanAssignAll(remapKeys)) {
+                MsgBox(I18n.t("msg.remap_pool_capacity"), "Key Atlas", "Icon!")
+                return
+            }
+            keysChanged := RemapManager.SequenceKey(oldKeys) != RemapManager.SequenceKey(remapKeys)
+
             Config.SetTriggerHotkey(triggerCtrl.Value)
+            Config.SetDefaultMode(newMode)
+            Config.SetRemapKeys(remapKeys)
             Config.Set("cheatsheet.maxItems", Integer(maxItemsEdit.Value))
             Config.Set("cheatsheet.overlayOpacity", opacitySlider.Value)
             Config.Set("remap.timeout", timeout)
@@ -661,6 +838,8 @@ class GuiManager {
             Config.Set("lang", newLang)
             Theme.Apply(themeDDL.Text)
             Config.Save()
+            if (keysChanged || (newMode = "remap" && !RemapManager.HasAssignments()))
+                RemapManager.AssignAll(remapKeys)
             I18n.Init()
             HotkeyManager.UpdateTrigger()
             try SetupTray()
@@ -669,7 +848,7 @@ class GuiManager {
             this.Show()
         }
 
-        setGui.Show("w590 h600 Center")
+        setGui.Show("w590 h720 Center")
     }
 
     ; ==========================================================
@@ -813,6 +992,9 @@ class GuiManager {
             }
 
             Database.Save()
+            remapKeys := Config.GetRemapKeys()
+            if (remapKeys.Length >= 2)
+                RemapManager.AssignAll(remapKeys)
             gui.Destroy()
             this._RefreshView()
             MsgBox(assigned I18n.t("msg.assigned1") prog I18n.t("msg.assigned2"), "Key Atlas")
@@ -921,6 +1103,16 @@ class GuiManager {
             }
 
             Database.Save()
+            configuredRemapKeys := Config.GetRemapKeys()
+            if (configuredRemapKeys.Length >= 2
+                && RemapManager.AssignAll(configuredRemapKeys) < 0) {
+                RemapManager.ClearAssignments()
+                gui.Destroy()
+                this._RefreshView()
+                MsgBox(I18n.t("msg.remap_pool_capacity"), "Key Atlas", "Icon!")
+                this.ShowRemapSetup()
+                return
+            }
             gui.Destroy()
             this._RefreshView()
 

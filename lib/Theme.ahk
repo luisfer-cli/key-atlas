@@ -150,5 +150,85 @@ class Theme {
             "textDim", "6B6B6B",
             "textBright", "000000"
         )
+
+        this.Presets["Midnight Orchid"] := Map(
+            "background", "11101A",
+            "foreground", "D9D5E8",
+            "accent", "A78BFA",
+            "highlight", "3B2E5A",
+            "border", "332D45",
+            "surface", "1C1928",
+            "overlay", "0C0B12",
+            "success", "6EE7B7",
+            "warning", "FCD34D",
+            "error", "FB7185",
+            "text", "D9D5E8",
+            "textDim", "8E87A3",
+            "textBright", "F8F7FF"
+        )
+
+        this.Presets["Aurora Borealis"] := Map(
+            "background", "081411",
+            "foreground", "C9E7DC",
+            "accent", "2DD4BF",
+            "highlight", "164E4A",
+            "border", "285A52",
+            "surface", "10241F",
+            "overlay", "06100E",
+            "success", "86EFAC",
+            "warning", "FDE68A",
+            "error", "FDA4AF",
+            "text", "C9E7DC",
+            "textDim", "72A397",
+            "textBright", "ECFDF5"
+        )
+
+        this.Presets["Rose Quartz"] := Map(
+            "background", "1A1116",
+            "foreground", "F0D9E3",
+            "accent", "F472B6",
+            "highlight", "5B2945",
+            "border", "533342",
+            "surface", "2A1922",
+            "overlay", "120B0F",
+            "success", "A7F3D0",
+            "warning", "FCD34D",
+            "error", "FB7185",
+            "text", "F0D9E3",
+            "textDim", "A77D90",
+            "textBright", "FFF5F9"
+        )
+
+        this.Presets["Solar Ember"] := Map(
+            "background", "17120D",
+            "foreground", "EADBC8",
+            "accent", "F59E0B",
+            "highlight", "5A3714",
+            "border", "4D3825",
+            "surface", "261C13",
+            "overlay", "100C09",
+            "success", "84CC16",
+            "warning", "FBBF24",
+            "error", "F87171",
+            "text", "EADBC8",
+            "textDim", "A28C73",
+            "textBright", "FFF8ED"
+        )
+
+        this.Presets["Deep Ocean"] := Map(
+            "background", "07131F",
+            "foreground", "C9E5F2",
+            "accent", "38BDF8",
+            "highlight", "164E63",
+            "border", "244A5D",
+            "surface", "0E2233",
+            "overlay", "050D15",
+            "success", "5EEAD4",
+            "warning", "FACC15",
+            "error", "FB7185",
+            "text", "C9E5F2",
+            "textDim", "6F9BAE",
+            "textBright", "F0F9FF"
+        )
     }
 }
