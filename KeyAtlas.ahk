@@ -79,6 +79,7 @@ SetupTray() {
     TrayMenu.Add(I18n.t("menu.reload_cfg"), (*) => ReloadConfig())
 
     TrayMenu.Add()
+    TrayMenu.Add(I18n.t("menu.install_startup"), (*) => InstallForStartup())
     TrayMenu.Add(I18n.t("menu.about"), (*) => ShowAbout())
     TrayMenu.Add(I18n.t("menu.exit"), (*) => ExitApp())
 
@@ -137,6 +138,40 @@ ReloadConfig() {
     HotkeyManager.UpdateTrigger()
     SetupTray()
     TrayTip(I18n.t("msg.cfg_reloaded"), "Key Atlas")
+}
+
+InstallForStartup() {
+    installPath := EnvGet("LOCALAPPDATA") . "\KeyAtlas"
+    exePath := installPath . "\KeyAtlas.exe"
+    scriptPath := A_Temp . "\key-atlas-install-startup-" . A_TickCount . ".ps1"
+    sourceExe := StrReplace(A_ScriptFullPath, "'", "''")
+    targetExe := StrReplace(exePath, "'", "''")
+
+    psScript := "$ErrorActionPreference = 'Stop'`n"
+        . "$installPath = Join-Path $env:LOCALAPPDATA 'KeyAtlas'`n"
+        . "New-Item -ItemType Directory -Path $installPath -Force | Out-Null`n"
+        . "Copy-Item -LiteralPath '" sourceExe "' -Destination '" targetExe "' -Force`n"
+        . "$userId = $env:USERDOMAIN + '\' + $env:USERNAME`n"
+        . "$action = New-ScheduledTaskAction -Execute '" targetExe "'`n"
+        . "$trigger = New-ScheduledTaskTrigger -AtLogOn -User $userId`n"
+        . "$principal = New-ScheduledTaskPrincipal -UserId $userId -LogonType Interactive -RunLevel LeastPrivilege`n"
+        . "$settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -MultipleInstances IgnoreNew -RestartCount 3 -RestartInterval (New-TimeSpan -Minutes 1) -ExecutionTimeLimit ([TimeSpan]::Zero)`n"
+        . "$task = New-ScheduledTask -Action $action -Trigger $trigger -Principal $principal -Settings $settings`n"
+        . "Register-ScheduledTask -TaskName 'Key Atlas' -InputObject $task -Force | Out-Null`n"
+
+    try {
+        FileAppend(psScript, scriptPath, "UTF-8")
+        q := Chr(34)
+        exitCode := RunWait("powershell.exe -NoProfile -ExecutionPolicy Bypass -File " q scriptPath q, , "Hide")
+        if (exitCode != 0)
+            throw Error(I18n.t("msg.startup_install_err") exitCode)
+        TrayTip(I18n.t("msg.startup_installed") installPath, "Key Atlas", "Iconi")
+    } catch as err {
+        MsgBox(I18n.t("msg.startup_install_err") err.Message, "Key Atlas", "IconX")
+    } finally {
+        if (FileExist(scriptPath))
+            FileDelete(scriptPath)
+    }
 }
 
 ShowAbout() {

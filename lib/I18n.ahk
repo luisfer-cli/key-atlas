@@ -26,6 +26,7 @@ class I18n {
             "menu.reload_db","Reload Database",
             "menu.reload_cfg","Reload Settings",
             "menu.about",    "About Key Atlas",
+            "menu.install_startup", "Install / start with Windows",
             "menu.exit",     "Exit",
 
             ; Messages
@@ -33,6 +34,8 @@ class I18n {
             "msg.db_reloaded",     "Database reloaded: ",
             "msg.shortcuts_count", " shortcuts.",
             "msg.cfg_reloaded",    "Settings reloaded.",
+            "msg.startup_installed", "Installed for startup in: ",
+            "msg.startup_install_err", "Could not install startup task: ",
 
             ; About
             "about.title",   "Key Atlas - About",
@@ -270,12 +273,15 @@ class I18n {
             "menu.reload_db","Recargar Base de Datos",
             "menu.reload_cfg","Recargar Configuracion",
             "menu.about",    "Acerca de Key Atlas",
+            "menu.install_startup", "Instalar / iniciar con Windows",
             "menu.exit",     "Salir",
 
             "msg.mode_changed",    "Modo cambiado a: ",
             "msg.db_reloaded",     "Base de datos recargada: ",
             "msg.shortcuts_count", " atajos.",
             "msg.cfg_reloaded",    "Configuracion recargada.",
+            "msg.startup_installed", "Instalado para iniciar con Windows en: ",
+            "msg.startup_install_err", "No se pudo instalar el inicio automatico: ",
 
             "about.title",   "Key Atlas - Acerca de",
             "about.body",    "Key Atlas`n`nAsistente de atajos de teclado universal.`n`nFuncionalidades:`n- Cheatsheet estilo which-key`n- Modo remap para ejecutar atajos`n- Base de datos JSON configurable`n- Multiples temas de color`n- Deteccion automatica de programa activo",
